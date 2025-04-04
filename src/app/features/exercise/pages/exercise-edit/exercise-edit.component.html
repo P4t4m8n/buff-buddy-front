@@ -1,0 +1,19 @@
+<button class="toggle-open-button" (click)="toggleEdit()">{{buttonText}}</button>
+
+
+@if (isEditOpen) {
+<form class="edit-model" (submit)="save()" [formGroup]="form">
+    <h2>Edit Exercise</h2>
+    <app-input-img [imgUrl]="exercise?.imgUrl" (fileBulbEmitter)="handleImgBulb($event)"></app-input-img>
+    <input type="text" [formControl]="form.controls.name" placeholder="Exercise Name">
+    <input type="text" [formControl]="form.controls.youtubeUrl" placeholder="YouTube URL">
+    <input type="text" [formControl]="form.controls.targetMuscle" placeholder="Target Muscle ">
+    <input type="text" [formControl]="form.controls.type" placeholder="Type">
+    <input type="text" [formControl]="form.controls.equipment" placeholder="Equipment">
+
+    <div class="form-actions">
+        <button type="button" class="toggle-open-button" (click)="toggleEdit()">Close</button>
+        <button type="submit" [disabled]="form.invalid">Save</button>
+    </div>
+</form>
+}

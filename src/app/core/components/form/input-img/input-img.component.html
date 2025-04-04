@@ -1,0 +1,12 @@
+<div>
+    <button type="button" mat-raised-button (click)="fileInput.click()">Select image</button>
+    <input type="file" style="display: none" #fileInput accept="image/*" (change)="change($event)" />
+</div>
+
+<div>
+    @if(imgBase64){
+    <img width="169" height="250" [src]="imgBase64" />
+    } @else if(imgUrl){
+    <img width="169" height="250" [src]="imgUrl" />
+    }
+</div>

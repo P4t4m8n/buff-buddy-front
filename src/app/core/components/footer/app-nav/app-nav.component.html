@@ -1,0 +1,13 @@
+<nav>
+    <app-item-list [items]="navPaths">
+        <ng-container content>
+            <ul class="app-nav">
+                @for (route of navPaths; track route) {
+                <li>
+                    <a [routerLink]="route.value" routerLinkActive="active">{{route.key}}</a>
+                </li>
+                }
+            </ul>
+        </ng-container>
+    </app-item-list>
+</nav>

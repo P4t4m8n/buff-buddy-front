@@ -1,0 +1,9 @@
+@if (!items) {
+<div>...Loading</div>
+}
+
+@if (items.length === 0) {
+<h2>No items found</h2>
+}
+
+<ng-content select="[content]"></ng-content>
