@@ -22,7 +22,7 @@ export class InputImgComponent {
       const file: File = input.files[0];
       this.toBase64(file)
         .then((value: string) => (this.imgBase64 = value))
-        .catch((error) => console.log(error));
+        .catch((error) => console.error(error));
 
       this.fileBulbEmitter.emit(file);
       this.imgUrl = undefined;

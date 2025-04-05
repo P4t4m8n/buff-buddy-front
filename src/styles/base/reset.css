@@ -57,6 +57,8 @@ button,
 textarea,
 select {
   font: inherit;
+  border: none;
+  padding: 0;
 }
 button {
   font: inherit;
