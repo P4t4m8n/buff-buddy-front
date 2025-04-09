@@ -1,6 +1,5 @@
 import { Component, inject, Inject, Input, OnInit } from '@angular/core';
 import { TExercise } from '../../types/exercise.type';
-import { ExerciseUtilService } from '../../services/util/exercise-util.service';
 import {
   FormBuilder,
   FormControl,
@@ -9,6 +8,9 @@ import {
 } from '@angular/forms';
 import { InputYoutubeComponent } from '../../../../core/components/form/input-youtube/input-youtube.component';
 import { NgOptionComponent, NgSelectComponent } from '@ng-select/ng-select';
+import { ExerciseUtilService } from '../../services/exercise-util.service';
+import { ExerciseService } from '../../services/exercise.service';
+import { DisplayErrorComponent } from '../../../../core/components/displayError/display-error/display-error.component';
 
 @Component({
   selector: 'app-exercise-edit',
@@ -17,6 +19,7 @@ import { NgOptionComponent, NgSelectComponent } from '@ng-select/ng-select';
     InputYoutubeComponent,
     NgSelectComponent,
     NgOptionComponent,
+    DisplayErrorComponent,
   ],
   templateUrl: './exercise-edit.component.html',
   styleUrl: './exercise-edit.component.css',
@@ -26,6 +29,9 @@ export class ExerciseEditComponent implements OnInit {
     new ExerciseUtilService();
   @Input()
   exercise: TExercise | undefined;
+  exerciseService: ExerciseService = inject(ExerciseService);
+
+  errors: string[] = [];
 
   isEditOpen: boolean = false;
   buttonText: string = 'Edit';
@@ -92,7 +98,7 @@ export class ExerciseEditComponent implements OnInit {
     equipment: new FormControl<string>(''),
     targetMuscle: new FormControl<string>(''),
   });
-  
+
   ngOnInit(): void {
     if (!this.exercise) {
       this.buttonText = 'Create';
@@ -110,12 +116,33 @@ export class ExerciseEditComponent implements OnInit {
 
   handleVideoUrl(url: string) {
     this.form.controls.youtubeUrl.setValue(url);
-    console.log(" url:",  this.form.controls)
   }
 
   save() {
     this.exercise = this.form.value as TExercise;
-    console.log(' this.exercise:', this.exercise);
+    this.exerciseService.create(this.exercise).subscribe({
+      next: (res) => {},
+      error: (err) => {
+        this.errors = this.extractErrors(err);
+      },
+    });
+
     // this.isEditOpen = false;
+  }
+
+  extractErrors(obj: any): string[] {
+    const err = obj.error.errors;
+
+    let errorMessages: string[] = [];
+
+    for (let key in err) {
+      let field = key;
+      const messageWithFiled = err[key].map(
+        (errMsg: string) => `${field} ${errMsg}`
+      );
+
+      errorMessages = errorMessages.concat(messageWithFiled);
+    }
+    return errorMessages;
   }
 }

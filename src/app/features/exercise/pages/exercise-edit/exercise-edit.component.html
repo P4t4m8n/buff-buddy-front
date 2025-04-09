@@ -40,5 +40,6 @@
         <button type="button" class="toggle-open-button" (click)="toggleEdit()">Close</button>
         <button type="submit" class="toggle-open-button" [disabled]="form.invalid">Save</button>
     </div>
+    <app-display-error [errors]="errors" />
 </form>
 }

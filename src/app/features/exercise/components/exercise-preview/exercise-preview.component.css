@@ -1,0 +1,41 @@
+a {
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
+  display: block;
+  border-radius: 4px;
+  padding: 1rem;
+  transition: all 0.3s ease;
+  & header {
+    display: flex;
+    height: 3rem;
+    gap: 1rem;
+    align-items: center;
+    justify-items: center;
+
+    & h2 {
+      font-size: 1.25rem;
+    }
+    & img {
+      width: 2rem;
+      height: auto;
+    }
+  }
+
+  & ul {
+    display: flex;
+    gap: 0.5rem;
+
+    & li:not(:last-child) {
+      display: flex;
+      &::after {
+        content: "·";
+        padding-left: 0.5rem;
+      }
+    }
+  }
+
+  &:hover {
+    cursor: pointer;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.1);
+    transform: translateY(-3px);
+  }
+}
