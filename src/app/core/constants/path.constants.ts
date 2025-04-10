@@ -14,3 +14,7 @@ export const ROOT_PATHS = {
   ...NAV_PATHS,
   error404: '404',
 };
+
+export const EXERCISE_PATHS = {
+  details: ':id',
+};

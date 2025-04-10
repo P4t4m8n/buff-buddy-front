@@ -1,13 +1,15 @@
 <h2>Exercises</h2>
-<app-exercise-edit />
+<app-exercise-edit (itemSaved)="onItemSave()" />
 
 <app-item-list [items]="exercises">
     <ng-container content>
         <ul class="exercise-list">
             @for (exercise of exercises; track exercise.id) {
             <li>
-                <app-exercise-preview [exercise]="exercise"></app-exercise-preview>
+                <app-exercise-preview [exercise]="exercise" (itemSaved)="onItemSave()"></app-exercise-preview>
             </li>
             }
         </ul>
     </ng-container>
+</app-item-list>
+<router-outlet />

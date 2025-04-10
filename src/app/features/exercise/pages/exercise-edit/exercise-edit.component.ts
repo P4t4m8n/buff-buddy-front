@@ -1,5 +1,12 @@
-import { Component, inject, Inject, Input, OnInit } from '@angular/core';
-import { TExercise } from '../../types/exercise.type';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
+import { IExercise } from '../../types/exercise.type';
 import {
   FormBuilder,
   FormControl,
@@ -11,6 +18,7 @@ import { NgOptionComponent, NgSelectComponent } from '@ng-select/ng-select';
 import { ExerciseUtilService } from '../../services/exercise-util.service';
 import { ExerciseService } from '../../services/exercise.service';
 import { DisplayErrorComponent } from '../../../../core/components/displayError/display-error/display-error.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-exercise-edit',
@@ -25,17 +33,22 @@ import { DisplayErrorComponent } from '../../../../core/components/displayError/
   styleUrl: './exercise-edit.component.css',
 })
 export class ExerciseEditComponent implements OnInit {
-  @Inject('exerciseUtilService') exerciseUtilService: ExerciseUtilService =
-    new ExerciseUtilService();
-  @Input()
-  exercise: TExercise | undefined;
+  exerciseUtilService: ExerciseUtilService = inject(ExerciseUtilService);
   exerciseService: ExerciseService = inject(ExerciseService);
+  formBuilder = inject(FormBuilder);
+  router = inject(Router);
+
+  @Input()
+  exercise: IExercise | undefined;
+  @Output()
+  itemSaved = new EventEmitter<IExercise>();
 
   errors: string[] = [];
 
   isEditOpen: boolean = false;
   buttonText: string = 'Edit';
   youtubeVideoId: string = '';
+
   equipmentList: string[] = [
     'Barbell',
     'Dumbbell',
@@ -88,7 +101,6 @@ export class ExerciseEditComponent implements OnInit {
     'imgs/24.png',
   ];
 
-  private formBuilder = inject(FormBuilder);
   form = this.formBuilder.group({
     id: new FormControl<string>(''),
     name: new FormControl<string>('', { validators: [Validators.required] }),
@@ -119,10 +131,14 @@ export class ExerciseEditComponent implements OnInit {
   }
 
   save() {
-    this.exercise = this.form.value as TExercise;
-    this.exerciseService.create(this.exercise).subscribe({
-      next: (res) => {},
+    this.exercise = this.form.value as IExercise;
+    this.exerciseService.save(this.exercise).subscribe({
+      next: (res) => {
+        this.itemSaved.emit();
+        this.isEditOpen = false;
+      },
       error: (err) => {
+        console.log(' err:', err);
         this.errors = this.extractErrors(err);
       },
     });

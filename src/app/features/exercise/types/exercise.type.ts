@@ -1,6 +1,6 @@
 import { TEntity } from '../../../core/types/app.type';
 
-export type TExercise = TEntity & {
+export interface IExercise extends TEntity {
   id?: string;
   name?: string;
   youtubeUrl?: string;
@@ -8,6 +8,6 @@ export type TExercise = TEntity & {
   type?: string;
   equipment?: string;
   targetMuscle?: string;
-};
+}
 
-export type TExerciseDto = TExercise & {};
+export interface IExerciseDto extends TEntity {}

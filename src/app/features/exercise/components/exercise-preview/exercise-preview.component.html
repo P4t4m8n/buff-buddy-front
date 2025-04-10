@@ -1,4 +1,4 @@
-<a>
+<a [routerLink]="['/exercise', exercise?.id]">
     <header>
         <h2>{{exercise?.name}}</h2>
         <img src="{{exercise?.imgUrl}}" alt="Exercise Image" class="exercise-image" />
@@ -15,3 +15,8 @@
         </li>
     </ul>
 </a>
+
+<div class="item-actions">
+    <app-exercise-edit [exercise]="exercise" (itemSaved)="onItemUpdate()" />
+    <button (click)="onDelete()">Delete</button>
+</div>

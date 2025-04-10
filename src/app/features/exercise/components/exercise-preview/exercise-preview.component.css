@@ -1,9 +1,11 @@
-a {
+:host {
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
-  display: block;
+  display: grid;
+  gap: 1rem;
   border-radius: 4px;
   padding: 1rem;
   transition: all 0.3s ease;
+
   & header {
     display: flex;
     height: 3rem;
@@ -33,9 +35,20 @@ a {
     }
   }
 
+  & .item-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    & button {
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      border-radius: 4px;
+      padding: 0.5rem;
+    }
+  }
+
   &:hover {
     cursor: pointer;
     box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.1);
-    transform: translateY(-3px);
   }
 }

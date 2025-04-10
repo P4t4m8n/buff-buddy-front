@@ -5,7 +5,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class YoutubeUrlToIdPipe implements PipeTransform {
   transform(url: string | undefined): string {
-    console.log(" url:", url)
     if (!url) {
       return '';
     }
