@@ -6,7 +6,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { IExercise } from '../../types/exercise.type';
+import { IExercise, IExerciseDto } from '../../types/exercise.type';
 import {
   FormBuilder,
   FormControl,
@@ -17,8 +17,13 @@ import { InputYoutubeComponent } from '../../../../core/components/form/input-yo
 import { NgOptionComponent, NgSelectComponent } from '@ng-select/ng-select';
 import { ExerciseUtilService } from '../../services/exercise-util.service';
 import { ExerciseService } from '../../services/exercise.service';
-import { DisplayErrorComponent } from '../../../../core/components/displayError/display-error/display-error.component';
 import { Router } from '@angular/router';
+import { YoutubeLinkValidator } from '../../../../core/validators/youtube-link-validator.directive';
+import { IErrorMessage } from '../../../../core/types/app.type';
+import { InputComponent } from '../../../../core/components/form/input/input.component';
+import { SelectComponent } from '../../../../core/components/form/select/select.component';
+import { DisplayErrorComponent } from '../../../../core/components/displayError/display-error.component';
+import { ValidationToErrorPipe } from '../../../../core/pipes/validation-to-error.pipe';
 
 @Component({
   selector: 'app-exercise-edit',
@@ -27,7 +32,10 @@ import { Router } from '@angular/router';
     InputYoutubeComponent,
     NgSelectComponent,
     NgOptionComponent,
+    InputComponent,
+    SelectComponent,
     DisplayErrorComponent,
+    ValidationToErrorPipe,
   ],
   templateUrl: './exercise-edit.component.html',
   styleUrl: './exercise-edit.component.css',
@@ -43,7 +51,8 @@ export class ExerciseEditComponent implements OnInit {
   @Output()
   itemSaved = new EventEmitter<IExercise>();
 
-  errors: string[] = [];
+  errors: IErrorMessage<IExerciseDto>[] = [];
+  unexpectedError = { serverError: undefined };
 
   isEditOpen: boolean = false;
   buttonText: string = 'Edit';
@@ -103,18 +112,40 @@ export class ExerciseEditComponent implements OnInit {
 
   form = this.formBuilder.group({
     id: new FormControl<string>(''),
-    name: new FormControl<string>('', { validators: [Validators.required] }),
+    name: new FormControl<string>(''),
     youtubeUrl: new FormControl<string>(''),
     imgUrl: new FormControl<string>('imgs/1.png'),
     type: new FormControl<string>(''),
     equipment: new FormControl<string>(''),
     targetMuscle: new FormControl<string>(''),
   });
+  // form = this.formBuilder.group({
+  //   id: new FormControl<string>(''),
+  //   name: new FormControl<string>('', {
+  //     validators: [
+  //       Validators.required,
+  //       Validators.minLength(3),
+  //       Validators.maxLength(50),
+  //       Validators.pattern(/^[a-zA-Z0-9 ]+$/),
+  //     ],
+  //   }),
+  //   youtubeUrl: new FormControl<string>('', {
+  //     validators: [Validators.required, YoutubeLinkValidator()],
+  //   }),
+  //   imgUrl: new FormControl<string>('imgs/1.png'),
+  //   type: new FormControl<string>('', { validators: [Validators.required] }),
+  //   equipment: new FormControl<string>('', {
+  //     validators: [Validators.required],
+  //   }),
+  //   targetMuscle: new FormControl<string>('', {
+  //     validators: [Validators.required],
+  //   }),
+  // });
 
   ngOnInit(): void {
     if (!this.exercise) {
       this.buttonText = 'Create';
-      this.exercise = this.exerciseUtilService.getEmpty();
+      this.resetForm();
     }
     this.form.patchValue({
       ...this.exercise,
@@ -123,6 +154,9 @@ export class ExerciseEditComponent implements OnInit {
   }
 
   toggleEdit() {
+    if (this.isEditOpen) {
+      this.resetForm();
+    }
     this.isEditOpen = !this.isEditOpen;
   }
 
@@ -136,29 +170,84 @@ export class ExerciseEditComponent implements OnInit {
       next: (res) => {
         this.itemSaved.emit();
         this.isEditOpen = false;
+        this.exercise = undefined;
       },
       error: (err) => {
-        console.log(' err:', err);
-        this.errors = this.extractErrors(err);
+        this.extractErrors(err);
       },
     });
 
     // this.isEditOpen = false;
   }
 
-  extractErrors(obj: any): string[] {
-    const err = obj.error.errors;
+  resetForm() {
+    this.form.reset();
+    this.form.patchValue({
+      imgUrl: 'imgs/1.png',
+    });
+    this.errors = [];
+  }
 
-    let errorMessages: string[] = [];
+  extractErrors(obj: any): void {
+    console.log(' obj:', obj);
+    const err = obj.error.errors as { [key: string]: string[] };
 
-    for (let key in err) {
-      let field = key;
-      const messageWithFiled = err[key].map(
-        (errMsg: string) => `${field} ${errMsg}`
-      );
-
-      errorMessages = errorMessages.concat(messageWithFiled);
+    if (!err) {
+      this.unexpectedError = {
+        ...{
+          serverError: obj.error.message || 'Unexpected error',
+        },
+      };
+      console.log(' this.unexpectedError:', this.unexpectedError);
+      return;
     }
-    return errorMessages;
+    console.log(' err:', err);
+
+    const errors = Object.entries(err).map(([key, value]) => {
+      const errorKey = key.charAt(0).toLowerCase() + key.slice(1);
+      return {
+        [errorKey]: value.join(', ') || '',
+      };
+    });
+    console.log(' errors:', errors);
+
+    errors.forEach((error) => {
+      const key = Object.keys(error)[0];
+      const value = Object.values(error)[0];
+      if (value === 'required') {
+        this.form.get(key)?.setErrors({ required: true });
+      } else {
+        this.form.get(key)?.setErrors({ serverError: value });
+      }
+    });
+  }
+
+  get youtubeUrl() {
+    const field = this.form.get('youtubeUrl');
+    return field;
+  }
+
+  get name() {
+    const field = this.form.get('name');
+    return field;
+  }
+
+  get type() {
+    const field = this.form.get('type');
+    return field;
+  }
+
+  get equipment() {
+    const field = this.form.get('equipment');
+    return field;
+  }
+
+  get targetMuscle() {
+    const field = this.form.get('targetMuscle');
+    return field;
+  }
+  get imgUrl() {
+    const field = this.form.get('imgUrl');
+    return field;
   }
 }

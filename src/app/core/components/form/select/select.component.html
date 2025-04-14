@@ -1,0 +1,11 @@
+<div>
+    <app-display-error [error]="error|validationToError" />
+
+    <ng-select [formControl]="formControlValue" appearance="outline" [clearable]="false">
+        @for(option of options;track $index) {
+        <ng-option [value]="option">
+            {{option}}
+        </ng-option>
+    }
+    </ng-select>
+</div>

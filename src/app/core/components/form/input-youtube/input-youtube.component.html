@@ -1,2 +1,5 @@
-    <app-youtube-player [youtubeUrl]="youtubeUrl"></app-youtube-player>
+<app-youtube-player [youtubeUrl]="youtubeUrl"></app-youtube-player>
+<div>
+    <app-display-error [error]="error|validationToError" />
     <input class="text-input" type="text" placeholder="YouTube URL" (input)="onChange($event)" value="{{youtubeUrl}}" />
+</div>

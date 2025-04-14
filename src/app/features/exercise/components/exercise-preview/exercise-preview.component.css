@@ -1,25 +1,16 @@
-:host {
+li {
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
-  display: grid;
-  gap: 1rem;
+
+  height: 3rem;
   border-radius: 4px;
-  padding: 1rem;
+
   transition: all 0.3s ease;
 
-  & header {
-    display: flex;
-    height: 3rem;
-    gap: 1rem;
-    align-items: center;
-    justify-items: center;
-
-    & h2 {
-      font-size: 1.25rem;
-    }
-    & img {
-      width: 2rem;
-      height: auto;
-    }
+  & h2 {
+    font-size: 1.25rem;
+  }
+  & img {
+    object-fit: contain;
   }
 
   & ul {
@@ -39,11 +30,18 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 1rem;
     width: 100%;
-    & button {
+
+    ::ng-deep button {
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
       border-radius: 4px;
-      padding: 0.5rem;
+      height: 2rem;
+      padding-inline: 0.5rem;
+      transition: all 0.3s ease;
+    }
+    & > *:hover {
+      background-color: whitesmoke;
     }
   }
 

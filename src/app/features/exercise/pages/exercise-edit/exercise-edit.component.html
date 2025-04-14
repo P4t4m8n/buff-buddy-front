@@ -1,45 +1,35 @@
 <button class="toggle-open-button" (click)="toggleEdit()">{{buttonText}}</button>
 
-
 @if (isEditOpen) {
 <form (submit)="save()" [formGroup]="form">
-    <h1>Edit Exercise</h1>
+    <header>
+        <h1>Edit Exercise</h1>
+        <app-display-error [error]="unexpectedError|validationToError" />
+    </header>
     <div class="con">
-        <input class="text-input" type="text" [formControl]="form.controls.name" placeholder="Exercise Name" />
+        <app-input class="text-input" type="text" [formControlValue]="form.controls.name" placeHolder="Exercise Name"
+            [error]="name?.errors" />
 
-        <ng-select class="aaa" [formControl]="form.controls.imgUrl" appearance="outline">
+        <ng-select [formControl]="form.controls.imgUrl" appearance="outline" [clearable]="false">
             @for(img of exerciseImgsList;track $index) {
             <ng-option [value]="img">
                 <img [src]="img" width="48" height="48" />
             </ng-option>}
         </ng-select>
+
     </div>
 
-    <app-input-youtube (youtubeUrlEmitter)="handleVideoUrl($event)" [youtubeUrl]="exercise?.youtubeUrl" />
+    <app-input-youtube [error]="youtubeUrl?.errors" (youtubeUrlEmitter)="handleVideoUrl($event)"
+        [youtubeUrl]="exercise?.youtubeUrl" />
 
-    <ng-select class="full-select" [formControl]="form.controls.equipment" appearance="outline">
-        @for(equipment of equipmentList;track $index) {
-        <ng-option [value]="equipment">
-            {{equipment}}
-        </ng-option>}
-    </ng-select>
-
-    <ng-select class="full-select" [formControl]="form.controls.type" appearance="outline">
-        @for ( type of exerciseTypeList;track $index) { <ng-option [value]="type">
-            {{type}}
-        </ng-option>}
-    </ng-select>
-
-    <ng-select class="full-select" [formControl]="form.controls.targetMuscle" appearance="outline">
-        @for ( targetMuscle of targetMuscleList;track $index) { <ng-option [value]="targetMuscle">
-            {{targetMuscle}}
-        </ng-option>}
-    </ng-select>
+    <app-select [formControlValue]="form.controls.equipment" [options]="equipmentList" [error]="equipment?.errors" />
+    <app-select [formControlValue]="form.controls.type" [options]="exerciseTypeList" [error]="type?.errors" />
+    <app-select [formControlValue]="form.controls.targetMuscle" [options]="targetMuscleList"
+        [error]="targetMuscle?.errors" />
 
     <div class="form-actions">
         <button type="button" class="toggle-open-button" (click)="toggleEdit()">Close</button>
         <button type="submit" class="toggle-open-button" [disabled]="form.invalid">Save</button>
     </div>
-    <app-display-error [errors]="errors" />
 </form>
 }

@@ -1,22 +1,18 @@
-<a [routerLink]="['/exercise', exercise?.id]">
-    <header>
-        <h2>{{exercise?.name}}</h2>
-        <img src="{{exercise?.imgUrl}}" alt="Exercise Image" class="exercise-image" />
-    </header>
-    <ul>
-        <li>
-            <p>{{exercise?.type}}</p>
-        </li>
-        <li>
-            <p>{{exercise?.targetMuscle}}</p>
-        </li>
-        <li>
-            <p>{{exercise?.equipment}}</p>
-        </li>
-    </ul>
-</a>
+<li class="">
+    <img src="{{exercise?.imgUrl}}" alt="Exercise Image" class="exercise-image" />
+    <h2>{{exercise?.name}}</h2>
+    <p>{{exercise?.type}}</p>
+    <p>{{exercise?.equipment}}</p>
+    <p>{{exercise?.targetMuscle}}</p>
+    <div class="item-actions">
+        <a [routerLink]="['/exercise', exercise?.id]">
+            <button>
 
-<div class="item-actions">
-    <app-exercise-edit [exercise]="exercise" (itemSaved)="onItemUpdate()" />
-    <button (click)="onDelete()">Delete</button>
-</div>
+                View
+            </button>
+
+        </a>
+        <app-exercise-edit [exercise]="exercise" (itemSaved)="onItemUpdate()" />
+        <button (click)="onDelete()">Delete</button>
+    </div>
+</li>

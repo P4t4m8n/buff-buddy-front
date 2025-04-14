@@ -1,0 +1,10 @@
+:host {
+  height: fit-content;
+  display: block;
+  height: 1.875rem;
+  & p {
+    color: red;
+    font-size: 0.875rem;
+    padding-bottom: 0.5rem;
+  }
+}

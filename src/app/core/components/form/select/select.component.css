@@ -1,0 +1,9 @@
+:host {
+  width: 100%;
+
+  
+}
+
+.ng-select.ng-select-single .ng-select-container{
+  height: 2rem !important;
+}

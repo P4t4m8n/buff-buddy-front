@@ -3,11 +3,19 @@
 
 <app-item-list [items]="exercises">
     <ng-container content>
-        <ul class="exercise-list">
-            @for (exercise of exercises; track exercise.id) {
-            <li>
-                <app-exercise-preview [exercise]="exercise" (itemSaved)="onItemSave()"></app-exercise-preview>
+        <ul class="exercise-table">
+            <li class="table-layout">
+                <p></p>
+                <p>Name</p>
+                <p>Type</p>
+                <p>Equipment</p>
+                <p>Muscle group</p>
+                <p>Actions</p>
             </li>
+            @for (exercise of exercises; track exercise.id) {
+
+            <app-exercise-preview [exercise]="exercise" (itemSaved)="onItemSave()"></app-exercise-preview>
+
             }
         </ul>
     </ng-container>

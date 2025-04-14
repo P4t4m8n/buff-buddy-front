@@ -1,11 +1,17 @@
 .toggle-open-button {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   border-radius: 4px;
-  padding: 0.5rem;
+  height: 2rem;
+  padding-inline: 0.5rem;
+  transition: all 0.3s ease;
+  &:hover {
+    background-color: whitesmoke;
+  }
 }
 
 form {
   border-radius: var(--border-radius);
+  height: calc(100% - 6rem);
   width: 20rem;
   position: fixed;
   top: 50%;
@@ -14,16 +20,20 @@ form {
   padding: 1rem;
   background-color: salmon;
   display: grid;
-  grid-template-rows: 3rem auto 13.375rem 3.5rem 3.5rem 3.5rem 2.5rem;
+  grid-template-rows: 4.125rem auto 15.75rem 4.125rem 4.125rem 4.125rem 2.5rem;
   grid-template-columns: 100%;
   gap: 1rem;
   align-items: center;
   justify-items: center;
   justify-content: center;
+
+  & header {
+    text-align: center;
+  }
   & .form-actions {
     display: flex;
     justify-content: space-between;
-    align-self: flex-end;
+    align-items: flex-end;
     width: 100%;
     height: 100%;
   }
@@ -36,6 +46,11 @@ form {
     & .ng-select {
       width: 6.5rem;
     }
+  }
+
+  & .img-con {
+    width: 100%;
+    height: 100%;
   }
 }
 
