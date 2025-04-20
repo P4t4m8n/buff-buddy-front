@@ -1,6 +1,6 @@
-import { TEntity } from '../../../core/types/app.type';
+import { IEntity } from '../../../core/types/app.type';
 
-export interface IExercise extends TEntity {
+export interface IExercise extends IEntity {
   id?: string;
   name?: string;
   youtubeUrl?: string;
@@ -10,4 +10,4 @@ export interface IExercise extends TEntity {
   targetMuscle?: string;
 }
 
-export interface IExerciseDto extends TEntity {}
+export interface IExerciseDto extends IEntity {}

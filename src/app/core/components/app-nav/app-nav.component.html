@@ -1,0 +1,9 @@
+<nav mat-tab-nav-bar [tabPanel]="tabPanel">
+    @for (path of navPaths; track path.key) {
+    <a mat-tab-link [routerLink]="path.value" routerLinkActive #rla="routerLinkActive" [active]="rla.isActive"
+        [routerLinkActiveOptions]="{exact: true}">
+        {{path.key}}
+    </a>
+    }
+</nav>
+<mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>

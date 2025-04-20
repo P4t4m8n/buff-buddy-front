@@ -12,6 +12,8 @@ import { ExerciseIndexComponent } from './features/exercise/pages/exercise-index
 import { ExerciseDetailsComponent } from './features/exercise/pages/exercise-details/exercise-details.component';
 import { AdminIndexComponent } from './features/admin/admin-index/admin-index.component';
 import { ExerciseIconIndexComponent } from './features/admin/exercise-icon/views/exercise-icon-index/exercise-icon-index.component';
+import { ExerciseEquipmentComponent } from './features/admin/exercise-equipment/exercise-equipment.component';
+import { ExerciseTypeComponent } from './features/admin/exercise-type/exercise-type.component';
 
 export const routes: Routes = [
   { path: ROOT_PATHS.home, component: HomeComponent },
@@ -34,6 +36,14 @@ export const routes: Routes = [
       {
         path: ADMIN_PATHS.icons,
         component: ExerciseIconIndexComponent,
+      },
+      {
+        path: ADMIN_PATHS.equipment,
+        component: ExerciseEquipmentComponent,
+      },
+      {
+        path: ADMIN_PATHS.type,
+        component: ExerciseTypeComponent,
       },
     ],
   },

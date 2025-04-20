@@ -7,8 +7,6 @@ import { IErrorResponse } from '../types/app.type';
 })
 export class ErrorParsingPipe implements PipeTransform {
   transform(value: IErrorResponse, ...args: unknown[]): unknown {
-    console.log(' value:', value);
-
     if (value.required) {
       return 'Required';
     }

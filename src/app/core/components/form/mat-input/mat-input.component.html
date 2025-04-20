@@ -1,0 +1,7 @@
+<mat-form-field class="custom-height"  >
+    <mat-label>{{label}}</mat-label>
+    <input type="text" matInput [formControl]="formControlInput" />
+    @if(error){
+    <mat-error>{{error|errorParsing}}</mat-error>
+    }
+</mat-form-field>

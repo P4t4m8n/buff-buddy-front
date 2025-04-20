@@ -1,8 +1,11 @@
 import { ValidationErrors } from '@angular/forms';
 
-export type TEntity = {
+export interface IEntity {
   id?: string;
-};
+}
+export interface IEntityDTO {
+  id?: string;
+}
 
 export interface IErrorMessage<T> {
   key: keyof T;

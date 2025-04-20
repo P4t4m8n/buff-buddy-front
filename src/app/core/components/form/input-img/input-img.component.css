@@ -1,0 +1,9 @@
+label {
+  border-radius: 4px;
+  &:hover{
+    cursor: pointer;
+  }
+  & img {
+    border-radius: 4px;
+  }
+}

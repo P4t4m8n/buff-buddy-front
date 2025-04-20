@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import {
   computed,
   inject,
@@ -12,26 +12,33 @@ import { IExerciseIcon, IExerciseIconDTO } from '../models/exerciseIcon';
 import { IPaginationDTO } from '../../../../core/components/pagination/pagination-dto';
 import { buildQueryParams } from '../../../../core/functions/buildQueryParams';
 import { catchError, Observable, tap } from 'rxjs';
+import { ICRUDService } from '../../../../core/interfaces/icrudservice';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ExerciseIconService {
+export class ExerciseIconService
+  implements ICRUDService<IExerciseIcon, IExerciseIconDTO>
+{
   private httpClient = inject(HttpClient);
   private baseUrl = environment.apiUrl + '/exercise-icons';
-  private exerciseIconsState = signal<IExerciseIcon[]>([]);
+  itemSignal = signal<IExerciseIcon[]>([]);
   private exerciseIconsErrorState = signal<string | null>(null);
 
-  public get(pagination: IPaginationDTO): Observable<IExerciseIcon[]> {
+  public get(
+    pagination: IPaginationDTO
+  ): Observable<HttpResponse<IExerciseIcon[]>> {
     const queryParams = buildQueryParams(pagination);
     return this.httpClient
       .get<IExerciseIcon[]>(this.baseUrl, {
         params: queryParams,
+        observe: 'response',
       })
       .pipe(
-        tap((exerciseIcons) => {
-          console.log(" exerciseIcons:", exerciseIcons)
-          return this.exerciseIconsState.set(exerciseIcons);
+        tap((response) => {
+          console.log(' response:', response.body);
+          this.itemSignal.set(response.body as IExerciseIcon[]);
+          console.log(' this.exerciseIconsState:', this.itemSignal());
         }),
         catchError((err) => {
           this.exerciseIconsErrorState.set(err.error.message as string);
@@ -40,12 +47,19 @@ export class ExerciseIconService {
       );
   }
 
+  public getById(id: string): Observable<IExerciseIcon> {
+    return this.httpClient.get<IExerciseIcon>(`${this.baseUrl}/${id}`);
+  }
+
   public create(dto: IExerciseIconDTO) {
     const formData = this.dtoToFormData(dto);
     return this.httpClient.post<IExerciseIconDTO>(this.baseUrl, formData).pipe(
       tap((exerciseIcon) => {
-        const exerciseIcons = this.exerciseIconsState();
-        this.exerciseIconsState.set([...exerciseIcons, exerciseIcon]);
+        console.log(' exerciseIcon:', exerciseIcon);
+        const exerciseIcons = this.itemSignal();
+        console.log(" exerciseIcons:", exerciseIcons)
+        this.itemSignal.set([...exerciseIcons, exerciseIcon]);
+        console.log(' this.exerciseIconsState:', this.itemSignal());
       }),
       catchError((err) => {
         this.exerciseIconsErrorState.set(err.error.message as string);
@@ -60,11 +74,11 @@ export class ExerciseIconService {
       .put<IExerciseIconDTO>(`${this.baseUrl}/${dto.id}`, formData)
       .pipe(
         tap((exerciseIcon) => {
-          const exerciseIcons = this.exerciseIconsState();
+          const exerciseIcons = this.itemSignal();
           const index = exerciseIcons.findIndex((icon) => icon.id === dto.id);
           if (index !== -1) {
             exerciseIcons[index] = exerciseIcon;
-            this.exerciseIconsState.set([...exerciseIcons]);
+            this.itemSignal.set([...exerciseIcons]);
           }
         }),
         catchError((err) => {
@@ -77,11 +91,11 @@ export class ExerciseIconService {
   public delete(id: string) {
     return this.httpClient.delete<void>(`${this.baseUrl}/${id}`).pipe(
       tap(() => {
-        const exerciseIcons = this.exerciseIconsState();
+        const exerciseIcons = this.itemSignal();
         const updatedExerciseIcons = exerciseIcons.filter(
           (exerciseIcon) => exerciseIcon.id !== id
         );
-        this.exerciseIconsState.set(updatedExerciseIcons);
+        this.itemSignal.set(updatedExerciseIcons);
       }),
       catchError((err) => {
         this.exerciseIconsErrorState.set(err.error.message as string);
@@ -90,8 +104,8 @@ export class ExerciseIconService {
     );
   }
 
-  get exerciseIconsSignal(): Signal<IExerciseIcon[]> {
-    return computed(() => this.exerciseIconsState());
+  public getSignal(): Signal<IExerciseIcon[]> {
+    return this.itemSignal;
   }
 
   get exerciseIconsErrorSignal(): Signal<string | null> {

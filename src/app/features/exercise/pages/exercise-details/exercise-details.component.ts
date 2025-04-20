@@ -31,12 +31,9 @@ export class ExerciseDetailsComponent implements OnInit {
       )
       .subscribe({
         next: (res) => {
-          console.log(" res:", res)
           this.item = res;
         },
-        error: (err) => {
-          console.error('err:', err);
-        },
+        error: (err) => {},
       });
   }
 }

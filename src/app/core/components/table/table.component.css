@@ -1,0 +1,10 @@
+button {
+  margin-left: 1rem;
+}
+
+.index-table {
+  table-layout: fixed;
+  & th:last-of-type {
+    padding-left: 2rem;
+  }
+}

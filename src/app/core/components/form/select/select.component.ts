@@ -23,7 +23,6 @@ import {
 })
 export class SelectComponent implements OnInit {
   ngOnInit(): void {
-    console.log(this.options);
   }
   @Input()
   error: ValidationErrors | null | undefined = null;

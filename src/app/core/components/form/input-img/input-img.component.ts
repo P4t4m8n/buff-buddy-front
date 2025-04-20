@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-input-img',
@@ -8,37 +9,25 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class InputImgComponent {
   @Input()
-  imgUrl?: string;
-
-  imgBase64?: string;
-
+  formControlValue?: FormControl<any>;
+  @Input()
+  styleClass?: string;
+  @Input()
+  imgSize?: number = 56;
   @Output()
-  fileBulbEmitter = new EventEmitter<File | null>();
+  valueChange = new EventEmitter<any>();
+  @Input()
+  imgPreview?: string | ArrayBuffer | null =
+    'https://res.cloudinary.com/dyzqa6uuu/image/upload/v1742384690/hof/yeq1yyvb1tdfyuwuxfga.avif';
 
-  change(event: Event) {
-    const input = event.target as HTMLInputElement;
+  handleChange(event: any) {
+    const file = event.target.files[0];
 
-    if (input.files && input.files.length > 0) {
-      const file: File = input.files[0];
-      this.toBase64(file)
-        .then((value: string) => (this.imgBase64 = value))
-        .catch((error) => console.error(error));
-
-      this.fileBulbEmitter.emit(file);
-      this.imgUrl = undefined;
-    }
-  }
-
-  private toBase64(file: File): Promise<string> {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        resolve(reader.result as string);
-      };
-      reader.onerror = (error) => {
-        reject(error);
-      };
-    });
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      this.imgPreview = e.target?.result;
+    };
+    reader.readAsDataURL(file);
+    this.valueChange.emit(event);
   }
 }

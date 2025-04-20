@@ -1,10 +1,14 @@
 import { Component } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { RouterOutlet } from '@angular/router';
+import { ADMIN_PATHS } from '../../../core/constants/path.constants';
+import { AppNavComponent } from '../../../core/components/app-nav/app-nav.component';
 
 @Component({
   selector: 'app-admin-index',
-  imports: [RouterOutlet, RouterLink],
+  imports: [RouterOutlet, AppNavComponent],
   templateUrl: './admin-index.component.html',
   styleUrl: './admin-index.component.css',
 })
-export class AdminIndexComponent {}
+export class AdminIndexComponent {
+  readonly paths = ADMIN_PATHS;
+}

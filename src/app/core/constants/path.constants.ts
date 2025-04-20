@@ -22,4 +22,6 @@ export const EXERCISE_PATHS = {
 
 export const ADMIN_PATHS = {
   icons: 'exercise-icons',
+  equipment: 'exercise-equipment',
+  type: 'exercise-type',
 };

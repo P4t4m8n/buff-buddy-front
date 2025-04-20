@@ -85,7 +85,7 @@ export class ExerciseEditComponent implements OnInit {
     'Endurance',
   ];
 
-  exerciseIconsList = this.exerciseIconService.exerciseIconsSignal;
+  exerciseIconsList = this.exerciseIconService.getSignal();
 
   form = this.formBuilder.group({
     id: new FormControl<string>(''),
@@ -121,7 +121,6 @@ export class ExerciseEditComponent implements OnInit {
       ...this.exercise,
       imgUrl: this.exercise?.imgUrl || '',
     });
-    console.log(' exerciseIconsList:', this.exerciseIconsList());
   }
 
   toggleEdit() {
@@ -160,7 +159,6 @@ export class ExerciseEditComponent implements OnInit {
   }
 
   extractErrors(obj: any): void {
-    console.log(' obj:', obj);
     const err = obj.error.errors as { [key: string]: string[] };
 
     if (!err) {
@@ -169,10 +167,8 @@ export class ExerciseEditComponent implements OnInit {
           serverError: obj.error.message || 'Unexpected error',
         },
       };
-      console.log(' this.unexpectedError:', this.unexpectedError);
       return;
     }
-    console.log(' err:', err);
 
     const errors = Object.entries(err).map(([key, value]) => {
       const errorKey = key.charAt(0).toLowerCase() + key.slice(1);
@@ -180,7 +176,6 @@ export class ExerciseEditComponent implements OnInit {
         [errorKey]: value.join(', ') || '',
       };
     });
-    console.log(' errors:', errors);
 
     errors.forEach((error) => {
       const key = Object.keys(error)[0];
