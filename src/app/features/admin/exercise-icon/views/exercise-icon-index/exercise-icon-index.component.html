@@ -1,0 +1,28 @@
+<form (submit)="save()" [formGroup]="form">
+    <app-input class="text-input" type="text" [formControlValue]="form.controls.name"
+        placeHolder="Exercise Icon Name" />
+    <app-input class="text-input" type="file" (valueChange)="onUpload($event)" />
+    <img [src]="imgPreview" alt="Uploaded Image" width="100" height="100" />
+    <button type="submit">Submit</button>
+</form>
+
+<app-item-list [items]="exerciseIcons()">
+    <ng-container content>
+        <ul class="exercise-table">
+            <li class="table-layout">
+                <p></p>
+                <p>Name</p>
+                <p>Type</p>
+                <p>Equipment</p>
+                <p>Muscle group</p>
+                <p>Actions</p>
+            </li>
+            @for (icon of exerciseIcons(); track icon.id) {
+
+            <img [src]="icon.imgUrl" alt="Icon" width="50" height="50" />
+            <span>{{ icon.name }}</span>
+
+            }
+        </ul>
+    </ng-container>
+</app-item-list>

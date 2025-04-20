@@ -9,6 +9,7 @@ export const NAV_PATHS = {
   programs: 'programs',
   programsExercise: 'my-exercise',
   exercise: 'exercise',
+  admin: 'admin',
 };
 export const ROOT_PATHS = {
   ...NAV_PATHS,
@@ -17,4 +18,8 @@ export const ROOT_PATHS = {
 
 export const EXERCISE_PATHS = {
   details: ':id',
+};
+
+export const ADMIN_PATHS = {
+  icons: 'exercise-icons',
 };

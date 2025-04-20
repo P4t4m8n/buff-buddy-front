@@ -11,9 +11,9 @@
             [error]="name?.errors" />
 
         <ng-select [formControl]="form.controls.imgUrl" appearance="outline" [clearable]="false">
-            @for(img of exerciseImgsList;track $index) {
-            <ng-option [value]="img">
-                <img [src]="img" width="48" height="48" />
+            @for(icon of exerciseIconsList();track icon.id) {
+            <ng-option [value]="icon.id">
+                <img [src]="icon.imgUrl" width="48" height="48" />
             </ng-option>}
         </ng-select>
 

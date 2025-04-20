@@ -24,6 +24,7 @@ import { InputComponent } from '../../../../core/components/form/input/input.com
 import { SelectComponent } from '../../../../core/components/form/select/select.component';
 import { DisplayErrorComponent } from '../../../../core/components/displayError/display-error.component';
 import { ValidationToErrorPipe } from '../../../../core/pipes/validation-to-error.pipe';
+import { ExerciseIconService } from '../../../admin/exercise-icon/services/exercise-icon.service';
 
 @Component({
   selector: 'app-exercise-edit',
@@ -43,6 +44,7 @@ import { ValidationToErrorPipe } from '../../../../core/pipes/validation-to-erro
 export class ExerciseEditComponent implements OnInit {
   exerciseUtilService: ExerciseUtilService = inject(ExerciseUtilService);
   exerciseService: ExerciseService = inject(ExerciseService);
+  exerciseIconService: ExerciseIconService = inject(ExerciseIconService);
   formBuilder = inject(FormBuilder);
   router = inject(Router);
 
@@ -83,74 +85,43 @@ export class ExerciseEditComponent implements OnInit {
     'Endurance',
   ];
 
-  exerciseImgsList: string[] = [
-    'imgs/1.png',
-    'imgs/2.png',
-    'imgs/3.png',
-    'imgs/4.png',
-    'imgs/5.png',
-    'imgs/6.png',
-    'imgs/7.png',
-    'imgs/8.png',
-    'imgs/9.png',
-    'imgs/10.png',
-    'imgs/11.png',
-    'imgs/12.png',
-    'imgs/13.png',
-    'imgs/14.png',
-    'imgs/15.png',
-    'imgs/16.png',
-    'imgs/17.png',
-    'imgs/18.png',
-    'imgs/19.png',
-    'imgs/20.png',
-    'imgs/21.png',
-    'imgs/22.png',
-    'imgs/23.png',
-    'imgs/24.png',
-  ];
+  exerciseIconsList = this.exerciseIconService.exerciseIconsSignal;
 
   form = this.formBuilder.group({
     id: new FormControl<string>(''),
-    name: new FormControl<string>(''),
-    youtubeUrl: new FormControl<string>(''),
+    name: new FormControl<string>('', {
+      validators: [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(50),
+        Validators.pattern(/^[a-zA-Z0-9 ]+$/),
+      ],
+    }),
+    youtubeUrl: new FormControl<string>('', {
+      validators: [Validators.required, YoutubeLinkValidator()],
+    }),
     imgUrl: new FormControl<string>('imgs/1.png'),
-    type: new FormControl<string>(''),
-    equipment: new FormControl<string>(''),
-    targetMuscle: new FormControl<string>(''),
+    type: new FormControl<string>('', { validators: [Validators.required] }),
+    equipment: new FormControl<string>('', {
+      validators: [Validators.required],
+    }),
+    targetMuscle: new FormControl<string>('', {
+      validators: [Validators.required],
+    }),
   });
-  // form = this.formBuilder.group({
-  //   id: new FormControl<string>(''),
-  //   name: new FormControl<string>('', {
-  //     validators: [
-  //       Validators.required,
-  //       Validators.minLength(3),
-  //       Validators.maxLength(50),
-  //       Validators.pattern(/^[a-zA-Z0-9 ]+$/),
-  //     ],
-  //   }),
-  //   youtubeUrl: new FormControl<string>('', {
-  //     validators: [Validators.required, YoutubeLinkValidator()],
-  //   }),
-  //   imgUrl: new FormControl<string>('imgs/1.png'),
-  //   type: new FormControl<string>('', { validators: [Validators.required] }),
-  //   equipment: new FormControl<string>('', {
-  //     validators: [Validators.required],
-  //   }),
-  //   targetMuscle: new FormControl<string>('', {
-  //     validators: [Validators.required],
-  //   }),
-  // });
 
   ngOnInit(): void {
     if (!this.exercise) {
       this.buttonText = 'Create';
       this.resetForm();
     }
+    this.exerciseIconService.get({ page: 1, recordsPerPage: 10 }).subscribe();
+
     this.form.patchValue({
       ...this.exercise,
-      imgUrl: this.exercise?.imgUrl || 'imgs/1.png',
+      imgUrl: this.exercise?.imgUrl || '',
     });
+    console.log(' exerciseIconsList:', this.exerciseIconsList());
   }
 
   toggleEdit() {

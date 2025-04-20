@@ -1,11 +1,17 @@
 import { Routes } from '@angular/router';
-import { EXERCISE_PATHS, ROOT_PATHS } from './core/constants/path.constants';
+import {
+  ADMIN_PATHS,
+  EXERCISE_PATHS,
+  ROOT_PATHS,
+} from './core/constants/path.constants';
 import { HomeComponent } from './features/home/home.component';
 import { ProgramComponent } from './features/program/program.component';
 import { ProgramExerciseComponent } from './features/program-exercise/program-exercise.component';
 import { Error404Component } from './core/components/error404/error404.component';
 import { ExerciseIndexComponent } from './features/exercise/pages/exercise-index/exercise-index.component';
 import { ExerciseDetailsComponent } from './features/exercise/pages/exercise-details/exercise-details.component';
+import { AdminIndexComponent } from './features/admin/admin-index/admin-index.component';
+import { ExerciseIconIndexComponent } from './features/admin/exercise-icon/views/exercise-icon-index/exercise-icon-index.component';
 
 export const routes: Routes = [
   { path: ROOT_PATHS.home, component: HomeComponent },
@@ -18,6 +24,16 @@ export const routes: Routes = [
       {
         path: EXERCISE_PATHS.details,
         component: ExerciseDetailsComponent,
+      },
+    ],
+  },
+  {
+    path: ROOT_PATHS.admin,
+    component: AdminIndexComponent,
+    children: [
+      {
+        path: ADMIN_PATHS.icons,
+        component: ExerciseIconIndexComponent,
       },
     ],
   },
