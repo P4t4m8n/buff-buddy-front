@@ -1,4 +1,4 @@
-import { Component, input, Input } from '@angular/core';
+import { Component, EventEmitter, input, Input, Output } from '@angular/core';
 import { DisplayErrorComponent } from '../../displayError/display-error.component';
 import { ValidationToErrorPipe } from '../../../pipes/validation-to-error.pipe';
 import {
@@ -15,14 +15,22 @@ import { JsonPipe } from '@angular/common';
   styleUrl: './input.component.css',
 })
 export class InputComponent {
-  @Input({ required: true })
-  formControlValue!: FormControl<any>;
-  @Input({ required: true })
-  placeHolder!: string;
+  @Input()
+  formControlValue?: FormControl<any>;
+
+  @Input()
+  placeHolder?: string;
   @Input({ required: true })
   class: string = '';
   @Input()
-  type: string = 'text';
+  type: 'text' | 'file' = 'text';
   @Input()
   error: ValidationErrors | undefined | null = {};
+
+  @Output()
+  valueChange = new EventEmitter<any>();
+
+  handleChange(event: any) {
+    this.valueChange.emit(event);
+  }
 }
