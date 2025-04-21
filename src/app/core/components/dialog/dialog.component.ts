@@ -40,6 +40,5 @@ export class DialogComponent<T> {
 
   openDialog(): void {
     this.dialogRef = this.dialog.open(this.formComponent, { data: this.data });
-    console.log(' this.data:', this.data);
   }
 }

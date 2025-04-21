@@ -32,6 +32,7 @@ import { MatButton } from '@angular/material/button';
 export class TableComponent<T extends IEntity, TDTO extends IEntityDTO> {
   @Input({ required: true })
   columnsHeaders: string[] = [];
+  
   CRUDService = inject(CRUD_SERVICE_TOKEN) as ICRUDService<T, TDTO>;
   pagination: IPaginationDTO = { page: 1, recordsPerPage: 10 };
   totalRecordsCount!: number;

@@ -7,9 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrl: './item-list.component.css',
 })
 export class ItemListComponent implements OnInit {
-  ngOnInit(): void {
-    console.log('items:', this.items);
-  }
+  ngOnInit(): void {}
   @Input({ required: true })
-  items: any[] = [];
+  items: any[] | null = null;
 }

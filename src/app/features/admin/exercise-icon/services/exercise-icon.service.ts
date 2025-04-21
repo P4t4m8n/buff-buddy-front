@@ -1,12 +1,5 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import {
-  computed,
-  inject,
-  Injectable,
-  Signal,
-  signal,
-  WritableSignal,
-} from '@angular/core';
+import { inject, Injectable, signal, WritableSignal } from '@angular/core';
 import { environment } from '../../../../../environments/environment';
 import { IExerciseIcon, IExerciseIconDTO } from '../models/exerciseIcon';
 import { IPaginationDTO } from '../../../../core/components/pagination/pagination-dto';
@@ -22,7 +15,9 @@ export class ExerciseIconService
 {
   private httpClient = inject(HttpClient);
   private baseUrl = environment.apiUrl + '/exercise-icons';
-  itemSignal = signal<IExerciseIcon[]>([]);
+  itemSignal: WritableSignal<IExerciseIcon[] | null> = signal<
+    IExerciseIcon[] | null
+  >(null);
   private exerciseIconsErrorState = signal<string | null>(null);
 
   public get(
@@ -36,9 +31,7 @@ export class ExerciseIconService
       })
       .pipe(
         tap((response) => {
-          console.log(' response:', response.body);
           this.itemSignal.set(response.body as IExerciseIcon[]);
-          console.log(' this.exerciseIconsState:', this.itemSignal());
         }),
         catchError((err) => {
           this.exerciseIconsErrorState.set(err.error.message as string);
@@ -55,11 +48,8 @@ export class ExerciseIconService
     const formData = this.dtoToFormData(dto);
     return this.httpClient.post<IExerciseIconDTO>(this.baseUrl, formData).pipe(
       tap((exerciseIcon) => {
-        console.log(' exerciseIcon:', exerciseIcon);
         const exerciseIcons = this.itemSignal();
-        console.log(" exerciseIcons:", exerciseIcons)
-        this.itemSignal.set([...exerciseIcons, exerciseIcon]);
-        console.log(' this.exerciseIconsState:', this.itemSignal());
+        this.itemSignal.set([...(exerciseIcons || []), exerciseIcon]);
       }),
       catchError((err) => {
         this.exerciseIconsErrorState.set(err.error.message as string);
@@ -70,15 +60,21 @@ export class ExerciseIconService
 
   public update(dto: IExerciseIconDTO) {
     const formData = this.dtoToFormData(dto);
+
+    if (!this.itemSignal || !this.itemSignal()) {
+      throw new Error('itemSignal is not initialized');
+    }
     return this.httpClient
       .put<IExerciseIconDTO>(`${this.baseUrl}/${dto.id}`, formData)
       .pipe(
         tap((exerciseIcon) => {
           const exerciseIcons = this.itemSignal();
-          const index = exerciseIcons.findIndex((icon) => icon.id === dto.id);
+          //exerciseIcons cant be null, because we check it in the if statement above, TS is fun
+
+          const index = exerciseIcons!.findIndex((icon) => icon.id === dto.id);
           if (index !== -1) {
-            exerciseIcons[index] = exerciseIcon;
-            this.itemSignal.set([...exerciseIcons]);
+            exerciseIcons![index] = exerciseIcon;
+            this.itemSignal.set([...exerciseIcons!]);
           }
         }),
         catchError((err) => {
@@ -89,10 +85,14 @@ export class ExerciseIconService
   }
 
   public delete(id: string) {
+    if (!this.itemSignal || !this.itemSignal()) {
+      throw new Error('itemSignal is not initialized');
+    }
     return this.httpClient.delete<void>(`${this.baseUrl}/${id}`).pipe(
       tap(() => {
         const exerciseIcons = this.itemSignal();
-        const updatedExerciseIcons = exerciseIcons.filter(
+        //exerciseIcons cant be null, because we check it in the if statement above, TS is fun
+        const updatedExerciseIcons = exerciseIcons!.filter(
           (exerciseIcon) => exerciseIcon.id !== id
         );
         this.itemSignal.set(updatedExerciseIcons);
@@ -102,14 +102,6 @@ export class ExerciseIconService
         throw err;
       })
     );
-  }
-
-  public getSignal(): Signal<IExerciseIcon[]> {
-    return this.itemSignal;
-  }
-
-  get exerciseIconsErrorSignal(): Signal<string | null> {
-    return computed(() => this.exerciseIconsErrorState());
   }
 
   private dtoToFormData(dto: IExerciseIconDTO): FormData {

@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { IExerciseIcon } from '../../models/exerciseIcon';
-import { ExerciseEditComponent } from '../../../../exercise/pages/exercise-edit/exercise-edit.component';
 import { DialogComponent } from '../../../../../core/components/dialog/dialog.component';
 import { ExerciseIconEditComponent } from '../../views/exercise-icon-edit/exercise-icon-edit.component';
 

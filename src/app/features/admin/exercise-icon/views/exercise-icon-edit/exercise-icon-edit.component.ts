@@ -104,13 +104,12 @@ export class ExerciseIconEditComponent {
 
   save() {
     const exerciseIconData = this.form.value as IExerciseIconDTO;
-    console.log('exerciseIconData:', exerciseIconData);
     this.exerciseIconService.create(exerciseIconData).subscribe({
       next: (res) => {
         this.dialogRefService.close(res);
       },
       error: (err) => {
-        console.log(' err:', err);
+        console.error(' err:', err);
       },
     });
   }

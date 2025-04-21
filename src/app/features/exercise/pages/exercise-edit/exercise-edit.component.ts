@@ -85,7 +85,7 @@ export class ExerciseEditComponent implements OnInit {
     'Endurance',
   ];
 
-  exerciseIconsList = this.exerciseIconService.getSignal();
+  exerciseIconsList = this.exerciseIconService.itemSignal;
 
   form = this.formBuilder.group({
     id: new FormControl<string>(''),

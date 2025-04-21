@@ -10,6 +10,5 @@ export interface ICRUDService<T, TDTO> {
   create(dto: TDTO): Observable<TDTO>;
   update(dto: TDTO): Observable<TDTO>;
   delete(id: string): Observable<void>;
-  getSignal(): Signal<T[]>;
-  itemSignal: WritableSignal<T[]>;
+  itemSignal: WritableSignal<T[] | null>;
 }
