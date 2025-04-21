@@ -4,7 +4,7 @@ import { environment } from '../../../../../environments/environment';
 import { IExerciseIcon, IExerciseIconDTO } from '../models/exerciseIcon';
 import { IPaginationDTO } from '../../../../core/components/pagination/pagination-dto';
 import { buildQueryParams } from '../../../../core/functions/buildQueryParams';
-import { catchError, Observable, tap } from 'rxjs';
+import { catchError, Observable, switchMap, tap } from 'rxjs';
 import { ICRUDService } from '../../../../core/interfaces/icrudservice';
 
 @Injectable({
@@ -32,10 +32,8 @@ export class ExerciseIconService
       })
       .pipe(
         tap((response) => {
-          console.log(' response:', response);
           this.itemSignal.set(response.body as IExerciseIcon[]);
           const headers = response.headers.get('total-count');
-          console.log(' headers:', +headers!);
           this.totalItemsSignal.set(+(headers || 0));
         }),
         catchError((err) => {
@@ -69,6 +67,7 @@ export class ExerciseIconService
           (exerciseIcon) => exerciseIcon.id !== id
         );
         this.itemSignal.set(updatedExerciseIcons);
+        this.totalItemsSignal.set(this.totalItemsSignal() - 1);
       }),
       catchError((err) => {
         this.exerciseIconsErrorState.set(err.error.message as string);
@@ -97,10 +96,23 @@ export class ExerciseIconService
 
   private create(dto: IExerciseIconDTO) {
     const formData = this.dtoToFormData(dto);
-    return this.httpClient.post<IExerciseIconDTO>(this.baseUrl, formData).pipe(
-      tap((exerciseIcon) => {
-        const exerciseIcons = this.itemSignal();
-        this.itemSignal.set([...(exerciseIcons || []), exerciseIcon]);
+    return this.httpClient.post<IExerciseIcon>(this.baseUrl, formData).pipe(
+      tap((createdItem) => {
+        // First update the signals with the response
+        const currentItems = this.itemSignal() || [];
+
+        // If we're already at the first page and have less than page size
+        if (currentItems.length < 10) {
+          this.itemSignal.set([...currentItems, createdItem]);
+          // Increment total count
+          this.totalItemsSignal.set(this.totalItemsSignal() + 1);
+        } else {
+          // Then refresh the entire dataset in the background
+          this.get({ page: 1, recordsPerPage: 10 }).subscribe({
+            error: (err) =>
+              console.error('Error refreshing after create:', err),
+          });
+        }
       }),
       catchError((err) => {
         this.exerciseIconsErrorState.set(err.error.message as string);
@@ -116,7 +128,7 @@ export class ExerciseIconService
       throw new Error('itemSignal is not initialized');
     }
     return this.httpClient
-      .put<IExerciseIconDTO>(`${this.baseUrl}/${dto.id}`, formData)
+      .put<IExerciseIcon>(`${this.baseUrl}/${dto.id}`, formData)
       .pipe(
         tap((exerciseIcon) => {
           const exerciseIcons = this.itemSignal();
