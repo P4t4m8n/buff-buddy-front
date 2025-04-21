@@ -7,8 +7,8 @@ import { Signal, WritableSignal } from '@angular/core';
 export interface ICRUDService<T, TDTO> {
   get(pagination: IPaginationDTO): Observable<HttpResponse<T[]>>;
   getById(id: string): Observable<T>;
-  create(dto: TDTO): Observable<TDTO>;
-  update(dto: TDTO): Observable<TDTO>;
+  save(dto: TDTO): Observable<TDTO>;
   delete(id: string): Observable<void>;
   itemSignal: WritableSignal<T[] | null>;
+  totalItemsSignal: WritableSignal<number>;
 }

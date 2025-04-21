@@ -80,7 +80,6 @@ export class ExerciseIconEditComponent {
 
     this.form.patchValue({
       ...this.exerciseIcon,
-      file: this.exerciseIcon?.imgUrl,
     });
   }
 
@@ -104,7 +103,7 @@ export class ExerciseIconEditComponent {
 
   save() {
     const exerciseIconData = this.form.value as IExerciseIconDTO;
-    this.exerciseIconService.create(exerciseIconData).subscribe({
+    this.exerciseIconService.save(exerciseIconData).subscribe({
       next: (res) => {
         this.dialogRefService.close(res);
       },

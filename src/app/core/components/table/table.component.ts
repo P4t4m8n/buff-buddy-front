@@ -37,12 +37,14 @@ export class TableComponent<T extends IEntity, TDTO extends IEntityDTO> {
   pagination: IPaginationDTO = { page: 1, recordsPerPage: 10 };
   totalRecordsCount!: number;
   itemsSignal = this.CRUDService.itemSignal;
+  totalItemsSignal = this.CRUDService.totalItemsSignal
 
   constructor() {
     this.loadRecords();
   }
   loadRecords() {
     this.CRUDService.get(this.pagination).subscribe();
+    
   }
 
   updatePagination(data: PageEvent) {

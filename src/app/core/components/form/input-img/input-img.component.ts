@@ -17,8 +17,8 @@ export class InputImgComponent {
   @Output()
   valueChange = new EventEmitter<any>();
   @Input()
-  imgPreview?: string | ArrayBuffer | null =
-    'https://res.cloudinary.com/dyzqa6uuu/image/upload/v1742384690/hof/yeq1yyvb1tdfyuwuxfga.avif';
+  imgPreview?: string | ArrayBuffer | null ="https://res.cloudinary.com/dyzqa6uuu/image/upload/v1742384690/hof/yeq1yyvb1tdfyuwuxfga.avif"
+  
 
   handleChange(event: any) {
     const file = event.target.files[0];

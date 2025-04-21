@@ -2,7 +2,7 @@
     <app-mat-input [formControlInput]="form.controls.name" label="Name"
         [error]="name?.errors|validationToError"></app-mat-input>
 
-    <app-input-img (valueChange)="onUpload($event)" imgPreview="{{exerciseIcon?.imgUrl}}"></app-input-img>
+    <app-input-img (valueChange)="onUpload($event)" imgPreview="{{exerciseIcon?.imgUrl||imgPreview}}"></app-input-img>
 </form>
 
 <div mat-dialog-actions>
