@@ -9,8 +9,7 @@ import {
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { ExerciseIconService } from '../../services/exercise-icon.service';
-import { IExerciseIcon, IExerciseIconDTO } from '../../models/exerciseIcon';
+import { ExerciseMuscleGroupService } from '../../services/exercise-muscle-group.service';
 import { IErrorMessage } from '../../../../../core/types/app.type';
 import {
   MAT_DIALOG_DATA,
@@ -20,6 +19,7 @@ import {
 import { ValidationToErrorPipe } from '../../../../../core/pipes/validation-to-error.pipe';
 import { MatInputComponent } from '../../../../../core/components/form/mat-input/mat-input.component';
 import { InputImgComponent } from '../../../../../core/components/form/input-img/input-img.component';
+import { IExerciseMuscleGroup, IExerciseMuscleGroupDTO } from '../../models/exerciseMuscleGroup.model';
 
 @Component({
   selector: 'app-exercise-icon-edit',
@@ -36,24 +36,24 @@ import { InputImgComponent } from '../../../../../core/components/form/input-img
     MatInputComponent,
     InputImgComponent,
   ],
-  templateUrl: './exercise-icon-edit.component.html',
-  styleUrl: './exercise-icon-edit.component.css',
+  templateUrl: './exercise-muscle-group-edit.component.html',
+  styleUrl: './exercise-muscle-group-edit.component.css',
 })
 export class ExerciseIconEditComponent {
-  exerciseIconService = inject(ExerciseIconService);
-  @Input() exerciseIcon: IExerciseIcon | undefined;
+  exerciseIconService = inject(ExerciseMuscleGroupService);
+  @Input() exerciseIcon: IExerciseMuscleGroup | undefined;
 
   constructor(
     @Optional()
     private dialogRefService: MatDialogRef<ExerciseIconEditComponent>,
     @Optional()
     @Inject(MAT_DIALOG_DATA)
-    public data: IExerciseIcon | undefined
+    public data: IExerciseMuscleGroup | undefined
   ) {
     this.exerciseIcon = data;
   }
   formBuilder = inject(FormBuilder);
-  errors: IErrorMessage<IExerciseIcon>[] = [];
+  errors: IErrorMessage<IExerciseMuscleGroup>[] = [];
   unexpectedError = { serverError: undefined };
   imgPreview?: string | ArrayBuffer | null =
     'https://res.cloudinary.com/dyzqa6uuu/image/upload/v1742384690/hof/yeq1yyvb1tdfyuwuxfga.avif';
@@ -102,7 +102,7 @@ export class ExerciseIconEditComponent {
   }
 
   save() {
-    const exerciseIconData = this.form.value as IExerciseIconDTO;
+    const exerciseIconData = this.form.value as IExerciseMuscleGroupDTO;
     this.exerciseIconService.save(exerciseIconData).subscribe({
       next: (res) => {
         this.dialogRefService.close();
