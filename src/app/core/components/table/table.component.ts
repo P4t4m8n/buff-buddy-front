@@ -6,7 +6,6 @@ import {
 } from '@angular/core';
 import { ItemListComponent } from '../item-list/item-list.component';
 import { MatTableModule } from '@angular/material/table';
-import { ExerciseIconEditDialogComponent } from '../../../features/admin/exercise-icon/components/exercise-icon-edit-dialog/exercise-icon-edit-dialog.component';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { CRUD_SERVICE_TOKEN } from '../../providers/providers';
 import { IPaginationDTO } from '../pagination/pagination-dto';
@@ -20,7 +19,6 @@ import { MatButton } from '@angular/material/button';
   imports: [
     ItemListComponent,
     MatTableModule,
-    ExerciseIconEditDialogComponent,
     SweetAlert2Module,
     MatPaginatorModule,
     MatButton,

@@ -24,7 +24,7 @@ import { InputComponent } from '../../../../core/components/form/input/input.com
 import { SelectComponent } from '../../../../core/components/form/select/select.component';
 import { DisplayErrorComponent } from '../../../../core/components/displayError/display-error.component';
 import { ValidationToErrorPipe } from '../../../../core/pipes/validation-to-error.pipe';
-import { ExerciseIconService } from '../../../admin/exercise-icon/services/exercise-icon.service';
+import { ExerciseMuscleService } from '../../../admin/exercise-muscle/services/exercise-muscle-group.service';
 
 @Component({
   selector: 'app-exercise-edit',
@@ -44,7 +44,7 @@ import { ExerciseIconService } from '../../../admin/exercise-icon/services/exerc
 export class ExerciseEditComponent implements OnInit {
   exerciseUtilService: ExerciseUtilService = inject(ExerciseUtilService);
   exerciseService: ExerciseService = inject(ExerciseService);
-  exerciseIconService: ExerciseIconService = inject(ExerciseIconService);
+  exerciseIconService: ExerciseMuscleService = inject(ExerciseMuscleService);
   formBuilder = inject(FormBuilder);
   router = inject(Router);
 

@@ -11,9 +11,9 @@ import { Error404Component } from './core/components/error404/error404.component
 import { ExerciseIndexComponent } from './features/exercise/pages/exercise-index/exercise-index.component';
 import { ExerciseDetailsComponent } from './features/exercise/pages/exercise-details/exercise-details.component';
 import { AdminIndexComponent } from './features/admin/admin-index/admin-index.component';
-import { ExerciseIconIndexComponent } from './features/admin/exercise-icon/views/exercise-icon-index/exercise-icon-index.component';
 import { ExerciseEquipmentComponent } from './features/admin/exercise-equipment/exercise-equipment.component';
 import { ExerciseTypeComponent } from './features/admin/exercise-type/exercise-type.component';
+import { ExerciseMuscleIndexComponent } from './features/admin/exercise-muscle/views/exercise-muscle-group-index/exercise-muscle-group-index.component';
 
 export const routes: Routes = [
   { path: ROOT_PATHS.home, component: HomeComponent },
@@ -35,7 +35,7 @@ export const routes: Routes = [
     children: [
       {
         path: ADMIN_PATHS.icons,
-        component: ExerciseIconIndexComponent,
+        component: ExerciseMuscleIndexComponent,
       },
       {
         path: ADMIN_PATHS.equipment,

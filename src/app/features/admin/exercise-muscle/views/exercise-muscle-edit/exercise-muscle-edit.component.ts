@@ -9,7 +9,7 @@ import {
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { ExerciseMuscleGroupService } from '../../services/exercise-muscle-group.service';
+import { ExerciseMuscleService } from '../../services/exercise-muscle-group.service';
 import { IErrorMessage } from '../../../../../core/types/app.type';
 import {
   MAT_DIALOG_DATA,
@@ -19,10 +19,13 @@ import {
 import { ValidationToErrorPipe } from '../../../../../core/pipes/validation-to-error.pipe';
 import { MatInputComponent } from '../../../../../core/components/form/mat-input/mat-input.component';
 import { InputImgComponent } from '../../../../../core/components/form/input-img/input-img.component';
-import { IExerciseMuscleGroup, IExerciseMuscleGroupDTO } from '../../models/exerciseMuscleGroup.model';
+import {
+  IExerciseMuscle,
+  IExerciseMuscleDTO,
+} from '../../models/exerciseMuscle.model';
 
 @Component({
-  selector: 'app-exercise-icon-edit',
+  selector: 'app-exercise-muscle-edit',
   standalone: true,
   imports: [
     MatFormFieldModule,
@@ -36,24 +39,24 @@ import { IExerciseMuscleGroup, IExerciseMuscleGroupDTO } from '../../models/exer
     MatInputComponent,
     InputImgComponent,
   ],
-  templateUrl: './exercise-muscle-group-edit.component.html',
-  styleUrl: './exercise-muscle-group-edit.component.css',
+  templateUrl: './exercise-muscle-edit.component.html',
+  styleUrl: './exercise-muscle-edit.component.css',
 })
-export class ExerciseIconEditComponent {
-  exerciseIconService = inject(ExerciseMuscleGroupService);
-  @Input() exerciseIcon: IExerciseMuscleGroup | undefined;
+export class ExerciseMuscleEditComponent {
+  exerciseMuscleService = inject(ExerciseMuscleService);
+  @Input() exerciseMuscle: IExerciseMuscle | undefined;
 
   constructor(
     @Optional()
-    private dialogRefService: MatDialogRef<ExerciseIconEditComponent>,
+    private dialogRefService: MatDialogRef<ExerciseMuscleEditComponent>,
     @Optional()
     @Inject(MAT_DIALOG_DATA)
-    public data: IExerciseMuscleGroup | undefined
+    public data: IExerciseMuscle | undefined
   ) {
-    this.exerciseIcon = data;
+    this.exerciseMuscle = data;
   }
   formBuilder = inject(FormBuilder);
-  errors: IErrorMessage<IExerciseMuscleGroup>[] = [];
+  errors: IErrorMessage<IExerciseMuscle>[] = [];
   unexpectedError = { serverError: undefined };
   imgPreview?: string | ArrayBuffer | null =
     'https://res.cloudinary.com/dyzqa6uuu/image/upload/v1742384690/hof/yeq1yyvb1tdfyuwuxfga.avif';
@@ -74,12 +77,12 @@ export class ExerciseIconEditComponent {
   });
 
   ngOnInit() {
-    if (!this.exerciseIcon) {
+    if (!this.exerciseMuscle) {
       this.resetForm();
     }
 
     this.form.patchValue({
-      ...this.exerciseIcon,
+      ...this.exerciseMuscle,
     });
   }
 
@@ -102,8 +105,8 @@ export class ExerciseIconEditComponent {
   }
 
   save() {
-    const exerciseIconData = this.form.value as IExerciseMuscleGroupDTO;
-    this.exerciseIconService.save(exerciseIconData).subscribe({
+    const exerciseMuscleData = this.form.value as IExerciseMuscleDTO;
+    this.exerciseMuscleService.save(exerciseMuscleData).subscribe({
       next: (res) => {
         this.dialogRefService.close();
       },

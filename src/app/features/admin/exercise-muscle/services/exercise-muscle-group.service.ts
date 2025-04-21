@@ -6,36 +6,36 @@ import { buildQueryParams } from '../../../../core/functions/buildQueryParams';
 import { catchError, Observable, switchMap, tap } from 'rxjs';
 import { ICRUDService } from '../../../../core/interfaces/icrudservice';
 import {
-  IExerciseMuscleGroup,
-  IExerciseMuscleGroupDTO,
-} from '../models/exerciseMuscleGroup.model';
+  IExerciseMuscle,
+  IExerciseMuscleDTO,
+} from '../models/exerciseMuscle.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ExerciseMuscleGroupService
-  implements ICRUDService<IExerciseMuscleGroup, IExerciseMuscleGroupDTO>
+export class ExerciseMuscleService
+  implements ICRUDService<IExerciseMuscle, IExerciseMuscleDTO>
 {
   private httpClient = inject(HttpClient);
-  private baseUrl = environment.apiUrl + '/exercise-icons';
-  itemSignal: WritableSignal<IExerciseMuscleGroup[] | null> = signal<
-    IExerciseMuscleGroup[] | null
+  private baseUrl = environment.apiUrl + '/exercise-muscle';
+  itemSignal: WritableSignal<IExerciseMuscle[] | null> = signal<
+    IExerciseMuscle[] | null
   >(null);
   totalItemsSignal = signal<number>(0);
   private itemErrorState = signal<string | null>(null);
 
   public get(
     pagination: IPaginationDTO
-  ): Observable<HttpResponse<IExerciseMuscleGroup[]>> {
+  ): Observable<HttpResponse<IExerciseMuscle[]>> {
     const queryParams = buildQueryParams(pagination);
     return this.httpClient
-      .get<IExerciseMuscleGroup[]>(this.baseUrl, {
+      .get<IExerciseMuscle[]>(this.baseUrl, {
         params: queryParams,
         observe: 'response',
       })
       .pipe(
         tap((response) => {
-          this.itemSignal.set(response.body as IExerciseMuscleGroup[]);
+          this.itemSignal.set(response.body as IExerciseMuscle[]);
           const headers = response.headers.get('total-count');
           this.totalItemsSignal.set(+(headers || 0));
         }),
@@ -46,11 +46,11 @@ export class ExerciseMuscleGroupService
       );
   }
 
-  public getById(id: string): Observable<IExerciseMuscleGroup> {
-    return this.httpClient.get<IExerciseMuscleGroup>(`${this.baseUrl}/${id}`);
+  public getById(id: string): Observable<IExerciseMuscle> {
+    return this.httpClient.get<IExerciseMuscle>(`${this.baseUrl}/${id}`);
   }
 
-  public save(dto: IExerciseMuscleGroupDTO) {
+  public save(dto: IExerciseMuscleDTO) {
     if (dto.id) {
       return this.update(dto);
     } else {
@@ -79,7 +79,7 @@ export class ExerciseMuscleGroupService
     );
   }
 
-  private dtoToFormData(dto: IExerciseMuscleGroupDTO): FormData {
+  private dtoToFormData(dto: IExerciseMuscleDTO): FormData {
     const formData = new FormData();
     formData.append('name', dto.name || '');
 
@@ -97,50 +97,50 @@ export class ExerciseMuscleGroupService
     return formData;
   }
 
-  private create(dto: IExerciseMuscleGroupDTO) {
+  private create(dto: IExerciseMuscleDTO) {
     const formData = this.dtoToFormData(dto);
     if (this.verifySignal()) {
       throw new Error('itemSignal is not initialized');
     }
-    return this.httpClient
-      .post<IExerciseMuscleGroup>(this.baseUrl, formData)
-      .pipe(
-        tap((createdItem) => {
-          // First update the signals with the response
-          const exerciseMusclesGroup = this.itemSignal() || [];
-          // If we're already at the first page and have less than page size
-          if (exerciseMusclesGroup.length < 10) {
-            this.itemSignal.set([...exerciseMusclesGroup, createdItem]);
-            // Increment total count
-            this.totalItemsSignal.set(this.totalItemsSignal() + 1);
-            //Else if we have more than 10 items, we need to refresh the dataset
-          } else {
-            this.get({ page: 1, recordsPerPage: 10 }).subscribe({
-              error: (err) =>
-                console.error('Error refreshing after create:', err),
-            });
-          }
-        }),
-        catchError((err) => {
-          this.itemErrorState.set(err.error.message as string);
-          throw err;
-        })
-      );
+    return this.httpClient.post<IExerciseMuscle>(this.baseUrl, formData).pipe(
+      tap((createdItem) => {
+        // First update the signals with the response
+        const exerciseMusclesGroup = this.itemSignal() || [];
+        // If we're already at the first page and have less than page size
+        if (exerciseMusclesGroup.length < 10) {
+          this.itemSignal.set([...exerciseMusclesGroup, createdItem]);
+          // Increment total count
+          this.totalItemsSignal.set(this.totalItemsSignal() + 1);
+          //Else if we have more than 10 items, we need to refresh the dataset
+        } else {
+          this.get({ page: 1, recordsPerPage: 10 }).subscribe({
+            error: (err) =>
+              console.error('Error refreshing after create:', err),
+          });
+        }
+      }),
+      catchError((err) => {
+        this.itemErrorState.set(err.error.message as string);
+        throw err;
+      })
+    );
   }
 
-  private update(dto: IExerciseMuscleGroupDTO) {
+  private update(dto: IExerciseMuscleDTO) {
     const formData = this.dtoToFormData(dto);
 
     if (this.verifySignal()) {
       throw new Error('itemSignal is not initialized');
     }
     return this.httpClient
-      .put<IExerciseMuscleGroup>(`${this.baseUrl}/${dto.id}`, formData)
+      .put<IExerciseMuscle>(`${this.baseUrl}/${dto.id}`, formData)
       .pipe(
         tap((item) => {
           const exerciseMusclesGroup = this.itemSignal();
           //exerciseIcons cant be null, because we check it in the if statement above, TS is fun
-          const index = exerciseMusclesGroup!.findIndex((icon) => icon.id === dto.id);
+          const index = exerciseMusclesGroup!.findIndex(
+            (icon) => icon.id === dto.id
+          );
           if (index !== -1) {
             exerciseMusclesGroup![index] = item;
             this.itemSignal.set([...exerciseMusclesGroup!]);
