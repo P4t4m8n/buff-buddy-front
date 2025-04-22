@@ -7,7 +7,7 @@ export interface IExercise extends IEntity {
   imgUrl?: string;
   type?: string;
   equipment?: string;
-  targetMuscle?: string;
+  muscle?: string;
 }
 
 export interface IExerciseDto extends IEntity {}

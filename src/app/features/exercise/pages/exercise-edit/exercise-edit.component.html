@@ -10,22 +10,31 @@
         <app-input class="text-input" type="text" [formControlValue]="form.controls.name" placeHolder="Exercise Name"
             [error]="name?.errors" />
 
-        <ng-select [formControl]="form.controls.imgUrl" appearance="outline" [clearable]="false">
-            @for(icon of exerciseIconsList();track icon.id) {
-            <ng-option [value]="icon.id">
-                <img [src]="icon.imgUrl" width="48" height="48" />
-            </ng-option>}
-        </ng-select>
+
 
     </div>
 
     <app-input-youtube [error]="youtubeUrl?.errors" (youtubeUrlEmitter)="handleVideoUrl($event)"
         [youtubeUrl]="exercise?.youtubeUrl" />
 
-    <app-select [formControlValue]="form.controls.equipment" [options]="equipmentList" [error]="equipment?.errors" />
-    <app-select [formControlValue]="form.controls.type" [options]="exerciseTypeList" [error]="type?.errors" />
-    <app-select [formControlValue]="form.controls.targetMuscle" [options]="targetMuscleList"
-        [error]="targetMuscle?.errors" />
+    <ng-select [formControl]="form.controls.muscle" appearance="outline" [clearable]="false">
+        @for(muscle of exerciseMuscleList();track muscle.id) {
+        <ng-option [value]="muscle.id">
+            <img [src]="muscle.imgUrl" width="48" height="48" />
+        </ng-option>}
+    </ng-select>
+    <ng-select [formControl]="form.controls.type" appearance="outline" [clearable]="false">
+        @for(type of exerciseTypeList();track type.id) {
+        <ng-option [value]="type.id">
+            <img [src]="type.imgUrl" width="48" height="48" />
+        </ng-option>}
+    </ng-select>
+    <ng-select [formControl]="form.controls.equipment" appearance="outline" [clearable]="false">
+        @for(equipment of exerciseEquipmentList();track equipment.id) {
+        <ng-option [value]="equipment.id">
+            <img [src]="equipment.imgUrl" width="48" height="48" />
+        </ng-option>}
+    </ng-select>
 
     <div class="form-actions">
         <button type="button" class="toggle-open-button" (click)="toggleEdit()">Close</button>

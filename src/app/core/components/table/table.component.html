@@ -7,7 +7,8 @@
                 <ng-container matColumnDef="actions" class="actions">
                     <th mat-header-cell *matHeaderCellDef>Actions</th>
                     <td mat-cell *matCellDef="let item">
-                        <!-- <app-exercise-icon-edit-dialog [exerciseIcon]="item" /> -->
+                        <ng-container
+                            *ngComponentOutlet="editDialogType; inputs: {exerciseIcon: item}"></ng-container>
 
                         <button mat-raised-button color="" [swal]="{title: 'Confirmation', text: 'Are you sure you want to delete this record?',
                                 showCancelButton: true

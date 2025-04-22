@@ -1,0 +1,14 @@
+:host {
+  display: block;
+  padding: 1rem;
+  & form {
+    display: flex;
+    gap:1rem;
+
+  }
+}
+
+
+.mat-mdc-form-field {
+  --mdc-filled-text-field-container-height: 1rem;
+}

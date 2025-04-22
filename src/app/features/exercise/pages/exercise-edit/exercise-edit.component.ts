@@ -24,7 +24,9 @@ import { InputComponent } from '../../../../core/components/form/input/input.com
 import { SelectComponent } from '../../../../core/components/form/select/select.component';
 import { DisplayErrorComponent } from '../../../../core/components/displayError/display-error.component';
 import { ValidationToErrorPipe } from '../../../../core/pipes/validation-to-error.pipe';
-import { ExerciseMuscleService } from '../../../admin/exercise-muscle/services/exercise-muscle-group.service';
+import { ExerciseMuscleService } from '../../../admin/exercise-info/exercise-muscle/services/exercise-muscle.service';
+import { ExerciseTypeService } from '../../../admin/exercise-info/exercise-type/services/exercise-type.service';
+import { ExerciseEquipmentService } from '../../../admin/exercise-info/exercise-equipment/services/exercise-equipment.service';
 
 @Component({
   selector: 'app-exercise-edit',
@@ -44,7 +46,11 @@ import { ExerciseMuscleService } from '../../../admin/exercise-muscle/services/e
 export class ExerciseEditComponent implements OnInit {
   exerciseUtilService: ExerciseUtilService = inject(ExerciseUtilService);
   exerciseService: ExerciseService = inject(ExerciseService);
-  exerciseIconService: ExerciseMuscleService = inject(ExerciseMuscleService);
+  exerciseMusclesService: ExerciseMuscleService = inject(ExerciseMuscleService);
+  exerciseTypeService: ExerciseTypeService = inject(ExerciseTypeService);
+  exerciseEquipmentService: ExerciseEquipmentService = inject(
+    ExerciseEquipmentService
+  );
   formBuilder = inject(FormBuilder);
   router = inject(Router);
 
@@ -77,15 +83,10 @@ export class ExerciseEditComponent implements OnInit {
     'Core',
   ];
 
-  exerciseTypeList: string[] = [
-    'Strength',
-    'Cardio',
-    'Flexibility',
-    'Balance',
-    'Endurance',
-  ];
+  exerciseTypeList = this.exerciseTypeService.itemSignal;
+  exerciseEquipmentList = this.exerciseEquipmentService.itemSignal;
 
-  exerciseIconsList = this.exerciseIconService.itemSignal;
+  exerciseMuscleList = this.exerciseMusclesService.itemSignal;
 
   form = this.formBuilder.group({
     id: new FormControl<string>(''),
@@ -105,7 +106,7 @@ export class ExerciseEditComponent implements OnInit {
     equipment: new FormControl<string>('', {
       validators: [Validators.required],
     }),
-    targetMuscle: new FormControl<string>('', {
+    muscle: new FormControl<string>('', {
       validators: [Validators.required],
     }),
   });
@@ -115,7 +116,14 @@ export class ExerciseEditComponent implements OnInit {
       this.buttonText = 'Create';
       this.resetForm();
     }
-    this.exerciseIconService.get({ page: 1, recordsPerPage: 10 }).subscribe();
+    this.exerciseMusclesService
+      .get({ page: 1, recordsPerPage: 10 })
+      .subscribe();
+
+    this.exerciseTypeService.get({ page: 1, recordsPerPage: 10 }).subscribe();
+    this.exerciseEquipmentService
+      .get({ page: 1, recordsPerPage: 10 })
+      .subscribe();
 
     this.form.patchValue({
       ...this.exercise,

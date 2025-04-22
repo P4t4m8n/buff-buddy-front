@@ -3,6 +3,8 @@ import {
   Component,
   inject,
   Input,
+  TemplateRef,
+  Type,
 } from '@angular/core';
 import { ItemListComponent } from '../item-list/item-list.component';
 import { MatTableModule } from '@angular/material/table';
@@ -13,6 +15,7 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { IEntity, IEntityDTO } from '../../types/app.type';
 import { ICRUDService } from '../../interfaces/icrudservice';
 import { MatButton } from '@angular/material/button';
+import { NgComponentOutlet } from '@angular/common';
 
 @Component({
   selector: 'app-table',
@@ -22,6 +25,7 @@ import { MatButton } from '@angular/material/button';
     SweetAlert2Module,
     MatPaginatorModule,
     MatButton,
+    NgComponentOutlet
   ],
   templateUrl: './table.component.html',
   styleUrl: './table.component.css',
@@ -30,19 +34,21 @@ import { MatButton } from '@angular/material/button';
 export class TableComponent<T extends IEntity, TDTO extends IEntityDTO> {
   @Input({ required: true })
   columnsHeaders: string[] = [];
-  
+
+  @Input()
+  editDialogType: Type<any> | null = null;
+
   CRUDService = inject(CRUD_SERVICE_TOKEN) as ICRUDService<T, TDTO>;
   pagination: IPaginationDTO = { page: 1, recordsPerPage: 10 };
   totalRecordsCount!: number;
   itemsSignal = this.CRUDService.itemSignal;
-  totalItemsSignal = this.CRUDService.totalItemsSignal
+  totalItemsSignal = this.CRUDService.totalItemsSignal;
 
   constructor() {
     this.loadRecords();
   }
   loadRecords() {
     this.CRUDService.get(this.pagination).subscribe();
-    
   }
 
   updatePagination(data: PageEvent) {

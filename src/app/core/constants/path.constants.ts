@@ -21,7 +21,7 @@ export const EXERCISE_PATHS = {
 };
 
 export const ADMIN_PATHS = {
-  icons: 'exercise-icons',
+  muscles: 'exercise-muscles',
   equipment: 'exercise-equipment',
   type: 'exercise-type',
 };

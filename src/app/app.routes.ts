@@ -11,9 +11,9 @@ import { Error404Component } from './core/components/error404/error404.component
 import { ExerciseIndexComponent } from './features/exercise/pages/exercise-index/exercise-index.component';
 import { ExerciseDetailsComponent } from './features/exercise/pages/exercise-details/exercise-details.component';
 import { AdminIndexComponent } from './features/admin/admin-index/admin-index.component';
-import { ExerciseEquipmentComponent } from './features/admin/exercise-equipment/exercise-equipment.component';
-import { ExerciseTypeComponent } from './features/admin/exercise-type/exercise-type.component';
-import { ExerciseMuscleIndexComponent } from './features/admin/exercise-muscle/views/exercise-muscle-group-index/exercise-muscle-group-index.component';
+import { ExerciseMuscleIndexComponent } from './features/admin/exercise-info/exercise-muscle/views/exercise-muscle-index/exercise-muscle-index.component';
+import { ExerciseEquipmentIndexComponent } from './features/admin/exercise-info/exercise-equipment/views/exercise-equipment-index/exercise-equipment-index.component';
+import { ExerciseTypeIndexComponent } from './features/admin/exercise-info/exercise-type/views/exercise-type-index/exercise-type-index.component';
 
 export const routes: Routes = [
   { path: ROOT_PATHS.home, component: HomeComponent },
@@ -34,16 +34,16 @@ export const routes: Routes = [
     component: AdminIndexComponent,
     children: [
       {
-        path: ADMIN_PATHS.icons,
+        path: ADMIN_PATHS.muscles,
         component: ExerciseMuscleIndexComponent,
       },
       {
         path: ADMIN_PATHS.equipment,
-        component: ExerciseEquipmentComponent,
+        component: ExerciseEquipmentIndexComponent,
       },
       {
         path: ADMIN_PATHS.type,
-        component: ExerciseTypeComponent,
+        component: ExerciseTypeIndexComponent,
       },
     ],
   },
