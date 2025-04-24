@@ -8,7 +8,7 @@ import { ICRUDService } from '../../../../core/interfaces/icrudservice';
 import { IEntity, IEntityDTO } from '../../../../core/types/app.type';
 
 @Injectable()
-export abstract class BaseExerciseInfoService<T extends IEntity, DTO extends IEntityDTO>
+export abstract class BaseCRUDService<T extends IEntity, DTO extends IEntityDTO>
   implements ICRUDService<T, DTO>
 {
   protected httpClient = inject(HttpClient);

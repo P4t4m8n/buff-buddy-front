@@ -7,8 +7,7 @@
                 <ng-container matColumnDef="actions" class="actions">
                     <th mat-header-cell *matHeaderCellDef>Actions</th>
                     <td mat-cell *matCellDef="let item">
-                        <ng-container
-                            *ngComponentOutlet="editDialogType; inputs: {exerciseIcon: item}"></ng-container>
+                        <ng-container *ngComponentOutlet="editDialogType; inputs: {item: item}"></ng-container>
 
                         <button mat-raised-button color="" [swal]="{title: 'Confirmation', text: 'Are you sure you want to delete this record?',
                                 showCancelButton: true
@@ -27,7 +26,16 @@
                 @else {
                 <ng-container matColumnDef="{{column}}">
                     <th mat-header-cell *matHeaderCellDef>{{column}}</th>
-                    <td mat-cell *matCellDef="let element">{{element[column]}}</td>
+
+                    <td mat-cell *matCellDef="let element">
+                        @if (typeof element[column] === 'object'){
+                        <img [src]="element[column].imgUrl" alt="Icon" width="56" height="56" />
+                        <p>{{element[column].name}}</p>
+
+                        } @else {
+                        {{element[column]}}
+                        }
+                    </td>
                 </ng-container>
                 }
                 }

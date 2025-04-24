@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { IExerciseInfo, IExerciseInfoDTO } from '../../models/exerciseInfo';
-import { BaseExerciseInfoService } from '../../service/base-exercise-info.service';
+import { BaseCRUDService } from '../../service/base-CRUD.service';
 import { environment } from '../../../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ExerciseEquipmentService extends BaseExerciseInfoService<
+export class ExerciseEquipmentService extends BaseCRUDService<
   IExerciseInfo,
   IExerciseInfoDTO
 > {

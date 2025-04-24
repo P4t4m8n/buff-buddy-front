@@ -1,23 +1,5 @@
 <h2>Exercises</h2>
-<app-exercise-edit (itemSaved)="onItemSave()" />
-
-<app-item-list [items]="exercises">
-    <ng-container content>
-        <ul class="exercise-table">
-            <li class="table-layout">
-                <p></p>
-                <p>Name</p>
-                <p>Type</p>
-                <p>Equipment</p>
-                <p>Muscle group</p>
-                <p>Actions</p>
-            </li>
-            @for (exercise of exercises; track exercise.id) {
-
-            <app-exercise-preview [exercise]="exercise" (itemSaved)="onItemSave()"></app-exercise-preview>
-
-            }
-        </ul>
-    </ng-container>
-</app-item-list>
-<router-outlet />
+<app-exercise-edit-dialog />
+<section>
+    <app-table [columnsHeaders]="columnsHeaders" [editDialogType]="editDialogType"></app-table>
+</section>

@@ -10,6 +10,7 @@ import { IExercise, IExerciseDto } from '../../types/exercise.type';
 import {
   FormBuilder,
   FormControl,
+  FormsModule,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
@@ -21,12 +22,17 @@ import { Router } from '@angular/router';
 import { YoutubeLinkValidator } from '../../../../core/validators/youtube-link-validator.directive';
 import { IErrorMessage } from '../../../../core/types/app.type';
 import { InputComponent } from '../../../../core/components/form/input/input.component';
-import { SelectComponent } from '../../../../core/components/form/select/select.component';
 import { DisplayErrorComponent } from '../../../../core/components/displayError/display-error.component';
 import { ValidationToErrorPipe } from '../../../../core/pipes/validation-to-error.pipe';
 import { ExerciseMuscleService } from '../../../admin/exercise-info/exercise-muscle/services/exercise-muscle.service';
 import { ExerciseTypeService } from '../../../admin/exercise-info/exercise-type/services/exercise-type.service';
 import { ExerciseEquipmentService } from '../../../admin/exercise-info/exercise-equipment/services/exercise-equipment.service';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatInputComponent } from '../../../../core/components/form/mat-input/mat-input.component';
+import { InputImgComponent } from '../../../../core/components/form/input-img/input-img.component';
 
 @Component({
   selector: 'app-exercise-edit',
@@ -36,9 +42,18 @@ import { ExerciseEquipmentService } from '../../../admin/exercise-info/exercise-
     NgSelectComponent,
     NgOptionComponent,
     InputComponent,
-    SelectComponent,
     DisplayErrorComponent,
     ValidationToErrorPipe,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    MatButtonModule,
+    ReactiveFormsModule,
+    MatDialogModule,
+    MatInputModule,
+    ValidationToErrorPipe,
+    MatInputComponent,
+    InputImgComponent,
   ],
   templateUrl: './exercise-edit.component.html',
   styleUrl: './exercise-edit.component.css',
@@ -62,26 +77,7 @@ export class ExerciseEditComponent implements OnInit {
   errors: IErrorMessage<IExerciseDto>[] = [];
   unexpectedError = { serverError: undefined };
 
-  isEditOpen: boolean = false;
-  buttonText: string = 'Edit';
   youtubeVideoId: string = '';
-
-  equipmentList: string[] = [
-    'Barbell',
-    'Dumbbell',
-    'Kettlebell',
-    'Cable',
-    'Bodyweight',
-  ];
-
-  targetMuscleList: string[] = [
-    'Chest',
-    'Back',
-    'Shoulders',
-    'Arms',
-    'Legs',
-    'Core',
-  ];
 
   exerciseTypeList = this.exerciseTypeService.itemSignal;
   exerciseEquipmentList = this.exerciseEquipmentService.itemSignal;
@@ -113,7 +109,6 @@ export class ExerciseEditComponent implements OnInit {
 
   ngOnInit(): void {
     if (!this.exercise) {
-      this.buttonText = 'Create';
       this.resetForm();
     }
     this.exerciseMusclesService
@@ -125,18 +120,17 @@ export class ExerciseEditComponent implements OnInit {
       .get({ page: 1, recordsPerPage: 10 })
       .subscribe();
 
-    this.form.patchValue({
-      ...this.exercise,
-      imgUrl: this.exercise?.imgUrl || '',
-    });
+    // this.form.patchValue({
+    //   ...this.exercise,
+    // });
   }
 
-  toggleEdit() {
-    if (this.isEditOpen) {
-      this.resetForm();
-    }
-    this.isEditOpen = !this.isEditOpen;
-  }
+  // toggleEdit() {
+  //   if (this.isEditOpen) {
+  //     this.resetForm();
+  //   }
+  //   this.isEditOpen = !this.isEditOpen;
+  // }
 
   handleVideoUrl(url: string) {
     this.form.controls.youtubeUrl.setValue(url);
@@ -147,7 +141,7 @@ export class ExerciseEditComponent implements OnInit {
     this.exerciseService.save(this.exercise).subscribe({
       next: (res) => {
         this.itemSaved.emit();
-        this.isEditOpen = false;
+        // this.isEditOpen = false;
         this.exercise = undefined;
       },
       error: (err) => {

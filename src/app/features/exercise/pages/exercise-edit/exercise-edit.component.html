@@ -1,6 +1,6 @@
-<button class="toggle-open-button" (click)="toggleEdit()">{{buttonText}}</button>
+<!-- <button class="toggle-open-button" (click)="toggleEdit()">{{buttonText}}</button> -->
 
-@if (isEditOpen) {
+
 <form (submit)="save()" [formGroup]="form">
     <header>
         <h1>Edit Exercise</h1>
@@ -36,9 +36,8 @@
         </ng-option>}
     </ng-select>
 
-    <div class="form-actions">
-        <button type="button" class="toggle-open-button" (click)="toggleEdit()">Close</button>
-        <button type="submit" class="toggle-open-button" [disabled]="form.invalid">Save</button>
+    <div mat-dialog-actions>
+        <button mat-button mat-dialog-close>Cancel</button>
+        <button mat-raised-button color="primary" (click)="save()">Save</button>
     </div>
 </form>
-}

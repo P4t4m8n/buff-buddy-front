@@ -7,7 +7,7 @@ import {
   Optional,
 } from '@angular/core';
 import { IExerciseInfo, IExerciseInfoDTO } from '../models/exerciseInfo';
-import { BaseExerciseInfoService } from '../service/base-exercise-info.service';
+import { BaseCRUDService } from '../service/base-CRUD.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { IErrorMessage } from '../../../../core/types/app.type';
@@ -18,7 +18,7 @@ export abstract class BaseExerciseInfoEditDirective<
   DTO extends IExerciseInfoDTO
 > implements OnInit
 {
-  protected abstract exerciseService: BaseExerciseInfoService<T, DTO>;
+  protected abstract exerciseService: BaseCRUDService<T, DTO>;
   @Input() exerciseItem: T | undefined;
 
   constructor(

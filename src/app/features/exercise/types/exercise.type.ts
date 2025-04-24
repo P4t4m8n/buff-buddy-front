@@ -1,13 +1,18 @@
 import { IEntity } from '../../../core/types/app.type';
+import { IExerciseInfo } from '../../admin/exercise-info/models/exerciseInfo';
 
-export interface IExercise extends IEntity {
-  id?: string;
+interface IExerciseBase extends IEntity {
   name?: string;
   youtubeUrl?: string;
-  imgUrl?: string;
-  type?: string;
-  equipment?: string;
-  muscle?: string;
+}
+export interface IExercise extends IExerciseBase {
+  type?: IExerciseInfo;
+  equipment?: IExerciseInfo;
+  muscle?: IExerciseInfo;
 }
 
-export interface IExerciseDto extends IEntity {}
+export interface IExerciseDto extends IExerciseBase {
+  exerciseTypeId?: string;
+  exerciseEquipmentId?: string;
+  exerciseMuscleId?: string;
+}
