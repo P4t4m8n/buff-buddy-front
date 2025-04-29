@@ -1,43 +1,24 @@
-<!-- <button class="toggle-open-button" (click)="toggleEdit()">{{buttonText}}</button> -->
-
-
 <form (submit)="save()" [formGroup]="form">
-    <header>
-        <h1>Edit Exercise</h1>
-        <app-display-error [error]="unexpectedError|validationToError" />
-    </header>
-    <div class="con">
-        <app-input class="text-input" type="text" [formControlValue]="form.controls.name" placeHolder="Exercise Name"
-            [error]="name?.errors" />
 
+  <app-mat-input [formControlInput]="form.controls.name" label="Name"
+    [error]="name?.errors|validationToError"></app-mat-input>
 
+  <app-input-youtube [error]="youtubeUrl?.errors" (youtubeUrlEmitter)="handleVideoUrl($event)"
+    [youtubeUrl]="exercise?.youtubeUrl" />
 
-    </div>
+  <app-mat-select [formControlInput]="form.controls.exerciseMuscleId" [getSelectItem]="getSelectedMuscle.bind(this)"
+    [options]="exerciseMuscleList()" label="Muscle Group" alt="Muscle">
+  </app-mat-select>
+  <app-mat-select [formControlInput]="form.controls.exerciseTypeId" [getSelectItem]="getSelectedType.bind(this)"
+    [options]="exerciseTypeList()" label="Exercise Type" alt="Exercise Type">
+  </app-mat-select>
+  <app-mat-select [formControlInput]="form.controls.exerciseEquipmentId"
+    [getSelectItem]="getSelectedEquipment.bind(this)" [options]="exerciseEquipmentList()" label="Equipment"
+    alt="Equipment">
+  </app-mat-select>
 
-    <app-input-youtube [error]="youtubeUrl?.errors" (youtubeUrlEmitter)="handleVideoUrl($event)"
-        [youtubeUrl]="exercise?.youtubeUrl" />
-
-    <ng-select [formControl]="form.controls.muscle" appearance="outline" [clearable]="false">
-        @for(muscle of exerciseMuscleList();track muscle.id) {
-        <ng-option [value]="muscle.id">
-            <img [src]="muscle.imgUrl" width="48" height="48" />
-        </ng-option>}
-    </ng-select>
-    <ng-select [formControl]="form.controls.type" appearance="outline" [clearable]="false">
-        @for(type of exerciseTypeList();track type.id) {
-        <ng-option [value]="type.id">
-            <img [src]="type.imgUrl" width="48" height="48" />
-        </ng-option>}
-    </ng-select>
-    <ng-select [formControl]="form.controls.equipment" appearance="outline" [clearable]="false">
-        @for(equipment of exerciseEquipmentList();track equipment.id) {
-        <ng-option [value]="equipment.id">
-            <img [src]="equipment.imgUrl" width="48" height="48" />
-        </ng-option>}
-    </ng-select>
-
-    <div mat-dialog-actions>
-        <button mat-button mat-dialog-close>Cancel</button>
-        <button mat-raised-button color="primary" (click)="save()">Save</button>
-    </div>
+  <div class="form-actions" mat-dialog-actions>
+    <button mat-button mat-dialog-close type="button">Cancel</button>
+    <button mat-raised-button color="primary" type="submit">Save</button>
+  </div>
 </form>

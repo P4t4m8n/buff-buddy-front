@@ -27,7 +27,6 @@ export abstract class BaseCRUDService<T extends IEntity, DTO extends IEntityDTO>
       })
       .pipe(
         tap((response) => {
-          console.log(" response:", response)
           this.itemSignal.set(response.body as T[]);
           const headers = response.headers.get('total-count');
           this.totalItemsSignal.set(+(headers || 0));
@@ -43,11 +42,18 @@ export abstract class BaseCRUDService<T extends IEntity, DTO extends IEntityDTO>
     return this.httpClient.get<T>(`${this.baseUrl}/${id}`);
   }
 
-  public save(dto: DTO) {
+  public saveForm(dto: DTO) {
     if (dto.id) {
-      return this.update(dto);
+      return this.updateForm(dto);
     } else {
-      return this.create(dto);
+      return this.createForm(dto);
+    }
+  }
+  public saveJson(dto: DTO) {
+    if (dto.id) {
+      return this.updateJson(dto);
+    } else {
+      return this.createJson(dto);
     }
   }
 
@@ -72,7 +78,7 @@ export abstract class BaseCRUDService<T extends IEntity, DTO extends IEntityDTO>
   protected dtoToFormData(dto: DTO): FormData | null {
     return null; // Default implementation returns null
   }
-  protected create(dto: DTO) {
+  protected createForm(dto: DTO) {
     const formData = this.dtoToFormData(dto);
     if (this.verifySignal()) {
       throw new Error('itemSignal is not initialized');
@@ -98,14 +104,58 @@ export abstract class BaseCRUDService<T extends IEntity, DTO extends IEntityDTO>
       })
     );
   }
-
-  protected update(dto: DTO) {
+  protected updateForm(dto: DTO) {
     const formData = this.dtoToFormData(dto);
 
     if (this.verifySignal()) {
       throw new Error('itemSignal is not initialized');
     }
     return this.httpClient.put<T>(`${this.baseUrl}/${dto.id}`, formData).pipe(
+      tap((item) => {
+        const items = this.itemSignal();
+        const index = items!.findIndex((existing) => existing.id === dto.id);
+        if (index !== -1) {
+          items![index] = item;
+          this.itemSignal.set([...items!]);
+        }
+      }),
+      catchError((err) => {
+        this.itemErrorState.set(err.error.message as string);
+        throw err;
+      })
+    );
+  }
+  protected createJson(dto: DTO) {
+    console.log(" dto:", dto)
+    if (this.verifySignal()) {
+      throw new Error('itemSignal is not initialized');
+    }
+    return this.httpClient.post<T>(this.baseUrl, dto).pipe(
+      tap((createdItem) => {
+        const items = this.itemSignal() || [];
+        // If we're already at the first page and have less than page size
+        if (items.length < 10) {
+          this.itemSignal.set([...items, createdItem]);
+          // Increment total count
+          this.totalItemsSignal.set(this.totalItemsSignal() + 1);
+        } else {
+          this.get({ page: 1, recordsPerPage: 10 }).subscribe({
+            error: (err) =>
+              console.error('Error refreshing after create:', err),
+          });
+        }
+      }),
+      catchError((err) => {
+        this.itemErrorState.set(err.error.message as string);
+        throw err;
+      })
+    );
+  }
+  protected updateJson(dto: DTO) {
+    if (this.verifySignal()) {
+      throw new Error('itemSignal is not initialized');
+    }
+    return this.httpClient.put<T>(`${this.baseUrl}/${dto.id}`, dto).pipe(
       tap((item) => {
         const items = this.itemSignal();
         const index = items!.findIndex((existing) => existing.id === dto.id);

@@ -82,7 +82,7 @@ export abstract class BaseExerciseInfoEditDirective<
 
   save() {
     const formData = this.form.value as DTO;
-    this.exerciseService.save(formData).subscribe({
+    this.exerciseService.saveForm(formData).subscribe({
       next: () => {
         if (this.dialogRef) {
           this.dialogRef.close();

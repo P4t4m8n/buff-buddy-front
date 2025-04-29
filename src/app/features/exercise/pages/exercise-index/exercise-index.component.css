@@ -4,19 +4,7 @@
   height: 100%;
   width: 100%;
 
-  & .exercise-table {
-    padding: 1rem;
-    display: grid;
-    gap: 1rem;
-    width: 100%;
+  & section {
+    height: calc(100% - 2rem);
   }
-}
-
-::ng-deep li {
-  display: grid;
-  width: 100%;
-  grid-template-columns: 2rem calc(40%) 10% 10% 10% calc(30% - 7rem);
-  gap: 1rem;
-  padding: 0.5rem;
-  align-items: center;
 }

@@ -10,11 +10,11 @@ import { DialogComponent } from '../../../../../../core/components/dialog/dialog
   styleUrl: './exercise-equipment-edit-dialog.component.css',
 })
 export class ExerciseEquipmentEditDialogComponent implements OnInit {
-  @Input() exerciseIcon: IExerciseInfo | undefined;
+  @Input() exerciseEquipment: IExerciseInfo | undefined;
 
   editComponent = ExerciseEquipmentEditComponent;
   buttonText = 'Create';
   ngOnInit(): void {
-    this.buttonText = this.exerciseIcon ? 'Update' : 'Create';
+    this.buttonText = this.exerciseEquipment ? 'Update' : 'Create';
   }
 }

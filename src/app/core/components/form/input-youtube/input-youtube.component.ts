@@ -3,13 +3,18 @@ import { YoutubePlayerComponent } from '../../youtube-player/youtube-player.comp
 import { ValidationErrors } from '@angular/forms';
 import { DisplayErrorComponent } from '../../displayError/display-error.component';
 import { ValidationToErrorPipe } from '../../../pipes/validation-to-error.pipe';
+import { MatError, MatFormField, MatInput } from '@angular/material/input';
+import { ErrorParsingPipe } from '../../../pipes/error-parsing.pipe';
 
 @Component({
   selector: 'app-input-youtube',
   imports: [
     YoutubePlayerComponent,
-    DisplayErrorComponent,
-    ValidationToErrorPipe,
+
+    MatInput,
+    MatError,
+    ErrorParsingPipe,
+    MatFormField,
   ],
   templateUrl: './input-youtube.component.html',
   styleUrl: './input-youtube.component.css',

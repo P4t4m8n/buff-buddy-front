@@ -32,14 +32,12 @@ export class ProgramIndexComponent {
 
   constructor() {
     this.loadItems();
-    console.log(this.programs)
   }
 
   loadItems() {
     this.programService
       .get(this.pagination)
       .subscribe((res: HttpResponse<IProgram[]>) => {
-        console.log(" res:", res.body)
         this.programs = res.body || [];
         this.totalRecords = Number(res.headers.get('total-count'));
       });

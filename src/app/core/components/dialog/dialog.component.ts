@@ -30,7 +30,9 @@ export class DialogComponent<T> {
 
   @Input()
   buttonText = 'New';
-  @Input() data: T | null | undefined;
+
+  @Input()
+  data: T | null | undefined;
 
   @ViewChild('contentForm', { read: ViewContainerRef })
   contentForm!: ViewContainerRef;
@@ -40,5 +42,6 @@ export class DialogComponent<T> {
 
   openDialog(): void {
     this.dialogRef = this.dialog.open(this.formComponent, { data: this.data });
+  
   }
 }

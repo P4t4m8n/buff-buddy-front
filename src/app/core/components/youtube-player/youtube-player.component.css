@@ -1,0 +1,4 @@
+:host {
+  display: block;
+  height: 10.125rem; /* 162px to keep 16:9 from 288px width*/
+}

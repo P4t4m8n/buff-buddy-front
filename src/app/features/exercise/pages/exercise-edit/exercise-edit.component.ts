@@ -1,9 +1,11 @@
 import {
   Component,
   EventEmitter,
+  Inject,
   inject,
   Input,
   OnInit,
+  Optional,
   Output,
 } from '@angular/core';
 import { IExercise, IExerciseDto } from '../../types/exercise.type';
@@ -15,14 +17,11 @@ import {
   Validators,
 } from '@angular/forms';
 import { InputYoutubeComponent } from '../../../../core/components/form/input-youtube/input-youtube.component';
-import { NgOptionComponent, NgSelectComponent } from '@ng-select/ng-select';
 import { ExerciseUtilService } from '../../services/exercise-util.service';
 import { ExerciseService } from '../../services/exercise.service';
 import { Router } from '@angular/router';
 import { YoutubeLinkValidator } from '../../../../core/validators/youtube-link-validator.directive';
 import { IErrorMessage } from '../../../../core/types/app.type';
-import { InputComponent } from '../../../../core/components/form/input/input.component';
-import { DisplayErrorComponent } from '../../../../core/components/displayError/display-error.component';
 import { ValidationToErrorPipe } from '../../../../core/pipes/validation-to-error.pipe';
 import { ExerciseMuscleService } from '../../../admin/exercise-info/exercise-muscle/services/exercise-muscle.service';
 import { ExerciseTypeService } from '../../../admin/exercise-info/exercise-type/services/exercise-type.service';
@@ -30,19 +29,20 @@ import { ExerciseEquipmentService } from '../../../admin/exercise-info/exercise-
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { MatInputComponent } from '../../../../core/components/form/mat-input/mat-input.component';
-import { InputImgComponent } from '../../../../core/components/form/input-img/input-img.component';
+import { MatSelectComponent } from '../../../../core/components/form/mat-select/mat-select.component';
+import { ExerciseEditDialogComponent } from '../../components/exercise-edit-dialog/exercise-edit-dialog.component';
 
 @Component({
   selector: 'app-exercise-edit',
   imports: [
     ReactiveFormsModule,
     InputYoutubeComponent,
-    NgSelectComponent,
-    NgOptionComponent,
-    InputComponent,
-    DisplayErrorComponent,
     ValidationToErrorPipe,
     MatFormFieldModule,
     MatInputModule,
@@ -52,6 +52,12 @@ import { InputImgComponent } from '../../../../core/components/form/input-img/in
     MatDialogModule,
     MatInputModule,
     ValidationToErrorPipe,
+    MatInputComponent,
+    MatFormFieldModule,
+    ReactiveFormsModule,
+    ValidationToErrorPipe,
+
+    MatSelectComponent,
   ],
   templateUrl: './exercise-edit.component.html',
   styleUrl: './exercise-edit.component.css',
@@ -68,7 +74,7 @@ export class ExerciseEditComponent implements OnInit {
   router = inject(Router);
 
   @Input()
-  exercise: IExercise | undefined;
+  exercise: IExerciseDto | undefined;
   @Output()
   itemSaved = new EventEmitter<IExercise>();
 
@@ -95,32 +101,42 @@ export class ExerciseEditComponent implements OnInit {
     youtubeUrl: new FormControl<string>('', {
       validators: [Validators.required, YoutubeLinkValidator()],
     }),
-    imgUrl: new FormControl<string>('imgs/1.png'),
-    type: new FormControl<string>('', { validators: [Validators.required] }),
-    equipment: new FormControl<string>('', {
+    exerciseTypeId: new FormControl<string>('', {
       validators: [Validators.required],
     }),
-    muscle: new FormControl<string>('', {
+    exerciseEquipmentId: new FormControl<string>('', {
+      validators: [Validators.required],
+    }),
+    exerciseMuscleId: new FormControl<string>('', {
       validators: [Validators.required],
     }),
   });
-
+  constructor(
+    @Optional()
+    protected dialogRef: MatDialogRef<ExerciseEditDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) private dialogData: IExercise | undefined
+  ) {}
   ngOnInit(): void {
+    this.exercise = this.dialogData || this.exercise;
     if (!this.exercise) {
       this.resetForm();
     }
     this.exerciseMusclesService
       .get({ page: 1, recordsPerPage: 10 })
       .subscribe();
-
     this.exerciseTypeService.get({ page: 1, recordsPerPage: 10 }).subscribe();
     this.exerciseEquipmentService
       .get({ page: 1, recordsPerPage: 10 })
       .subscribe();
 
-    // this.form.patchValue({
-    //   ...this.exercise,
-    // });
+    this.form.patchValue({
+      id: this.exercise?.id,
+      name: this.exercise?.name,
+      youtubeUrl: this.exercise?.youtubeUrl,
+      exerciseMuscleId: this.exercise?.exerciseMuscleId,
+      exerciseTypeId: this.exercise?.exerciseTypeId,
+      exerciseEquipmentId: this.exercise?.exerciseEquipmentId,
+    });
   }
 
   // toggleEdit() {
@@ -136,11 +152,12 @@ export class ExerciseEditComponent implements OnInit {
 
   save() {
     this.exercise = this.form.value as IExercise;
-    this.exerciseService.save(this.exercise).subscribe({
+    this.exerciseService.saveJson(this.exercise).subscribe({
       next: (res) => {
         this.itemSaved.emit();
-        // this.isEditOpen = false;
+
         this.exercise = undefined;
+        this.dialogRef?.close(this.exercise);
       },
       error: (err) => {
         this.extractErrors(err);
@@ -152,9 +169,7 @@ export class ExerciseEditComponent implements OnInit {
 
   resetForm() {
     this.form.reset();
-    this.form.patchValue({
-      imgUrl: 'imgs/1.png',
-    });
+    this.form.patchValue({});
     this.errors = [];
   }
 
@@ -199,21 +214,36 @@ export class ExerciseEditComponent implements OnInit {
   }
 
   get type() {
-    const field = this.form.get('type');
+    const field = this.form.get('exerciseTypeId');
     return field;
   }
 
   get equipment() {
-    const field = this.form.get('equipment');
+    const field = this.form.get('exerciseEquipmentId');
     return field;
   }
 
   get targetMuscle() {
-    const field = this.form.get('targetMuscle');
+    const field = this.form.get('exerciseMuscleId');
     return field;
   }
   get imgUrl() {
     const field = this.form.get('imgUrl');
     return field;
+  }
+
+  getSelectedMuscle() {
+    const muscleId = this.form.get('exerciseMuscleId')?.value;
+    return this.exerciseMuscleList()?.find((m) => m.id === muscleId);
+  }
+
+  getSelectedType() {
+    const typeId = this.form.get('exerciseTypeId')?.value;
+    return this.exerciseTypeList()?.find((t) => t.id === typeId);
+  }
+
+  getSelectedEquipment() {
+    const equipmentId = this.form.get('exerciseEquipmentId')?.value;
+    return this.exerciseEquipmentList()?.find((e) => e.id === equipmentId);
   }
 }

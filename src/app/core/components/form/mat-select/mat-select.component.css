@@ -1,0 +1,11 @@
+.selected-item,
+.select-option {
+  width: 100%;
+  display: flex;
+  gap:1rem;
+  padding-top: .5rem;
+}
+
+.mat-mdc-form-field {
+  width: 100%;
+}
