@@ -11,3 +11,7 @@ export interface ISet extends IEntity {
   isWarmup: boolean; // Indicates if the set was a warmup set
   jointPain: boolean; // Indicates if the user experienced joint pain during the set
 }
+
+export interface ISetEditDTO extends Omit<ISet, 'id'>, IEntity {
+  programExerciseId?: string; // Foreign key to ProgramExercise
+}
