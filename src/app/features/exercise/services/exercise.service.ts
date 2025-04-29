@@ -14,7 +14,7 @@ import { BaseCRUDService } from '../../admin/exercise-info/service/base-CRUD.ser
 export class ExerciseService extends BaseCRUDService<IExercise, IExerciseDto> {
   protected baseUrl = environment.apiUrl + '/exercise';
 
-  protected dtoToFormData(dto: IExerciseDto): FormData {
+  override dtoToFormData(dto: IExerciseDto): FormData {
     const formData = new FormData();
     formData.append('name', dto.name || '');
 

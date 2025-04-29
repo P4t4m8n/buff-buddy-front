@@ -12,7 +12,7 @@ export class ExerciseMuscleService extends BaseCRUDService<
 > {
   protected baseUrl = environment.apiUrl + '/exercise-muscle';
 
-  protected dtoToFormData(dto: IExerciseInfoDTO): FormData {
+  override dtoToFormData(dto: IExerciseInfoDTO): FormData {
     const formData = new FormData();
     formData.append('name', dto.name || '');
 

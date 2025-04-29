@@ -27,6 +27,7 @@ export abstract class BaseCRUDService<T extends IEntity, DTO extends IEntityDTO>
       })
       .pipe(
         tap((response) => {
+          console.log(" response:", response)
           this.itemSignal.set(response.body as T[]);
           const headers = response.headers.get('total-count');
           this.totalItemsSignal.set(+(headers || 0));
@@ -68,8 +69,9 @@ export abstract class BaseCRUDService<T extends IEntity, DTO extends IEntityDTO>
     );
   }
 
-  protected abstract dtoToFormData(dto: DTO): FormData;
-
+  protected dtoToFormData(dto: DTO): FormData | null {
+    return null; // Default implementation returns null
+  }
   protected create(dto: DTO) {
     const formData = this.dtoToFormData(dto);
     if (this.verifySignal()) {

@@ -52,8 +52,6 @@ import { InputImgComponent } from '../../../../core/components/form/input-img/in
     MatDialogModule,
     MatInputModule,
     ValidationToErrorPipe,
-    MatInputComponent,
-    InputImgComponent,
   ],
   templateUrl: './exercise-edit.component.html',
   styleUrl: './exercise-edit.component.css',
