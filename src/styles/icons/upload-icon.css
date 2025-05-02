@@ -1,0 +1,10 @@
+.upload-icon {
+    width: 3.5rem;
+    height: 3.5rem;
+  }
+  
+  .upload-icon-error {
+    & path {
+      fill: rgb(186, 26, 26);
+    }
+  }

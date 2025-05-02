@@ -14,7 +14,7 @@ import { ValidationToErrorPipe } from '../../../../../../core/pipes/validation-t
 import { MatInputComponent } from '../../../../../../core/components/form/mat-input/mat-input.component';
 import { InputImgComponent } from '../../../../../../core/components/form/input-img/input-img.component';
 import { ExerciseMuscleService } from '../../services/exercise-muscle.service';
-import { BaseExerciseInfoEditDirective } from '../../../directives/base-exercise-info-edit-component.directive';
+import { BaseExerciseInfoEditDirective } from '../../../directives/base-exercise-info-edit.directive';
 
 @Component({
   selector: 'app-exercise-muscle-edit',

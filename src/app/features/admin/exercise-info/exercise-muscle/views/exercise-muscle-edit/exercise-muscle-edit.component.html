@@ -1,11 +1,15 @@
+
+
 <form [formGroup]="form">
-    <app-mat-input [formControlInput]="form.controls.name" label="Name"
-        [error]="name?.errors|validationToError"></app-mat-input>
+    <div>
+        <app-mat-input [formControlInput]="form.controls.name" label="Name"
+            [error]="name?.errors|validationToError"></app-mat-input>
 
-    <app-input-img (valueChange)="onUpload($event)" imgPreview="{{data?.imgUrl||imgPreview}}"></app-input-img>
+        <app-input-img [formControlInput]="form.controls.file" [imgPreview]="imgPreview"></app-input-img>
+     
+    </div>
+    <div mat-dialog-actions>
+        <button mat-button mat-dialog-close>Cancel</button>
+        <button [disabled]="form.invalid" mat-raised-button color="primary" (click)="save()">Save</button>
+    </div>
 </form>
-
-<div mat-dialog-actions>
-    <button mat-button mat-dialog-close>Cancel</button>
-    <button mat-raised-button color="primary" (click)="save()">Save</button>
-</div>

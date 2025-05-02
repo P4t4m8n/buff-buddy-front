@@ -1,9 +1,27 @@
 label {
   border-radius: 4px;
-  &:hover{
+  display: block;
+  height: 3.5rem;
+  &:hover {
     cursor: pointer;
   }
   & img {
     border-radius: 4px;
   }
+}
+
+.mat-mdc-form-field-error {
+  font-size: 0.75rem;
+}
+
+:host {
+  &:has(.mat-mdc-form-field-error) {
+    height: 20px;
+  }
+}
+
+.upload-icon {
+  width: 3.5rem;
+
+  height: 3.5rem;
 }

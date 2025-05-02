@@ -4,17 +4,17 @@ import { IExerciseInfo } from '../../../models/exerciseInfo';
 import { DialogComponent } from '../../../../../../core/components/dialog/dialog.component';
 
 @Component({
-  selector: 'app-exercise-muscle-edit-dialog',
+  selector: 'app-exercise-equipment-edit-dialog',
   imports: [DialogComponent],
   templateUrl: './exercise-equipment-edit-dialog.component.html',
   styleUrl: './exercise-equipment-edit-dialog.component.css',
 })
 export class ExerciseEquipmentEditDialogComponent implements OnInit {
-  @Input() exerciseEquipment: IExerciseInfo | undefined;
+  @Input() item: IExerciseInfo | undefined;
 
   editComponent = ExerciseEquipmentEditComponent;
   buttonText = 'Create';
   ngOnInit(): void {
-    this.buttonText = this.exerciseEquipment ? 'Update' : 'Create';
+    this.buttonText = this.item ? 'Update' : 'Create';
   }
 }

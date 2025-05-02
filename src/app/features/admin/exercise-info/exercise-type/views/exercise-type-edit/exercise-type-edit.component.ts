@@ -13,7 +13,7 @@ import { IExerciseInfo, IExerciseInfoDTO } from '../../../models/exerciseInfo';
 import { ValidationToErrorPipe } from '../../../../../../core/pipes/validation-to-error.pipe';
 import { MatInputComponent } from '../../../../../../core/components/form/mat-input/mat-input.component';
 import { InputImgComponent } from '../../../../../../core/components/form/input-img/input-img.component';
-import { BaseExerciseInfoEditDirective } from '../../../directives/base-exercise-info-edit-component.directive';
+import { BaseExerciseInfoEditDirective } from '../../../directives/base-exercise-info-edit.directive';
 import { ExerciseTypeService } from '../../services/exercise-type.service';
 
 @Component({
