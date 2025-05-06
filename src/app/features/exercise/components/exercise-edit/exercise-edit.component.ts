@@ -80,7 +80,6 @@ export class ExerciseEditComponent implements OnInit {
   @Output()
   itemSaved = new EventEmitter<IExercise>();
 
-  errors: IErrorMessage<IExerciseDto>[] = [];
   unexpectedError = { serverError: undefined };
 
   youtubeVideoId: string = '';
@@ -92,44 +91,26 @@ export class ExerciseEditComponent implements OnInit {
   form = this.formBuilder.group({
     id: new FormControl<string>(''),
     name: new FormControl<string>('', {
-      validators: [],
+      validators: [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(50),
+        Validators.pattern(/^[a-zA-Z0-9 ]+$/),
+      ],
     }),
     youtubeUrl: new FormControl<string>('', {
-      validators: [],
+      validators: [Validators.required, YoutubeLinkValidator()],
     }),
     exerciseTypeId: new FormControl<string>('', {
-      validators: [],
+      validators: [Validators.required],
     }),
     exerciseEquipmentId: new FormControl<string>('', {
-      validators: [],
+      validators: [Validators.required],
     }),
     exerciseMuscleId: new FormControl<string>('', {
-      validators: [],
+      validators: [Validators.required],
     }),
   });
-  // form = this.formBuilder.group({
-  //   id: new FormControl<string>(''),
-  //   name: new FormControl<string>('', {
-  //     validators: [
-  //       Validators.required,
-  //       Validators.minLength(3),
-  //       Validators.maxLength(50),
-  //       Validators.pattern(/^[a-zA-Z0-9 ]+$/),
-  //     ],
-  //   }),
-  //   youtubeUrl: new FormControl<string>('', {
-  //     validators: [Validators.required, YoutubeLinkValidator()],
-  //   }),
-  //   exerciseTypeId: new FormControl<string>('', {
-  //     validators: [Validators.required],
-  //   }),
-  //   exerciseEquipmentId: new FormControl<string>('', {
-  //     validators: [Validators.required],
-  //   }),
-  //   exerciseMuscleId: new FormControl<string>('', {
-  //     validators: [Validators.required],
-  //   }),
-  // });
 
   constructor(
     @Optional()
@@ -177,20 +158,6 @@ export class ExerciseEditComponent implements OnInit {
           this.form,
           err
         );
-        // const errors = Object.entries(err.error.errors).map(([key, value]) => {
-        //   if (key === 'ImgUrl') {
-        //     key = 'file';
-        //   }
-        //   return {
-        //     key: FirstCharToLowerCase(key) as keyof IExerciseDto,
-        //     error: (value as string[]).join(', '),
-        //   };
-        // });
-        // errors.forEach((error) => {
-        //   this.form.controls[error.key].setErrors({
-        //     serverError: error.error,
-        //   });
-        // });
       },
     });
   }
@@ -198,37 +165,6 @@ export class ExerciseEditComponent implements OnInit {
   resetForm() {
     this.form.reset();
     this.form.patchValue({});
-    this.errors = [];
-  }
-
-  extractErrors(obj: any): void {
-    const err = obj.error.errors as { [key: string]: string[] };
-
-    if (!err) {
-      this.unexpectedError = {
-        ...{
-          serverError: obj.error.message || 'Unexpected error',
-        },
-      };
-      return;
-    }
-
-    const errors = Object.entries(err).map(([key, value]) => {
-      const errorKey = key.charAt(0).toLowerCase() + key.slice(1);
-      return {
-        [errorKey]: value.join(', ') || '',
-      };
-    });
-
-    errors.forEach((error) => {
-      const key = Object.keys(error)[0];
-      const value = Object.values(error)[0];
-      if (value === 'required') {
-        this.form.get(key)?.setErrors({ required: true });
-      } else {
-        this.form.get(key)?.setErrors({ serverError: value });
-      }
-    });
   }
 
   get youtubeUrl() {

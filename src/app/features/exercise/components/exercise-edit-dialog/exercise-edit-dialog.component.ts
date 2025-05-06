@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { IExercise } from '../../types/exercise.type';
-import { ExerciseEditComponent } from '../../pages/exercise-edit/exercise-edit.component';
+import { ExerciseEditComponent } from '../exercise-edit/exercise-edit.component';
 import { DialogComponent } from '../../../../core/components/dialog/dialog.component';
 import { ExerciseToDtoPipe } from '../../pipes/exercise-to-dto.pipe';
 

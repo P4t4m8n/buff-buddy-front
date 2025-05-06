@@ -9,7 +9,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-exercise-details',
-  imports: [DialogComponent, DialogComponent],
+  imports: [ ],
   templateUrl: './exercise-details.component.html',
   styleUrl: './exercise-details.component.css',
 })

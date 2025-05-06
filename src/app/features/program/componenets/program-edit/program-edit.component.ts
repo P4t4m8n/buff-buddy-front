@@ -1,0 +1,202 @@
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Inject,
+  inject,
+  Input,
+  Optional,
+  Output,
+} from '@angular/core';
+import { ExerciseService } from '../../../exercise/services/exercise.service';
+import {
+  FormBuilder,
+  FormControl,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import { Router } from '@angular/router';
+import { HandleServerFormErrorService } from '../../../../core/services/handle-server-form-error.service';
+import { IProgram, IProgramEditDTO } from '../../models/iProgram';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
+import { ProgramEditDialogComponent } from '../program-edit-dialog/program-edit-dialog.component';
+import { ProgramService } from '../../services/program.service';
+import { MatInputComponent } from '../../../../core/components/form/mat-input/mat-input.component';
+import { ValidationToErrorPipe } from '../../../../core/pipes/validation-to-error.pipe';
+import { InputYoutubeComponent } from '../../../../core/components/form/input-youtube/input-youtube.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { provideNativeDateAdapter } from '@angular/material/core';
+import { IProgramExerciseEditDTO } from '../../../program-exercise/models/iexercise-program';
+
+@Component({
+  selector: 'app-program-edit',
+  imports: [
+    MatInputComponent,
+    ValidationToErrorPipe,
+    ReactiveFormsModule,
+    ValidationToErrorPipe,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    MatButtonModule,
+    ReactiveFormsModule,
+    MatDialogModule,
+    MatInputModule,
+    ValidationToErrorPipe,
+    MatInputComponent,
+    MatFormFieldModule,
+    ReactiveFormsModule,
+    ValidationToErrorPipe,
+    MatFormFieldModule,
+    MatDatepickerModule,
+  ],
+  providers: [provideNativeDateAdapter()],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  templateUrl: './program-edit.component.html',
+  styleUrl: './program-edit.component.css',
+})
+export class ProgramEditComponent {
+  programService = inject(ProgramService);
+  exerciseService = inject(ExerciseService);
+
+  formBuilder = inject(FormBuilder);
+  router = inject(Router);
+  serverErrorHandlingService = inject(HandleServerFormErrorService);
+  programExercises: IProgramExerciseEditDTO[] = [];
+
+  exerciseList = this.exerciseService.itemSignal;
+
+  @Input()
+  program: IProgramEditDTO | undefined;
+  @Output()
+  itemSaved = new EventEmitter<IProgram>();
+
+  form = this.formBuilder.group({
+    id: new FormControl<string>(''),
+    name: new FormControl<string>('', {
+      validators: [],
+    }),
+    note: new FormControl<string>('', {
+      validators: [],
+    }),
+    startDate: new FormControl<Date>(new Date(), {
+      validators: [],
+    }),
+    endDate: new FormControl<Date>(new Date(), {
+      validators: [],
+    }),
+    isActive: new FormControl<boolean>(true, {
+      validators: [],
+    }),
+  });
+
+  get id() {
+    const field = this.form.get('id');
+    return field;
+  }
+
+  get name() {
+    const field = this.form.get('name');
+    return field;
+  }
+
+  get note() {
+    const field = this.form.get('note');
+    return field;
+  }
+
+  get startDate() {
+    const field = this.form.get('startDate');
+    return field;
+  }
+
+  get endDate() {
+    const field = this.form.get('endDate');
+    return field;
+  }
+
+  get isActive() {
+    const field = this.form.get('isActive');
+    return field;
+  }
+
+  constructor(
+    @Optional()
+    protected dialogRef: MatDialogRef<ProgramEditDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) private dialogData: IProgram | undefined
+  ) {
+    this.exerciseService.get({ page: 1, recordsPerPage: 10 }).subscribe();
+
+    // Initialize form if editing existing program
+    if (dialogData) {
+      this.form.patchValue({
+        id: dialogData.id,
+        name: dialogData.name,
+        note: dialogData.note,
+        startDate: dialogData.startDate,
+        endDate: dialogData.endDate,
+        isActive: dialogData.isActive,
+      });
+
+      // Initialize program exercises if available
+      if (dialogData.programExercises) {
+        this.programExercises = dialogData.programExercises.map((pe) => ({
+          id: pe.id,
+          programId: dialogData.id,
+          exerciseId: pe.exercise.id,
+          order: pe.order,
+          note: pe.note,
+          sets: pe.sets,
+        }));
+      }
+    }
+  }
+
+  resetForm() {
+    this.form.reset();
+    this.form.patchValue({});
+  }
+
+   // Helper to get exercise name
+   getExerciseName(exerciseId: string): string {
+    const exercises = this.exerciseList();
+    const exercise = exercises?.find(e => e.id === exerciseId);
+    return exercise?.name || 'Unknown';
+  }
+  
+  // Remove exercise from list
+  removeExercise(exercise: IProgramExerciseEditDTO) {
+    this.programExercises = this.programExercises.filter(e => e !== exercise);
+  }
+  
+  // Update save method to include program exercises
+  save() {
+    if (this.form.invalid) return;
+    
+    const programData = {
+      ...this.form.value,
+      programExercises: this.programExercises
+    } as IProgramEditDTO;
+    
+    this.programService.saveJson(programData).subscribe({
+      next: (res) => {
+        this.itemSaved.emit();
+        this.program = undefined;
+        this.dialogRef?.close(programData);
+      },
+      error: (err) => {
+        this.serverErrorHandlingService.mapErrorsToForm<IProgramEditDTO>(
+          this.form,
+          err
+        );
+      },
+    });
+  }
+}

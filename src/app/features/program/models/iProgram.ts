@@ -2,7 +2,7 @@ import { IEntity, IEntityDTO } from '../../../core/types/app.type';
 import {
   IProgramExercise,
   IProgramExerciseEditDTO,
-} from '../../program-exercise/models/iProgram-exercise';
+} from '../../program-exercise/models/iexercise-program';
 
 export interface IProgram extends IEntity {
   name: string; // Name of the program
