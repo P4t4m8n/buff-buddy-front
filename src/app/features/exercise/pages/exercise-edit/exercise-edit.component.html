@@ -3,18 +3,18 @@
   <app-mat-input [formControlInput]="form.controls.name" label="Name"
     [error]="name?.errors|validationToError"></app-mat-input>
 
-  <app-input-youtube [error]="youtubeUrl?.errors" (youtubeUrlEmitter)="handleVideoUrl($event)"
+  <app-input-youtube [error]="youtubeUrl?.errors|validationToError" [formControlInput]="form.controls.youtubeUrl" (youtubeUrlEmitter)="handleVideoUrl($event)"
     [youtubeUrl]="exercise?.youtubeUrl" />
 
   <app-mat-select [formControlInput]="form.controls.exerciseMuscleId" [getSelectItem]="getSelectedMuscle.bind(this)"
-    [options]="exerciseMuscleList()" label="Muscle Group" alt="Muscle">
+    [options]="exerciseMuscleList()" [error]="targetMuscle?.errors|validationToError" label="Muscle Group" alt="Muscle">
   </app-mat-select>
   <app-mat-select [formControlInput]="form.controls.exerciseTypeId" [getSelectItem]="getSelectedType.bind(this)"
-    [options]="exerciseTypeList()" label="Exercise Type" alt="Exercise Type">
+    [options]="exerciseTypeList()" [error]="type?.errors|validationToError" label="Exercise Type" alt="Exercise Type">
   </app-mat-select>
   <app-mat-select [formControlInput]="form.controls.exerciseEquipmentId"
     [getSelectItem]="getSelectedEquipment.bind(this)" [options]="exerciseEquipmentList()" label="Equipment"
-    alt="Equipment">
+    alt="Equipment" [error]="equipment?.errors|validationToError">
   </app-mat-select>
 
   <div class="form-actions" mat-dialog-actions>

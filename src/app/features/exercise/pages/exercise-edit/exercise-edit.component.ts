@@ -37,6 +37,8 @@ import {
 import { MatInputComponent } from '../../../../core/components/form/mat-input/mat-input.component';
 import { MatSelectComponent } from '../../../../core/components/form/mat-select/mat-select.component';
 import { ExerciseEditDialogComponent } from '../../components/exercise-edit-dialog/exercise-edit-dialog.component';
+import { FirstCharToLowerCase } from '../../../../core/functions/FirstCharToLowerCase';
+import { HandleServerFormErrorService } from '../../../../core/services/handle-server-form-error.service';
 
 @Component({
   selector: 'app-exercise-edit',
@@ -56,7 +58,6 @@ import { ExerciseEditDialogComponent } from '../../components/exercise-edit-dial
     MatFormFieldModule,
     ReactiveFormsModule,
     ValidationToErrorPipe,
-
     MatSelectComponent,
   ],
   templateUrl: './exercise-edit.component.html',
@@ -72,6 +73,7 @@ export class ExerciseEditComponent implements OnInit {
   );
   formBuilder = inject(FormBuilder);
   router = inject(Router);
+  serverErrorHandlingService = inject(HandleServerFormErrorService);
 
   @Input()
   exercise: IExerciseDto | undefined;
@@ -85,32 +87,50 @@ export class ExerciseEditComponent implements OnInit {
 
   exerciseTypeList = this.exerciseTypeService.itemSignal;
   exerciseEquipmentList = this.exerciseEquipmentService.itemSignal;
-
   exerciseMuscleList = this.exerciseMusclesService.itemSignal;
 
   form = this.formBuilder.group({
     id: new FormControl<string>(''),
     name: new FormControl<string>('', {
-      validators: [
-        Validators.required,
-        Validators.minLength(3),
-        Validators.maxLength(50),
-        Validators.pattern(/^[a-zA-Z0-9 ]+$/),
-      ],
+      validators: [],
     }),
     youtubeUrl: new FormControl<string>('', {
-      validators: [Validators.required, YoutubeLinkValidator()],
+      validators: [],
     }),
     exerciseTypeId: new FormControl<string>('', {
-      validators: [Validators.required],
+      validators: [],
     }),
     exerciseEquipmentId: new FormControl<string>('', {
-      validators: [Validators.required],
+      validators: [],
     }),
     exerciseMuscleId: new FormControl<string>('', {
-      validators: [Validators.required],
+      validators: [],
     }),
   });
+  // form = this.formBuilder.group({
+  //   id: new FormControl<string>(''),
+  //   name: new FormControl<string>('', {
+  //     validators: [
+  //       Validators.required,
+  //       Validators.minLength(3),
+  //       Validators.maxLength(50),
+  //       Validators.pattern(/^[a-zA-Z0-9 ]+$/),
+  //     ],
+  //   }),
+  //   youtubeUrl: new FormControl<string>('', {
+  //     validators: [Validators.required, YoutubeLinkValidator()],
+  //   }),
+  //   exerciseTypeId: new FormControl<string>('', {
+  //     validators: [Validators.required],
+  //   }),
+  //   exerciseEquipmentId: new FormControl<string>('', {
+  //     validators: [Validators.required],
+  //   }),
+  //   exerciseMuscleId: new FormControl<string>('', {
+  //     validators: [Validators.required],
+  //   }),
+  // });
+
   constructor(
     @Optional()
     protected dialogRef: MatDialogRef<ExerciseEditDialogComponent>,
@@ -139,13 +159,6 @@ export class ExerciseEditComponent implements OnInit {
     });
   }
 
-  // toggleEdit() {
-  //   if (this.isEditOpen) {
-  //     this.resetForm();
-  //   }
-  //   this.isEditOpen = !this.isEditOpen;
-  // }
-
   handleVideoUrl(url: string) {
     this.form.controls.youtubeUrl.setValue(url);
   }
@@ -160,11 +173,26 @@ export class ExerciseEditComponent implements OnInit {
         this.dialogRef?.close(this.exercise);
       },
       error: (err) => {
-        this.extractErrors(err);
+        this.serverErrorHandlingService.mapErrorsToForm<IExerciseDto>(
+          this.form,
+          err
+        );
+        // const errors = Object.entries(err.error.errors).map(([key, value]) => {
+        //   if (key === 'ImgUrl') {
+        //     key = 'file';
+        //   }
+        //   return {
+        //     key: FirstCharToLowerCase(key) as keyof IExerciseDto,
+        //     error: (value as string[]).join(', '),
+        //   };
+        // });
+        // errors.forEach((error) => {
+        //   this.form.controls[error.key].setErrors({
+        //     serverError: error.error,
+        //   });
+        // });
       },
     });
-
-    // this.isEditOpen = false;
   }
 
   resetForm() {

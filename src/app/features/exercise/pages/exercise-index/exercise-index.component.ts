@@ -6,10 +6,11 @@ import { HttpResponse } from '@angular/common/http';
 import { TableComponent } from '../../../../core/components/table/table.component';
 import { CRUD_SERVICE_TOKEN } from '../../../../core/providers/providers';
 import { ExerciseEditDialogComponent } from '../../components/exercise-edit-dialog/exercise-edit-dialog.component';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-exercise-index',
-  imports: [TableComponent, ExerciseEditDialogComponent],
+  imports: [TableComponent, ExerciseEditDialogComponent,RouterOutlet],
   templateUrl: './exercise-index.component.html',
   styleUrl: './exercise-index.component.css',
   providers: [{ provide: CRUD_SERVICE_TOKEN, useExisting: ExerciseService }],

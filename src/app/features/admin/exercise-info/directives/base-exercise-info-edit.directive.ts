@@ -134,7 +134,6 @@ export abstract class BaseExerciseInfoEditDirective<
             error: (value as string[]).join(', '),
           };
         });
-        console.log(' errors:', errors);
         errors.forEach((error) => {
           this.form.controls[error.key].setErrors({
             serverError: error.error,

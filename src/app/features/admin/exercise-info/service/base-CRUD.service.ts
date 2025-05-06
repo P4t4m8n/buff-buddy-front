@@ -126,7 +126,6 @@ export abstract class BaseCRUDService<T extends IEntity, DTO extends IEntityDTO>
     );
   }
   protected createJson(dto: DTO) {
-    console.log(" dto:", dto)
     if (this.verifySignal()) {
       throw new Error('itemSignal is not initialized');
     }

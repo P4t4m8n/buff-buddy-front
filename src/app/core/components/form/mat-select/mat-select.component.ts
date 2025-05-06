@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule, ValidationErrors } from '@angular/forms';
 import {
+  MatError,
   MatFormField,
   MatFormFieldAppearance,
   MatFormFieldModule,
@@ -11,6 +12,7 @@ import {
   MatSelectTrigger,
 } from '@angular/material/select';
 import { IExerciseInfo } from '../../../../features/admin/exercise-info/models/exerciseInfo';
+import { ErrorParsingPipe } from '../../../pipes/error-parsing.pipe';
 
 @Component({
   selector: 'app-mat-select',
@@ -24,6 +26,8 @@ import { IExerciseInfo } from '../../../../features/admin/exercise-info/models/e
     ReactiveFormsModule,
     MatOption,
     MatSelectTrigger,
+    MatError,
+    ErrorParsingPipe
   ],
   templateUrl: './mat-select.component.html',
   styleUrl: './mat-select.component.css',
@@ -39,6 +43,8 @@ export class MatSelectComponent<T>  {
   options?: IExerciseInfo[]|null;
   @Input()
   label: string = '';
+  @Input()
+  error: ValidationErrors | undefined | null = {};
   constructor() {}
 
 }

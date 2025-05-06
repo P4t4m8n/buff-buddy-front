@@ -1,8 +1,8 @@
 <app-youtube-player [youtubeUrl]="youtubeUrl"></app-youtube-player>
 <mat-form-field>
-    <!-- <app-display-error [error]="error|validationToError" /> -->
-    <!-- <input class="text-input" type="text" placeholder="YouTube URL" (input)="onChange($event)" value="{{youtubeUrl}}" /> -->
-    <input type="text" matInput placeholder="YouTube URL" (input)="onChange($event)" value="{{youtubeUrl}}" />
+
+    <input matInput type="text" matInput placeholder="YouTube URL" (input)="onChange($event)" value="{{youtubeUrl}}"
+        [formControl]="formControlInput" />
     @if(error){
     <mat-error>{{error|errorParsing}}</mat-error>
     }

@@ -26,7 +26,7 @@ import {
 })
 export class DialogComponent<T> {
   @Input({ required: true })
-  formComponent!: ComponentType<any>;
+  dialogContent!: ComponentType<any>;
 
   @Input()
   buttonText = 'New';
@@ -34,14 +34,15 @@ export class DialogComponent<T> {
   @Input()
   data: T | null | undefined;
 
-  @ViewChild('contentForm', { read: ViewContainerRef })
-  contentForm!: ViewContainerRef;
+ 
+
+  // @ViewChild('content', { read: ViewContainerRef })
+  // content!: ViewContainerRef;
 
   readonly dialog = inject(MatDialog);
   dialogRef: MatDialogRef<unknown> | null = null;
 
   openDialog(): void {
-    this.dialogRef = this.dialog.open(this.formComponent, { data: this.data });
-  
+    this.dialogRef = this.dialog.open(this.dialogContent, { data: this.data });
   }
 }

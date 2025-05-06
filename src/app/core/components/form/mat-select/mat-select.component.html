@@ -27,4 +27,9 @@
         </mat-option>
         }
     </mat-select>
+    @if(error){
+
+    <mat-error>{{error|errorParsing}}</mat-error>
+    }
+
 </mat-form-field>

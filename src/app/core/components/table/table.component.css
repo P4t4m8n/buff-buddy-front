@@ -3,9 +3,7 @@
   width: 100%;
 }
 
-button {
-  margin-left: 1rem;
-}
+
 
 .index-table {
   table-layout: fixed;
@@ -22,5 +20,12 @@ button {
 
   & :last-child {
     margin-top: auto;
+  }
+}
+
+.mat-column-actions {
+  & div {
+    display: flex;
+    gap:1rem;
   }
 }
