@@ -13,10 +13,19 @@ import { ExerciseMuscleIndexComponent } from './features/admin/exercise-info/exe
 import { ExerciseEquipmentIndexComponent } from './features/admin/exercise-info/exercise-equipment/views/exercise-equipment-index/exercise-equipment-index.component';
 import { ExerciseTypeIndexComponent } from './features/admin/exercise-info/exercise-type/views/exercise-type-index/exercise-type-index.component';
 import { ProgramIndexComponent } from './features/program/pages/program-index/program-index.component';
+import { ProgramEditComponent } from './features/program/components/program-edit/program-edit.component';
 
 export const routes: Routes = [
   { path: ROOT_PATHS.home, component: HomeComponent },
-  { path: ROOT_PATHS.programs, component: ProgramIndexComponent },
+  { path: ROOT_PATHS.programIndex, component: ProgramIndexComponent },
+  {
+    path: ROOT_PATHS.programIndex + ROOT_PATHS.programCreate,
+    component: ProgramEditComponent,
+  },
+  {
+    path: ROOT_PATHS.programIndex + ROOT_PATHS.programEdit,
+    component: ProgramEditComponent,
+  },
   {
     path: ROOT_PATHS.exercise,
     component: ExerciseIndexComponent,

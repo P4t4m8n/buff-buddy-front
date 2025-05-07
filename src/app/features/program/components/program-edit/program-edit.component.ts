@@ -23,7 +23,6 @@ import {
   MatDialogModule,
   MatDialogRef,
 } from '@angular/material/dialog';
-import { ProgramEditDialogComponent } from '../program-edit-dialog/program-edit-dialog.component';
 import { ProgramService } from '../../services/program.service';
 import { MatInputComponent } from '../../../../core/components/form/mat-input/mat-input.component';
 import { ValidationToErrorPipe } from '../../../../core/pipes/validation-to-error.pipe';
@@ -72,6 +71,16 @@ export class ProgramEditComponent {
   programExercises: IProgramExerciseEditDTO[] = [];
 
   exerciseList = this.exerciseService.itemSignal;
+
+  DAYS_OF_WEEK = [
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+  ] as const;
 
   @Input()
   program: IProgramEditDTO | undefined;
@@ -127,36 +136,8 @@ export class ProgramEditComponent {
     return field;
   }
 
-  constructor(
-    @Optional()
-    protected dialogRef: MatDialogRef<ProgramEditDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) private dialogData: IProgram | undefined
-  ) {
+  constructor() {
     this.exerciseService.get({ page: 1, recordsPerPage: 10 }).subscribe();
-
-    // Initialize form if editing existing program
-    if (dialogData) {
-      this.form.patchValue({
-        id: dialogData.id,
-        name: dialogData.name,
-        note: dialogData.note,
-        startDate: dialogData.startDate,
-        endDate: dialogData.endDate,
-        isActive: dialogData.isActive,
-      });
-
-      // Initialize program exercises if available
-      if (dialogData.programExercises) {
-        this.programExercises = dialogData.programExercises.map((pe) => ({
-          id: pe.id,
-          programId: dialogData.id,
-          exerciseId: pe.exercise.id,
-          order: pe.order,
-          note: pe.note,
-          sets: pe.sets,
-        }));
-      }
-    }
   }
 
   resetForm() {
@@ -164,34 +145,34 @@ export class ProgramEditComponent {
     this.form.patchValue({});
   }
 
-   // Helper to get exercise name
-   getExerciseName(exerciseId: string): string {
+  // Helper to get exercise name
+  getExerciseName(exerciseId: string): string {
     const exercises = this.exerciseList();
-    const exercise = exercises?.find(e => e.id === exerciseId);
+    const exercise = exercises?.find((e) => e.id === exerciseId);
     return exercise?.name || 'Unknown';
   }
-  
+
   // Remove exercise from list
   removeExercise(exercise: IProgramExerciseEditDTO) {
-    this.programExercises = this.programExercises.filter(e => e !== exercise);
+    this.programExercises = this.programExercises.filter((e) => e !== exercise);
   }
-  
+
   // Update save method to include program exercises
   save() {
     if (this.form.invalid) return;
-    
+
     const programData = {
       ...this.form.value,
-      programExercises: this.programExercises
+      programExercises: this.programExercises,
     } as IProgramEditDTO;
-    
+
     this.programService.saveJson(programData).subscribe({
       next: (res) => {
         this.itemSaved.emit();
         this.program = undefined;
-        this.dialogRef?.close(programData);
       },
       error: (err) => {
+        console.log(' err:', err);
         this.serverErrorHandlingService.mapErrorsToForm<IProgramEditDTO>(
           this.form,
           err

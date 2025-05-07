@@ -5,13 +5,12 @@ import { IPaginationDTO } from '../../../../core/components/pagination/paginatio
 import { HttpResponse } from '@angular/common/http';
 import { TableComponent } from '../../../../core/components/table/table.component';
 import { CRUD_SERVICE_TOKEN } from '../../../../core/providers/providers';
-import { RouterOutlet } from '@angular/router';
-import { ExerciseProgramEditDialogComponent } from '../../../program-exercise/components/exercise-program-edit-dialog/program-exercise-edit-dialog.component';
-import { ProgramEditDialogComponent } from '../../componenets/program-edit-dialog/program-edit-dialog.component';
+import { RouterLink } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-program-index',
-  imports: [TableComponent, RouterOutlet, ProgramEditDialogComponent],
+  imports: [TableComponent, RouterLink, MatButtonModule],
   templateUrl: './program-index.component.html',
   styleUrl: './program-index.component.css',
   providers: [{ provide: CRUD_SERVICE_TOKEN, useExisting: ProgramService }],
@@ -36,7 +35,6 @@ export class ProgramIndexComponent {
     this.loadItems();
   }
 
-  editDialogType = ProgramEditDialogComponent;
 
   loadItems() {
     this.programService

@@ -1,9 +1,8 @@
 <h2>Programs</h2>
-<app-program-edit-dialog />
+<a mat-raised-button [routerLink]="['/programs/create']" matTooltip="Create Program" matTooltipPosition="above"
+    color="primary">
+    Create Program
+</a>
 <section>
-    <app-table [columnsHeaders]="columnsHeaders" [editDialogType]="editDialogType"></app-table>
+    <app-table [columnsHeaders]="columnsHeaders" ></app-table>
 </section>
-
-
-
-<router-outlet></router-outlet>

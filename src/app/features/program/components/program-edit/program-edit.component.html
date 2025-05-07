@@ -1,0 +1,45 @@
+<form (submit)="save()" [formGroup]="form">
+
+    <div class="program-info">
+        <app-mat-input [formControlInput]="form.controls.name" label="Name"
+            [error]="name?.errors|validationToError"></app-mat-input>
+
+        <mat-form-field>
+            <mat-label>Enter a date range</mat-label>
+            <mat-date-range-input [rangePicker]="picker">
+                <input [formControl]="form.controls.startDate" matStartDate placeholder="Start date">
+                <input [formControl]="form.controls.endDate" matEndDate placeholder="End date">
+            </mat-date-range-input>
+            <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+            @if(startDate?.errors|validationToError) {
+            <mat-error>Start date is required</mat-error>
+            }
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Notes</mat-label>
+            <textarea matInput [formControl]="form.controls.note" rows="4" class="fixed-textarea"></textarea>
+        </mat-form-field>
+
+        <div class="form-actions" mat-dialog-actions>
+            <button mat-button mat-dialog-close type="button">Cancel</button>
+            <button mat-raised-button color="primary" type="submit">Save</button>
+        </div>
+    </div>
+
+
+    <ul class="calendar-days">
+        @for(day of DAYS_OF_WEEK;track day){
+        <li class="calendar-day">
+            <h3>{{day}}</h3>
+        </li>
+        }
+    </ul>
+
+
+
+
+
+</form>
