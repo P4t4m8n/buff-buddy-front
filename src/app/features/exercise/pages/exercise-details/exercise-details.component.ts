@@ -6,16 +6,16 @@ import { of, Subject, switchMap } from 'rxjs';
 import { DialogComponent } from '../../../../core/components/dialog/dialog.component';
 import { ExerciseDetailsContentComponent } from '../../components/exercise-details-content/exercise-details-content.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ExerciseDetailsDialogComponent } from '../../components/exercise-details-dialog/exercise-details-dialog.component';
 
 @Component({
   selector: 'app-exercise-details',
-  imports: [ ],
+  imports: [],
   templateUrl: './exercise-details.component.html',
   styleUrl: './exercise-details.component.css',
 })
 export class ExerciseDetailsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
-    console.log('ngOnDestroy');
   }
   private route = inject(ActivatedRoute);
   id: string | undefined | null;
@@ -23,7 +23,7 @@ export class ExerciseDetailsComponent implements OnInit, OnDestroy {
   exerciseService = inject(ExerciseService);
   router = inject(Router);
 
-  contentComponent = ExerciseDetailsContentComponent;
+  contentComponent = ExerciseDetailsDialogComponent;
 
   readonly dialog = inject(MatDialog);
   dialogRef: MatDialogRef<unknown> | null = null;
@@ -53,10 +53,8 @@ export class ExerciseDetailsComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         next: (res) => {
-          console.log(" res:", res)
           this.item = res;
           if (this.item) {
-            
             this.openDialog();
           }
         },

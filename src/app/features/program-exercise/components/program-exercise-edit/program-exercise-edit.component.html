@@ -1,1 +1,77 @@
-<p>exercise-program-edit works!</p>
+<form (submit)="save()" [formGroup]="form">
+    <div class="content">
+        <div>
+
+            <app-mat-input type="number" [formControlInput]="form.controls.order" label="Order"
+                [error]="order?.errors|validationToError"></app-mat-input>
+
+            <app-mat-select [formControlInput]="form.controls.exerciseId"
+                [getSelectItem]="getSelectedExercise.bind(this)" [options]="exerciseList()"
+                [error]="exerciseId?.errors|validationToError" label="Exercise" alt="Exercise">
+            </app-mat-select>
+            <div class="add-exercise-section">
+                <button type="button" mat-raised-button color="accent" (click)="openExerciseDialog()">
+                    Add New Exercise
+                </button>
+            </div>
+            <ul formArrayName="days">
+                @for(day of daysOfWeek; track $index) {
+                <li>
+                    <mat-checkbox [formControlName]="$index">
+                        {{ day | titlecase }}
+                    </mat-checkbox>
+                </li>
+                }
+            </ul>
+            @if(getSelectedExercise()) {
+
+            <app-exercise-details-content [item]="getSelectedExercise()" />
+            }
+        </div>
+
+        <div class="sets-section">
+            <h3>Sets</h3>
+
+            <div formArrayName="sets">
+                @for (setControl of setsArray.controls; track $index) {
+                <div [formGroupName]="$index" class="set-item">
+                    <h4>Set {{$index + 1}}</h4>
+
+                    <div class="set-fields">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Target Reps</mat-label>
+                            <input matInput type="number" formControlName="targetReps">
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>Weight (kg)</mat-label>
+                            <input matInput type="number" formControlName="weight">
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>Rest (sec)</mat-label>
+                            <input matInput type="number" formControlName="restTime">
+                        </mat-form-field>
+
+                        <div class="set-checkboxes">
+                            <mat-checkbox formControlName="isWarmup">Warmup</mat-checkbox>
+                            <mat-checkbox formControlName="isMuscleFailure">To Failure</mat-checkbox>
+                        </div>
+
+                        <button mat-icon-button color="warn" type="button" (click)="removeSet($index)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </div>
+                </div>
+                }
+            </div>
+
+            <button mat-raised-button color="primary" type="button" (click)="addSet()">Add Set</button>
+        </div>
+    </div>
+
+    <div class="form-actions" mat-dialog-actions>
+        <button mat-button mat-dialog-close type="button">Cancel</button>
+        <button mat-raised-button color="primary" type="submit">Save</button>
+    </div>
+</form>

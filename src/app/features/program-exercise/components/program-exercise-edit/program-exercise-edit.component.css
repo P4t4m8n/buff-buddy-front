@@ -1,0 +1,12 @@
+form {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+
+  & .content {
+    display: flex;
+    gap: 2rem;
+    max-height: calc(100vh - 13rem);
+    overflow: auto;
+  }
+}

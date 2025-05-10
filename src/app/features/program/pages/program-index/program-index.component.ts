@@ -40,7 +40,6 @@ export class ProgramIndexComponent {
     this.programService
       .get(this.pagination)
       .subscribe((res: HttpResponse<IProgram[]>) => {
-        console.log(' res:', res);
         this.programs = res.body || [];
         this.totalRecords = Number(res.headers.get('total-count'));
       });

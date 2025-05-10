@@ -56,7 +56,6 @@ export class TableComponent<T extends IEntity, TDTO extends IEntityDTO> {
   totalItemsSignal = this.CRUDService.totalItemsSignal;
 
   constructor() {
-    console.log(' detailsLink:', this.detailsLink);
     this.loadRecords();
   }
   loadRecords() {

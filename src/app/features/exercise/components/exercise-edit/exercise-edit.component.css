@@ -12,6 +12,7 @@ form {
   flex-direction: column;
   grid-template-columns: 100%;
   gap: 1rem;
+  z-index: 1000;
 
   & .form-actions {
     display: flex;

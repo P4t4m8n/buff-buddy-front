@@ -1,16 +1,11 @@
-<div>
-    <h2>{{ item.name }}</h2>
-    <ul>
-        <li>
-            <app-youtube-player [youtubeUrl]="item.youtubeUrl"></app-youtube-player>
-        </li>
-        @for(info of item|removeKeys:['id','name','youtubeUrl']|objectToArray;track info.id){
-        <li>
-            <app-figure [item]="info"></app-figure>
-        </li>
-        }
-    </ul>
-
-    <button mat-button mat-dialog-close type="button">Close</button>
-
-</div>
+<h2>{{ item?.name }}</h2>
+<ul>
+    <li>
+        <app-youtube-player [youtubeUrl]="item?.youtubeUrl"></app-youtube-player>
+    </li>
+    @for(info of item|removeKeys:['id','name','youtubeUrl']|objectToArray;track info.id){
+    <li>
+        <app-figure [item]="info"></app-figure>
+    </li>
+    }
+</ul>

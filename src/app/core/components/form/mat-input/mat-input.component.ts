@@ -31,4 +31,8 @@ export class MatInputComponent {
   error: ValidationErrors | undefined | null = {};
   @Input({ required: true })
   label: string = 'Label';
+  @Input()
+  type: 'text' | 'number' = 'text';
+
+  
 }

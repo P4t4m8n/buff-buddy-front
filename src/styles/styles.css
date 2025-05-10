@@ -19,3 +19,9 @@ body {
 .mat-mdc-button-base {
   border-radius: 4px !important;
 }
+
+.cdk-overlay-pane.mat-mdc-dialog-panel {
+  width: fit-content !important;
+  max-width: 90vw !important;
+  max-height: calc(100vh - 6rem) !important;
+}

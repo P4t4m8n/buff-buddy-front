@@ -7,8 +7,9 @@ import {
   Input,
   Optional,
   Output,
+  signal,
 } from '@angular/core';
-import { ExerciseService } from '../../../exercise/services/exercise.service';
+// import { ExerciseService } from '../../../exercise/services/exercise.service';
 import {
   FormBuilder,
   FormControl,
@@ -33,6 +34,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { IProgramExerciseEditDTO } from '../../../program-exercise/models/iexercise-program';
+import { ProgramExerciseEditDialogComponent } from '../../../program-exercise/components/exercise-program-edit-dialog/program-exercise-edit-dialog.component';
+import { DAY_OF_WEEK } from '../../../../core/types/app.type';
+import { ExerciseService } from '../../../exercise/services/exercise.service';
 
 @Component({
   selector: 'app-program-edit',
@@ -55,6 +59,7 @@ import { IProgramExerciseEditDTO } from '../../../program-exercise/models/iexerc
     ValidationToErrorPipe,
     MatFormFieldModule,
     MatDatepickerModule,
+    ProgramExerciseEditDialogComponent,
   ],
   providers: [provideNativeDateAdapter()],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -68,19 +73,11 @@ export class ProgramEditComponent {
   formBuilder = inject(FormBuilder);
   router = inject(Router);
   serverErrorHandlingService = inject(HandleServerFormErrorService);
-  programExercises: IProgramExerciseEditDTO[] = [];
+  programExercises = signal<IProgramExerciseEditDTO[]>([]);
 
   exerciseList = this.exerciseService.itemSignal;
 
-  DAYS_OF_WEEK = [
-    'Sunday',
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
-  ] as const;
+  daysOfWeek = DAY_OF_WEEK;
 
   @Input()
   program: IProgramEditDTO | undefined;
@@ -137,47 +134,57 @@ export class ProgramEditComponent {
   }
 
   constructor() {
-    this.exerciseService.get({ page: 1, recordsPerPage: 10 }).subscribe();
+    // this.exerciseService.get({ page: 1, recordsPerPage: 10 }).subscribe();
   }
 
   resetForm() {
     this.form.reset();
     this.form.patchValue({});
   }
-
-  // Helper to get exercise name
-  getExerciseName(exerciseId: string): string {
-    const exercises = this.exerciseList();
-    const exercise = exercises?.find((e) => e.id === exerciseId);
-    return exercise?.name || 'Unknown';
+  addProgramExercise(programExercise: IProgramExerciseEditDTO) {
+    console.log(' programExercise:', programExercise);
+    this.programExercises.update((exercises) => [
+      ...exercises,
+      programExercise,
+    ]);
+    console.log(' this.programExercises:', this.programExercises);
   }
+  getSelectedExercise(exerciseId: string) {
+    console.log(' exerciseId:', exerciseId);
+    return this.exerciseList()?.find((m) => m.id === exerciseId);
+  }
+
+  // // Helper to get exercise name
+  // getExerciseName(exerciseId: string): string {
+  //   const exercises = this.exerciseList();
+  //   const exercise = exercises?.find((e) => e.id === exerciseId);
+  //   return exercise?.name || 'Unknown';
+  // }
 
   // Remove exercise from list
-  removeExercise(exercise: IProgramExerciseEditDTO) {
-    this.programExercises = this.programExercises.filter((e) => e !== exercise);
-  }
+  // removeExercise(exercise: IProgramExerciseEditDTO) {
+  //   this.programExercises = this.programExercises.filter((e) => e !== exercise);
+  // }
 
   // Update save method to include program exercises
   save() {
-    if (this.form.invalid) return;
-
-    const programData = {
-      ...this.form.value,
-      programExercises: this.programExercises,
-    } as IProgramEditDTO;
-
-    this.programService.saveJson(programData).subscribe({
-      next: (res) => {
-        this.itemSaved.emit();
-        this.program = undefined;
-      },
-      error: (err) => {
-        console.log(' err:', err);
-        this.serverErrorHandlingService.mapErrorsToForm<IProgramEditDTO>(
-          this.form,
-          err
-        );
-      },
-    });
+    // if (this.form.invalid) return;
+    // const programData = {
+    //   ...this.form.value,
+    //   programExercises: this.programExercises,
+    // } as IProgramEditDTO;
+    // this.programService.saveJson(programData).subscribe({
+    //   next: (res) => {
+    //     this.itemSaved.emit();
+    //     this.program = undefined;
+    //   },
+    //   error: (err) => {
+    //     console.log(' err:', err);
+    //     this.serverErrorHandlingService.mapErrorsToForm<IProgramEditDTO>(
+    //       this.form,
+    //       err
+    //     );
+    //   },
+    // });
   }
 }

@@ -31,9 +31,19 @@
 
 
     <ul class="calendar-days">
-        @for(day of DAYS_OF_WEEK;track day){
+        @for(day of daysOfWeek;track day){
         <li class="calendar-day">
+            <app-program-exercise-edit-dialog [onExerciseAdded]="addProgramExercise.bind(this)" />
             <h3>{{day}}</h3>
+            <ul>
+                @for(pe of programExercises();track $index){
+                @if(pe.days?.includes(day)){
+                <li>
+                    <p>{{getSelectedExercise(pe.exerciseId)?.name}}</p>
+                </li>
+                }
+                }
+            </ul>
         </li>
         }
     </ul>

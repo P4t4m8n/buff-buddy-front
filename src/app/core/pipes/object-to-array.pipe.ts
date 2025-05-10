@@ -10,15 +10,12 @@ export class ObjectToArrayPipe implements PipeTransform {
     if (!value) {
       return [];
     }
-    console.log(' value:', value);
 
-    const x = Object.entries(value).map(([entryKey, entryValue]) => {
+    return Object.entries(value).map(([entryKey, entryValue]) => {
       return {
         ...entryValue,
         key: entryKey,
       };
     });
-    console.log(' x :', x);
-    return x;
   }
 }

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule, ValidationErrors } from '@angular/forms';
 import {
   MatError,
@@ -32,7 +32,7 @@ import { ErrorParsingPipe } from '../../../pipes/error-parsing.pipe';
   templateUrl: './mat-select.component.html',
   styleUrl: './mat-select.component.css',
 })
-export class MatSelectComponent<T>  {
+export class MatSelectComponent<T> implements OnChanges {
   @Input()
   alt?: string; // Alt text for the image
   @Input({ required: true })
@@ -45,6 +45,11 @@ export class MatSelectComponent<T>  {
   label: string = '';
   @Input()
   error: ValidationErrors | undefined | null = {};
-  constructor() {}
+  constructor() {
+
+    
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+  }
 
 }

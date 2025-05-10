@@ -1,10 +1,11 @@
-import { IEntity, IEntityDTO } from '../../../core/types/app.type';
+import { IEntity, IEntityDTO, TDayOfWeek } from '../../../core/types/app.type';
 import { IExercise } from '../../exercise/types/exercise.type';
 import { ISet, ISetEditDTO } from '../../set/models/iSet';
 
 interface IBaseProgramExercise {
   order: number; // Order of the exercise in the program
   note?: string; // Note for the exercise in the program
+  days?: TDayOfWeek[];
 }
 
 export interface IProgramExercise extends IBaseProgramExercise, IEntity {
