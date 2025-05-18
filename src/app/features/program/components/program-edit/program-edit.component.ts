@@ -2,14 +2,11 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
-  Inject,
   inject,
   Input,
-  Optional,
   Output,
   signal,
 } from '@angular/core';
-// import { ExerciseService } from '../../../exercise/services/exercise.service';
 import {
   FormBuilder,
   FormControl,
@@ -19,11 +16,7 @@ import {
 import { Router } from '@angular/router';
 import { HandleServerFormErrorService } from '../../../../core/services/handle-server-form-error.service';
 import { IProgram, IProgramEditDTO } from '../../models/iProgram';
-import {
-  MAT_DIALOG_DATA,
-  MatDialogModule,
-  MatDialogRef,
-} from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { ProgramService } from '../../services/program.service';
 import { MatInputComponent } from '../../../../core/components/form/mat-input/mat-input.component';
 import { ValidationToErrorPipe } from '../../../../core/pipes/validation-to-error.pipe';
@@ -33,10 +26,15 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
-import { IProgramExerciseEditDTO } from '../../../program-exercise/models/iexercise-program';
+import {
+  IProgramExercise,
+  IProgramExerciseEditDTO,
+} from '../../../program-exercise/models/iexercise-program';
 import { ProgramExerciseEditDialogComponent } from '../../../program-exercise/components/exercise-program-edit-dialog/program-exercise-edit-dialog.component';
-import { DAY_OF_WEEK } from '../../../../core/types/app.type';
+import { DAY_OF_WEEK, TDayOfWeek } from '../../../../core/types/app.type';
 import { ExerciseService } from '../../../exercise/services/exercise.service';
+import { HttpResponse } from '@angular/common/http';
+import { ProgramToDtoPipe } from '../../pipes/program-to-dto.pipe';
 
 @Component({
   selector: 'app-program-edit',
@@ -78,9 +76,8 @@ export class ProgramEditComponent {
   exerciseList = this.exerciseService.itemSignal;
 
   daysOfWeek = DAY_OF_WEEK;
-
-  @Input()
   program: IProgramEditDTO | undefined;
+
   @Output()
   itemSaved = new EventEmitter<IProgram>();
 
@@ -103,9 +100,10 @@ export class ProgramEditComponent {
     }),
   });
 
-  get id() {
+  get id(): string {
     const field = this.form.get('id');
-    return field;
+    console.log(' field:', field);
+    return (field?.value as string) ?? '';
   }
 
   get name() {
@@ -134,7 +132,13 @@ export class ProgramEditComponent {
   }
 
   constructor() {
-    // this.exerciseService.get({ page: 1, recordsPerPage: 10 }).subscribe();
+    this.exerciseService.get({ page: 1, recordsPerPage: 10 }).subscribe();
+  }
+
+  ngOnInit(): void {
+    this.programService
+      .get({ page: 1, recordsPerPage: 10 })
+      .subscribe((res: HttpResponse<IProgram[]>) => {});
   }
 
   resetForm() {
@@ -142,18 +146,36 @@ export class ProgramEditComponent {
     this.form.patchValue({});
   }
   addProgramExercise(programExercise: IProgramExerciseEditDTO) {
-    console.log(' programExercise:', programExercise);
     this.programExercises.update((exercises) => [
       ...exercises,
       programExercise,
     ]);
-    console.log(' this.programExercises:', this.programExercises);
   }
   getSelectedExercise(exerciseId: string) {
     console.log(' exerciseId:', exerciseId);
     return this.exerciseList()?.find((m) => m.id === exerciseId);
   }
+  @Input()
+  set id(id: string) {
+    console.log(' id:', id);
+    if (!id) {
+      console.error('id is null');
+      return;
+    }
 
+    this.programService.getById(id).subscribe((program) => {
+      console.log(' program:', program);
+      this.program = new ProgramToDtoPipe().transform(program);
+      this.form.patchValue({
+        id: this.program?.id,
+        name: this.program?.name,
+        note: this.program?.note,
+        startDate: this.program?.startDate,
+        endDate: this.program?.endDate,
+        isActive: this.program?.isActive,
+      });
+    });
+  }
   // // Helper to get exercise name
   // getExerciseName(exerciseId: string): string {
   //   const exercises = this.exerciseList();
@@ -166,25 +188,39 @@ export class ProgramEditComponent {
   //   this.programExercises = this.programExercises.filter((e) => e !== exercise);
   // }
 
-  // Update save method to include program exercises
+  checkDaysOfWeek(day: TDayOfWeek, peDaysOfWeek?: TDayOfWeek[]): boolean {
+    return !!peDaysOfWeek?.includes(day);
+  }
+
   save() {
-    // if (this.form.invalid) return;
-    // const programData = {
-    //   ...this.form.value,
-    //   programExercises: this.programExercises,
-    // } as IProgramEditDTO;
-    // this.programService.saveJson(programData).subscribe({
-    //   next: (res) => {
-    //     this.itemSaved.emit();
-    //     this.program = undefined;
-    //   },
-    //   error: (err) => {
-    //     console.log(' err:', err);
-    //     this.serverErrorHandlingService.mapErrorsToForm<IProgramEditDTO>(
-    //       this.form,
-    //       err
-    //     );
-    //   },
-    // });
+    if (this.form.invalid) return;
+    const formValues = this.form.value;
+    const programData: IProgramEditDTO = {
+      id: formValues.id || '',
+      name: formValues.name || '',
+      note: formValues.note || '',
+      startDate: formValues.startDate || new Date(),
+      endDate: formValues.endDate || new Date(),
+      isActive: formValues.isActive ?? true,
+      programExercises: this.programExercises(),
+    };
+
+    this.programService.saveJson(programData).subscribe({
+      next: (res) => {
+        this.itemSaved.emit();
+        this.program = undefined;
+        this.router.navigate(['programs']);
+      },
+      error: (err) => {
+        this.serverErrorHandlingService.mapErrorsToForm<IProgramEditDTO>(
+          this.form,
+          err
+        );
+      },
+    });
+  }
+
+  onBack() {
+    this.router.navigate(['programs']);
   }
 }

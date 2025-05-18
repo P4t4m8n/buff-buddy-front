@@ -7,6 +7,7 @@ export const AUTH_PATHS = {
 export const NAV_PATHS = {
   home: '',
   programIndex: 'programs',
+  programDetails: 'programs/:id',
   programCreate: '/create',
   programEdit: '/edit/:id',
   programsExercise: 'my-exercise',

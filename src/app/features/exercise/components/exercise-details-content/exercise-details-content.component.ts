@@ -18,10 +18,7 @@ import { FigureComponent } from '../../../../core/components/figure/figure.compo
   templateUrl: './exercise-details-content.component.html',
   styleUrl: './exercise-details-content.component.css',
 })
-export class ExerciseDetailsContentComponent implements OnInit {
-  ngOnInit(): void {
-    console.log(' item:', this.item);
-  }
+export class ExerciseDetailsContentComponent {
   @Input()
   item?: IExercise | null = null;
 

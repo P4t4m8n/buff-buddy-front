@@ -15,6 +15,7 @@ import { ExerciseTypeIndexComponent } from './features/admin/exercise-info/exerc
 import { ProgramIndexComponent } from './features/program/pages/program-index/program-index.component';
 import { ProgramEditComponent } from './features/program/components/program-edit/program-edit.component';
 import { ProgramExerciseIndexComponent } from './features/program-exercise/pages/program-exercise-index/program-exercise-index.component';
+import { ProgramDetailsComponent } from './features/program/pages/program-details/program-details.component';
 
 export const routes: Routes = [
   { path: ROOT_PATHS.home, component: HomeComponent },
@@ -22,6 +23,10 @@ export const routes: Routes = [
   {
     path: ROOT_PATHS.programIndex + ROOT_PATHS.programCreate,
     component: ProgramEditComponent,
+  },
+  {
+    path: ROOT_PATHS.programDetails,
+    component: ProgramDetailsComponent,
   },
   {
     path: ROOT_PATHS.programIndex + ROOT_PATHS.programEdit,
@@ -59,6 +64,6 @@ export const routes: Routes = [
       },
     ],
   },
-  { path: '404', component: Error404Component },
-  { path: '**', redirectTo: '404' },
+  // { path: '404', component: Error404Component },
+  // { path: '**', redirectTo: '404' },
 ];

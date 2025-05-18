@@ -14,7 +14,7 @@
                     Add New Exercise
                 </button>
             </div>
-            <ul formArrayName="days">
+            <ul formArrayName="daysOfWeek">
                 @for(day of daysOfWeek; track $index) {
                 <li>
                     <mat-checkbox [formControlName]="$index">

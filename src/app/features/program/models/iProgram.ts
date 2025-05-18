@@ -5,7 +5,7 @@ import {
 } from '../../program-exercise/models/iexercise-program';
 
 export interface IProgram extends IEntity {
-  name: string; // Name of the program
+  name: string|null|undefined; // Name of the program
   note?: string; // Note for the program
   startDate: Date; // Start date of the program
   endDate: Date; // End date of the program

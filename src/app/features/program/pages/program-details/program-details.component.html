@@ -1,0 +1,83 @@
+@if (program) {
+<mat-card class="program-details-card">
+    <mat-card-header>
+        <mat-card-title>{{ program.name }}</mat-card-title>
+        <mat-card-subtitle>
+            {{ program.startDate | date:'shortDate' }} - {{ program.endDate | date:'shortDate' }}
+            @if (program.isActive) {
+            <mat-icon color="primary" class="active-icon">check_circle</mat-icon> Active
+            } @else {
+            <mat-icon color="warn" class="active-icon">cancel</mat-icon> Inactive
+            }
+        </mat-card-subtitle>
+        <a mat-raised-button [routerLink]="[`/programs/edit/${this.program.id}`]" matTooltip="Create Program"
+            matTooltipPosition="above" color="primary">
+            Edit Program
+        </a>
+    </mat-card-header>
+    <mat-card-content>
+        @if (program.note) {
+        <div class="program-notes">
+            <h4>Notes:</h4>
+            <p>{{ program.note }}</p>
+        </div>
+        }
+
+        <mat-divider></mat-divider>
+
+        <h3>Weekly Schedule</h3>
+        <div class="calendar-view">
+            @for(day of daysOfWeek; track day) {
+            <div class="calendar-day-column">
+                <h4>{{ day | titlecase }}</h4>
+                <mat-list>
+                    @for(pe of program.programExercises; track pe.id) {
+                    @if (pe.daysOfWeek?.includes(day)) {
+                    <mat-list-item class="program-exercise-item">
+                        <div matListItemTitle>{{ pe.exercise.name }}</div>
+                        <div matListItemLine>Order: {{ pe.order }}</div>
+                        @if (pe.note) {
+                        <div matListItemLine>Note: {{ pe.note }}</div>
+                        }
+                        <div matListItemLine>
+                            Sets:
+                            <ul>
+                                @for(set of pe.sets; track set.id) {
+                                <li>
+                                    {{ set.targetReps }} reps ,{{ set.weight }}kg, Rest: {{ set.restTime }}s
+                                    @if (set.isMuscleFailure) { <span>(to failure)</span> }
+                                    @if (set.isWarmup) { <span>(warmup)</span> }
+                                </li>
+                                }
+                            </ul>
+                        </div>
+                        <div matListItemLine>
+                            <mat-chip-set aria-label="Exercise details">
+                                <mat-chip>{{ pe.exercise.type?.name }}</mat-chip>
+                                <mat-chip>{{ pe.exercise.equipment?.name }}</mat-chip>
+                                <mat-chip>{{ pe.exercise.muscle?.name }}</mat-chip>
+                            </mat-chip-set>
+                        </div>
+                        @if (pe.exercise.youtubeUrl) {
+                        <a mat-icon-button [href]="pe.exercise.youtubeUrl" target="_blank"
+                            aria-label="Watch on YouTube">
+                            <mat-icon>smart_display</mat-icon>
+                        </a>
+                        }
+                    </mat-list-item>
+                    <mat-divider></mat-divider>
+                    }
+                    }
+                    @if (!hasExercisesForDay(day)) {
+                    <p class="no-exercises">No exercises scheduled for this day.</p>
+                    }
+                </mat-list>
+            </div>
+            }
+        </div>
+
+    </mat-card-content>
+</mat-card>
+} @else {
+<p>Loading program details...</p>
+}

@@ -70,6 +70,7 @@ export class ProgramExerciseEditComponent {
   formBuilder = inject(FormBuilder);
   @Input()
   programExercise: IProgramExerciseEditDTO | undefined;
+  
   exerciseService = inject(ExerciseService);
   exerciseList = this.exerciseService.itemSignal;
   daysOfWeek = DAY_OF_WEEK;
@@ -82,7 +83,7 @@ export class ProgramExerciseEditComponent {
     order: [0],
     note: [''],
     exerciseId: [''],
-    days: this.formBuilder.array([]),
+    daysOfWeek: this.formBuilder.array([]),
     sets: this.formBuilder.array([]),
   });
 
@@ -121,11 +122,11 @@ export class ProgramExerciseEditComponent {
     if (this.programExercise?.sets && this.programExercise.sets.length > 0) {
       this.initSets(this.programExercise.sets);
     }
-    this.initDays(this.programExercise?.days || []);
+    this.initDays(this.programExercise?.daysOfWeek || []);
   }
 
   get daysArray(): FormArray {
-    return this.form.get('days') as FormArray;
+    return this.form.get('daysOfWeek') as FormArray;
   }
 
   initDays(days: string[] = []) {
@@ -209,16 +210,15 @@ export class ProgramExerciseEditComponent {
     if (this.dialogData?.onExerciseAdded) {
       const days: TDayOfWeek[] = [];
       this.daysOfWeek.forEach((day, index) => {
-        if (formValue?.days && formValue?.days[index]) {
+        if (formValue?.daysOfWeek && formValue?.daysOfWeek[index]) {
           days.push(this.daysOfWeek[index]);
         }
       });
-      formValue.days = days;
+      formValue.daysOfWeek = days;
       this.dialogData.onExerciseAdded(formValue);
     }
 
-    // Close dialog with form value
-    // this.dialogRef?.close(formValue);
+    this.dialogRef?.close(formValue);
   }
 
   get order() {

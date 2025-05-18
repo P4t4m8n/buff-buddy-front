@@ -1,0 +1,67 @@
+.program-details-card {
+    margin: 20px;
+}
+
+.program-notes {
+    margin-bottom: 15px;
+}
+
+.program-notes h4 {
+    margin-bottom: 5px;
+}
+
+.active-icon {
+    vertical-align: middle;
+    margin-left: 5px;
+}
+
+.calendar-view {
+    display: flex;
+    gap: 16px; /* Space between day columns */
+    overflow-x: auto; /* Allow horizontal scrolling if days don't fit */
+    padding-bottom: 10px; /* Space for scrollbar */
+}
+
+.calendar-day-column {
+    flex: 1; /* Each day takes equal space */
+    min-width: 250px; /* Minimum width for a day column */
+    border: 1px solid #eee;
+    padding: 10px;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+}
+
+.calendar-day-column h4 {
+    text-align: center;
+    margin-top: 0;
+    color: #3f51b5; /* Material primary color */
+}
+
+.program-exercise-item {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    height: auto !important; /* Override default mat-list-item height */
+}
+
+.program-exercise-item ul {
+    list-style-type: disc;
+    padding-left: 20px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.program-exercise-item mat-chip-set {
+    margin-top: 8px;
+}
+
+.no-exercises {
+    text-align: center;
+    color: #757575;
+    font-style: italic;
+    padding: 10px;
+}
+
+mat-divider {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}

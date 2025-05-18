@@ -5,7 +5,7 @@ import { ISet, ISetEditDTO } from '../../set/models/iSet';
 interface IBaseProgramExercise {
   order: number; // Order of the exercise in the program
   note?: string; // Note for the exercise in the program
-  days?: TDayOfWeek[];
+  daysOfWeek?: TDayOfWeek[];
 }
 
 export interface IProgramExercise extends IBaseProgramExercise, IEntity {

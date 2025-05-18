@@ -11,7 +11,7 @@
                         <div>
                             <ng-container *ngComponentOutlet="editDialogType; inputs: {item: item}"></ng-container>
                             @if(detailsLink){
-                            <a mat-raised-button [routerLink]="[ item.id]">Details</a>
+                            <a mat-raised-button [routerLink]="[item.id]">Details</a>
                             }
 
                             <button mat-raised-button color="" [swal]="{title: 'Confirmation', text: 'Are you sure you want to delete this record?',

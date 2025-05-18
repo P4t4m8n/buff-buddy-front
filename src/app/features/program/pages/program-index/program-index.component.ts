@@ -7,6 +7,7 @@ import { TableComponent } from '../../../../core/components/table/table.componen
 import { CRUD_SERVICE_TOKEN } from '../../../../core/providers/providers';
 import { RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
+import { ProgramEditComponent } from '../../components/program-edit/program-edit.component';
 
 @Component({
   selector: 'app-program-index',
@@ -29,12 +30,13 @@ export class ProgramIndexComponent {
     'endDate',
     'isActive',
     'Number of exercises',
+    'actions',
   ];
+  editDialogType = ProgramEditComponent;
 
   constructor() {
     this.loadItems();
   }
-
 
   loadItems() {
     this.programService
