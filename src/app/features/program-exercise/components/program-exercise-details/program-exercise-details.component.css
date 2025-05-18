@@ -1,0 +1,94 @@
+.program-exercise-details-card {
+  margin: 16px;
+  max-width: 600px; /* Adjust as needed */
+}
+
+.details-header {
+  padding-bottom: 8px; /* Add some space below header before content starts */
+}
+
+.youtube-link {
+  margin-left: auto; /* Pushes the icon to the right */
+}
+
+.details-section {
+  padding: 12px 0;
+}
+
+.section-title {
+  font-size: 1.1em;
+  font-weight: 500;
+  color: #3f51b5; /* Material primary color */
+  margin-bottom: 8px;
+}
+
+.section-content {
+  padding-left: 8px;
+  font-size: 0.95em;
+}
+
+.exercise-meta p {
+  margin: 4px 0;
+}
+
+.set-item {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  height: auto !important; /* Ensure content fits */
+}
+
+.set-title {
+  font-weight: 500;
+}
+
+.set-order {
+  font-size: 0.85em;
+  color: #757575;
+  margin-left: 8px;
+}
+
+.set-properties {
+  display: flex;
+  gap: 12px; /* Spacing between set properties */
+  flex-wrap: wrap; /* Allow wrapping on smaller screens */
+  margin-top: 4px;
+  font-size: 0.9em;
+}
+
+.set-properties span strong {
+  color: #333;
+}
+
+.set-flags {
+  margin-top: 6px;
+}
+
+.set-flag-chip {
+  margin-right: 6px !important;
+  font-size: 0.8em !important;
+}
+
+.warmup-chip {
+  background-color: #e8f5e9 !important; /* Light green */
+  color: #2e7d32 !important;
+}
+
+.failure-chip {
+  background-color: #ffebee !important; /* Light red */
+  color: #c62828 !important;
+}
+
+.set-divider {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.no-data {
+  color: #757575;
+  font-style: italic;
+}
+
+mat-chip-listbox mat-chip {
+  margin-right: 8px;
+  margin-bottom: 8px;
+}

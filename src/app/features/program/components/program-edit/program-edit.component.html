@@ -41,7 +41,10 @@
                 @for(pe of program?.programExercises;track $index){
                 @if(checkDaysOfWeek(day,pe.daysOfWeek)){
                 <li>
-                    <p>{{getSelectedExercise(pe.exerciseId)?.name}}</p>
+                    <p>{{getSelectedExercise(pe.exercise.id)?.name}}</p>
+                    <app-program-exercise-details-dialog [programExercise]="pe" />
+                    <app-program-exercise-edit-dialog [onExerciseAdded]="addProgramExercise.bind(this)" [item]="pe" />
+
                 </li>
                 }
                 }

@@ -1,0 +1,75 @@
+@if (programExercise) {
+<mat-card class="program-exercise-details-card">
+    <mat-card-header class="details-header">
+        <mat-card-title>{{ programExercise.exercise.name }}</mat-card-title>
+        <mat-card-subtitle>Order: {{ programExercise.order }}</mat-card-subtitle>
+        @if (programExercise.exercise.youtubeUrl) {
+        <a mat-icon-button [href]="programExercise.exercise.youtubeUrl" target="_blank" aria-label="Watch on YouTube"
+            class="youtube-link">
+            <mat-icon color="primary">smart_display</mat-icon>
+        </a>
+        }
+    </mat-card-header>
+
+    <mat-card-content>
+        @if (programExercise.note) {
+        <section class="details-section">
+            <h4 class="section-title">Notes</h4>
+            <p class="section-content">{{ programExercise.note }}</p>
+        </section>
+        <mat-divider></mat-divider>
+        }
+
+        <section class="details-section">
+            <h4 class="section-title">Scheduled Days</h4>
+            @if (programExercise.daysOfWeek && programExercise.daysOfWeek.length > 0) {
+            <mat-chip-listbox aria-label="Days of the week" class="section-content">
+                @for(day of programExercise.daysOfWeek; track day) {
+                <mat-chip disabled="true" selected="true" color="primary">{{ day | titlecase }}</mat-chip>
+                }
+            </mat-chip-listbox>
+            } @else {
+            <p class="section-content no-data">Not scheduled for any specific days.</p>
+            }
+        </section>
+        <mat-divider></mat-divider>
+
+        <section class="details-section">
+            <h4 class="section-title">Exercise Information</h4>
+
+        </section>
+        <mat-divider></mat-divider>
+
+        <section class="details-section">
+            <h4 class="section-title">Sets</h4>
+            @if (programExercise.sets && programExercise.sets.length > 0) {
+            <mat-list role="list" class="section-content">
+                @for (set of programExercise.sets; track set.id; let i = $index) {
+                <mat-list-item role="listitem" class="set-item">
+                    <div matListItemTitle class="set-title">Set {{ i + 1 }} <span class="set-order">(Order:
+                            {{set.order}})</span></div>
+                    <div matListItemLine class="set-properties">
+                        <span>Target Reps: <strong>{{ set.targetReps }}</strong></span>
+                        <span>Weight: <strong>{{ set.weight }} kg</strong></span>
+                        <span>Rest: <strong>{{ set.restTime }}s</strong></span>
+                    </div>
+                    <div matListItemLine class="set-flags">
+                        @if (set.isWarmup) { <mat-chip disabled="true" selected="true" size="small"
+                            class="set-flag-chip warmup-chip">Warmup</mat-chip> }
+                        @if (set.isMuscleFailure) { <mat-chip disabled="true" selected="true" size="small"
+                            class="set-flag-chip failure-chip">To Failure</mat-chip> }
+                    </div>
+                </mat-list-item>
+                @if (!$last) { <mat-divider class="set-divider"></mat-divider> }
+                }
+            </mat-list>
+            } @else {
+            <p class="section-content no-data">No sets defined for this exercise.</p>
+            }
+        </section>
+
+    </mat-card-content>
+</mat-card>
+} @else {
+<p class="no-data">Program exercise details are not available.</p>
+}

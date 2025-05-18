@@ -35,6 +35,8 @@ import { DAY_OF_WEEK, TDayOfWeek } from '../../../../core/types/app.type';
 import { ExerciseService } from '../../../exercise/services/exercise.service';
 import { HttpResponse } from '@angular/common/http';
 import { ProgramToDtoPipe } from '../../pipes/program-to-dto.pipe';
+import { ProgramExerciseDetailsComponent } from '../../../program-exercise/components/program-exercise-details/program-exercise-details.component';
+import { ProgramExerciseDetailsDialogComponent } from '../../../program-exercise/components/program-exercise-details-dialog/program-exercise-details-dialog.component';
 
 @Component({
   selector: 'app-program-edit',
@@ -58,6 +60,7 @@ import { ProgramToDtoPipe } from '../../pipes/program-to-dto.pipe';
     MatFormFieldModule,
     MatDatepickerModule,
     ProgramExerciseEditDialogComponent,
+    ProgramExerciseDetailsDialogComponent,
   ],
   providers: [provideNativeDateAdapter()],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -76,7 +79,8 @@ export class ProgramEditComponent {
   exerciseList = this.exerciseService.itemSignal;
 
   daysOfWeek = DAY_OF_WEEK;
-  program: IProgramEditDTO | undefined;
+  programToEdit: IProgramEditDTO | undefined;
+  program: IProgram | undefined;
 
   @Output()
   itemSaved = new EventEmitter<IProgram>();
@@ -165,14 +169,15 @@ export class ProgramEditComponent {
 
     this.programService.getById(id).subscribe((program) => {
       console.log(' program:', program);
-      this.program = new ProgramToDtoPipe().transform(program);
+      this.program = program;
+      this.programToEdit = new ProgramToDtoPipe().transform(program);
       this.form.patchValue({
-        id: this.program?.id,
-        name: this.program?.name,
-        note: this.program?.note,
-        startDate: this.program?.startDate,
-        endDate: this.program?.endDate,
-        isActive: this.program?.isActive,
+        id: this.programToEdit?.id,
+        name: this.programToEdit?.name,
+        note: this.programToEdit?.note,
+        startDate: this.programToEdit?.startDate,
+        endDate: this.programToEdit?.endDate,
+        isActive: this.programToEdit?.isActive,
       });
     });
   }
