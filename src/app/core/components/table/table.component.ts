@@ -13,7 +13,7 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { CRUD_SERVICE_TOKEN } from '../../providers/providers';
 import { IPaginationDTO } from '../pagination/pagination-dto';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { IEntity, IEntityDTO } from '../../types/app.type';
+import { IEntityDTO, IEntityEditDTO } from '../../types/app.type';
 import { ICRUDService } from '../../interfaces/icrudservice';
 import { MatButton, MatButtonModule } from '@angular/material/button';
 import { NgComponentOutlet } from '@angular/common';
@@ -39,7 +39,7 @@ import { MatDividerModule } from '@angular/material/divider';
   styleUrl: './table.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TableComponent<T extends IEntity, TDTO extends IEntityDTO> {
+export class TableComponent<T extends IEntityDTO, TDTO extends IEntityEditDTO> {
   @Input({ required: true })
   columnsHeaders: string[] = [];
 

@@ -1,5 +1,5 @@
 import { Component, Inject, Input, OnInit, Optional } from '@angular/core';
-import { IProgramExercise } from '../../models/iexercise-program';
+import { IProgramExerciseDto } from '../../models/iexercise-program';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
@@ -25,20 +25,19 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
   templateUrl: './program-exercise-details.component.html',
   styleUrl: './program-exercise-details.component.css',
 })
-export class ProgramExerciseDetailsComponent implements OnInit {
-  ngOnInit(): void {
-    console.log('Program Exercise Details:', this.programExercise);
-  }
+export class ProgramExerciseDetailsComponent  {
+
   @Input()
-  programExercise: IProgramExercise | undefined;
+  programExercise: IProgramExerciseDto | undefined;
 
   constructor(
     @Optional()
     @Inject(MAT_DIALOG_DATA)
-    dataFromDialog: IProgramExercise | undefined
+    dataFromDialog: IProgramExerciseDto | undefined
   ) {
     if (dataFromDialog) {
       this.programExercise = dataFromDialog;
+      console.log(" this.programExercise:", this.programExercise)
     }
   }
 }

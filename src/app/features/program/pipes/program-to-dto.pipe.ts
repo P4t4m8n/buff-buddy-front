@@ -7,10 +7,12 @@ import { ProgramExerciseToDtoPipe } from '../../program-exercise/pipes/program-e
 })
 export class ProgramToDtoPipe implements PipeTransform {
   transform(value?: IProgram, ...args: unknown[]): IProgramEditDTO {
+    console.log(" value:", value)
     if (!value) {
+      console.error('ProgramToDtoPipe: value is undefined or null');
       return {} as IProgramEditDTO;
     }
-
+    
     return {
       ...value,
       programExercises:

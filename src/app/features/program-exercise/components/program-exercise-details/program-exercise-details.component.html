@@ -50,14 +50,13 @@
                             {{set.order}})</span></div>
                     <div matListItemLine class="set-properties">
                         <span>Target Reps: <strong>{{ set.targetReps }}</strong></span>
-                        <span>Weight: <strong>{{ set.weight }} kg</strong></span>
-                        <span>Rest: <strong>{{ set.restTime }}s</strong></span>
+                        <span>Weight: <strong>{{ set.targetWeight }} kg</strong></span>
+                        <span>Rest: <strong>{{ set.targetRestTime }}s</strong></span>
                     </div>
                     <div matListItemLine class="set-flags">
                         @if (set.isWarmup) { <mat-chip disabled="true" selected="true" size="small"
                             class="set-flag-chip warmup-chip">Warmup</mat-chip> }
-                        @if (set.isMuscleFailure) { <mat-chip disabled="true" selected="true" size="small"
-                            class="set-flag-chip failure-chip">To Failure</mat-chip> }
+
                     </div>
                 </mat-list-item>
                 @if (!$last) { <mat-divider class="set-divider"></mat-divider> }

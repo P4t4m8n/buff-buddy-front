@@ -1,6 +1,10 @@
-import { IEntity, IEntityDTO, TDayOfWeek } from '../../../core/types/app.type';
+import {
+  IEntityDTO,
+  IEntityEditDTO,
+  TDayOfWeek,
+} from '../../../core/types/app.type';
 import { IExercise } from '../../exercise/types/exercise.type';
-import { ISet, ISetEditDTO } from '../../set/models/iSet';
+import { ICoreSetDTO, ICoreSetEditDTO } from '../../set/models/iSet';
 
 interface IBaseProgramExercise {
   order: number; // Order of the exercise in the program
@@ -8,15 +12,15 @@ interface IBaseProgramExercise {
   daysOfWeek?: TDayOfWeek[];
 }
 
-export interface IProgramExercise extends IBaseProgramExercise, IEntity {
+export interface IProgramExerciseDto extends IBaseProgramExercise, IEntityDTO {
   exercise: IExercise;
-  sets: ISet[]; // List of sets for the exercise
+  sets: ICoreSetDTO[]; // List of sets for the exercise
 }
 
 export interface IProgramExerciseEditDTO
   extends IBaseProgramExercise,
-    IEntityDTO {
+    IEntityEditDTO {
   programId?: string; // Foreign key to Program
   exerciseId: string; // Foreign key to Exercise
-  sets: ISetEditDTO[]; // List of sets for the exercise
+  sets: ICoreSetEditDTO[]; // List of sets for the exercise
 }

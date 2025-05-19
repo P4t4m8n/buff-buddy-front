@@ -9,6 +9,8 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatCardModule } from '@angular/material/card'; // Import MatCardModule
 import { MatListModule } from '@angular/material/list'; // Import MatListModule
 import { MatChipsModule } from '@angular/material/chips'; // Import MatChipsMod
+import { MatButton } from '@angular/material/button';
+import { ActiveProgramDataService } from '../../../active-program/services/active-program-data.service';
 
 @Component({
   selector: 'app-program-details',
@@ -19,18 +21,19 @@ import { MatChipsModule } from '@angular/material/chips'; // Import MatChipsMod
     MatChipsModule,
     MatDividerModule,
     MatIconModule,
-    RouterLink
+    RouterLink,
   ],
   templateUrl: './program-details.component.html',
   styleUrl: './program-details.component.css',
 })
 export class ProgramDetailsComponent {
   programService = inject(ProgramService);
+  activeProgramDataService = inject(ActiveProgramDataService);
   program: IProgram | null = null;
   daysOfWeek = DAY_OF_WEEK;
+  router = inject(Router);
   @Input()
   set id(id: string) {
-    console.log(' id:', id);
     if (!id) {
       console.error('id is null');
       return;
@@ -53,5 +56,26 @@ export class ProgramDetailsComponent {
     return this.program.programExercises.some((pe) =>
       (pe.daysOfWeek || []).includes(day)
     );
+  }
+
+  startExercises(day: TDayOfWeek): void {
+    if (!this.program || !this.program.programExercises) {
+      return;
+    }
+
+    const exercisesForDay = this.program.programExercises.filter((pe) =>
+      pe.daysOfWeek?.includes(day)
+    );
+
+    if (exercisesForDay.length > 0) {
+      this.activeProgramDataService.setActiveData({
+        exercises: exercisesForDay,
+        programName: this.program.name || 'exercise',
+        day: day,
+      });
+      this.router.navigate(['/active-program']);
+    } else {
+      console.warn(`No exercises found for ${day} to start.`);
+    }
   }
 }

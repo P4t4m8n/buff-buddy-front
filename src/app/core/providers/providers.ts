@@ -1,7 +1,7 @@
 import { InjectionToken } from '@angular/core';
-import { IEntity, IEntityDTO } from '../types/app.type';
+import { IEntityDTO, IEntityEditDTO } from '../types/app.type';
 import { ICRUDService } from '../interfaces/icrudservice';
 
 export const CRUD_SERVICE_TOKEN = new InjectionToken<
-  ICRUDService<IEntity, IEntityDTO>
+  ICRUDService<IEntityDTO, IEntityEditDTO>
 >('CRUD_SERVICE_TOKEN');

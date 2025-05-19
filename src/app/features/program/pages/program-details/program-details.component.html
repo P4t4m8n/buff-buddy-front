@@ -31,6 +31,12 @@
             <div class="calendar-day-column">
                 <h4>{{ day | titlecase }}</h4>
                 <mat-list>
+                    @if(hasExercisesForDay(day)) {
+                    <button mat-raised-button (click)="startExercises(day)" matTooltip="Start exercise"
+                        matTooltipPosition="above" color="primary">
+                        Start exercise
+                    </button>
+                    }
                     @for(pe of program.programExercises; track pe.id) {
                     @if (pe.daysOfWeek?.includes(day)) {
                     <mat-list-item class="program-exercise-item">
@@ -44,8 +50,7 @@
                             <ul>
                                 @for(set of pe.sets; track set.id) {
                                 <li>
-                                    {{ set.targetReps }} reps ,{{ set.weight }}kg, Rest: {{ set.restTime }}s
-                                    @if (set.isMuscleFailure) { <span>(to failure)</span> }
+                                    {{ set.targetReps }} reps ,{{ set.targetWeight }}kg, Rest: {{ set.targetRestTime }}s
                                     @if (set.isWarmup) { <span>(warmup)</span> }
                                 </li>
                                 }

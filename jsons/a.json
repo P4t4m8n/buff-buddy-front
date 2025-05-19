@@ -1,0 +1,94 @@
+{
+  "id": "7631861D-1B8A-4995-9C7F-CE725D6CC397",
+  "name": "bobo",
+  "note": "bobo",
+  "startDate": "2025-05-31T21:00:00.000Z",
+  "endDate": "2025-06-27T21:00:00.000Z",
+  "isActive": true,
+  "newProgramExercises": [
+    {
+      "id": "",
+      "programId": null,
+      "order": 1,
+      "note": null,
+      "exerciseId": "915221F1-2285-4619-8B50-682AB1639B98",
+      "daysOfWeek": ["monday", "wednesday", "thursday", "friday"],
+      "sets": [
+        {
+          "id": null,
+          "programExerciseId": "",
+          "targetReps": 1,
+          "targetWeight": 1,
+          "targetRestTime": 30,
+          "order": 0,
+          "isWarmup": true
+        },
+        {
+          "id": null,
+          "programExerciseId": "",
+          "targetReps": 3,
+          "targetWeight": 4,
+          "targetRestTime": 30,
+          "order": 1,
+          "isWarmup": false
+        },
+        {
+          "id": null,
+          "programExerciseId": "",
+          "targetReps": 5,
+          "targetWeight": 6,
+          "targetRestTime": 30,
+          "order": 2,
+          "isWarmup": false
+        },
+        {
+          "id": null,
+          "programExerciseId": "",
+          "targetReps": 7,
+          "targetWeight": 8,
+          "targetRestTime": 30,
+          "order": 3,
+          "isWarmup": false
+        }
+      ]
+    }
+  ],
+  "updatedProgramExercises": [
+    {
+      "order": 1,
+      "note": null,
+      "exerciseId": "257F4220-748B-43D9-8FDD-093B11526583",
+      "daysOfWeek": ["monday", "thursday", "saturday"],
+      "sets": [
+        {
+          "id": "873F0324-C915-45EB-974C-D483DBB99375",
+          "programExerciseId": "",
+          "targetReps": 11,
+          "targetWeight": 11,
+          "targetRestTime": 45,
+          "order": 0,
+          "isWarmup": true
+        },
+        {
+          "id": null,
+          "programExerciseId": "",
+          "targetReps": 11,
+          "targetWeight": 11,
+          "targetRestTime": 11,
+          "order": 1,
+          "isWarmup": false
+        },
+        {
+          "id": null,
+          "programExerciseId": "",
+          "targetReps": 12,
+          "targetWeight": 12,
+          "targetRestTime": 12,
+          "order": 2,
+          "isWarmup": false
+        }
+      ]
+    }
+  ],
+  "deletedProgramExercises": []
+}

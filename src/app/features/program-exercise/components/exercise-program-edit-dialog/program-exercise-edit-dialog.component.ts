@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import {
-  IProgramExercise,
+  IProgramExerciseDto,
   IProgramExerciseEditDTO,
 } from '../../models/iexercise-program';
 import { ProgramExerciseEditComponent } from '../program-exercise-edit/program-exercise-edit.component';
@@ -14,8 +14,8 @@ import { ProgramExerciseToDtoPipe } from '../../pipes/program-exercise-to-dto.pi
   styleUrl: './program-exercise-edit-dialog.component.css',
 })
 export class ProgramExerciseEditDialogComponent {
-  @Input() item: IProgramExercise | undefined;
-  @Input() onExerciseAdded:
+  @Input() item: IProgramExerciseEditDTO | undefined;
+  @Input() onSaveProgramExercise:
     | ((exercise: IProgramExerciseEditDTO) => void)
     | undefined;
 
@@ -26,8 +26,8 @@ export class ProgramExerciseEditDialogComponent {
   }
   get dialogData() {
     return {
-      item: new ProgramExerciseToDtoPipe().transform(this.item),
-      onExerciseAdded: this.onExerciseAdded,
+      item: this.item,
+      onSaveProgramExercise: this.onSaveProgramExercise,
     };
   }
 }

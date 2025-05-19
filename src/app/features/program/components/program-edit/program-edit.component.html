@@ -35,15 +35,20 @@
     <ul class="calendar-days">
         @for(day of daysOfWeek;track day){
         <li class="calendar-day">
-            <app-program-exercise-edit-dialog [onExerciseAdded]="addProgramExercise.bind(this)" />
+            <app-program-exercise-edit-dialog [onSaveProgramExercise]="saveProgramExercise.bind(this)" />
             <h3>{{day}}</h3>
             <ul>
-                @for(pe of program?.programExercises;track $index){
+                @for(pe of programExercises();track $index){
                 @if(checkDaysOfWeek(day,pe.daysOfWeek)){
                 <li>
-                    <p>{{getSelectedExercise(pe.exercise.id)?.name}}</p>
-                    <app-program-exercise-details-dialog [programExercise]="pe" />
-                    <app-program-exercise-edit-dialog [onExerciseAdded]="addProgramExercise.bind(this)" [item]="pe" />
+                    <p>{{getSelectedExercise(pe.exerciseId)?.name}}</p>
+                    <app-program-exercise-details-dialog
+                        [programExercise]="pe|programExerciseEditToDto:getSelectedExercise(pe.exerciseId)!" />
+                    <app-program-exercise-edit-dialog [onSaveProgramExercise]="saveProgramExercise.bind(this)"
+                        [item]="pe" />
+                    <button type="button" mat-icon-button (click)="removeProgramExercise(pe.id,pe.exerciseId)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
 
                 </li>
                 }

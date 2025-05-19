@@ -15,7 +15,7 @@ import {
   FormGroup,
 } from '@angular/forms';
 import {
-  IProgramExercise,
+  IProgramExerciseDto,
   IProgramExerciseEditDTO,
 } from '../../models/iexercise-program';
 import { ExerciseService } from '../../../exercise/services/exercise.service';
@@ -34,11 +34,12 @@ import { MatSelectComponent } from '../../../../core/components/form/mat-select/
 import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CommonModule } from '@angular/common';
-import { ISetEditDTO } from '../../../set/models/iSet';
+import { ICoreSetEditDTO } from '../../../set/models/iSet';
 import { NestedDialogService } from '../../../../core/services/nested-dialog.service';
 import { ExerciseEditComponent } from '../../../exercise/components/exercise-edit/exercise-edit.component';
 import { ExerciseDetailsContentComponent } from '../../../exercise/components/exercise-details-content/exercise-details-content.component';
 import { DAY_OF_WEEK, TDayOfWeek } from '../../../../core/types/app.type';
+import { genTempId } from '../../../../core/functions/genTempId';
 
 @Component({
   selector: 'app-exercise-program-edit',
@@ -70,7 +71,7 @@ export class ProgramExerciseEditComponent {
   formBuilder = inject(FormBuilder);
   @Input()
   programExercise: IProgramExerciseEditDTO | undefined;
-  
+
   exerciseService = inject(ExerciseService);
   exerciseList = this.exerciseService.itemSignal;
   daysOfWeek = DAY_OF_WEEK;
@@ -98,7 +99,7 @@ export class ProgramExerciseEditComponent {
     private dialogData:
       | {
           item?: IProgramExerciseEditDTO;
-          onExerciseAdded?: (exercise: IProgramExerciseEditDTO) => void;
+          onSaveProgramExercise?: (exercise: IProgramExerciseEditDTO) => void;
         }
       | undefined,
     private nestedDialogService: NestedDialogService
@@ -107,8 +108,10 @@ export class ProgramExerciseEditComponent {
   ngOnInit(): void {
     this.exerciseService.get({ page: 1, recordsPerPage: 10 }).subscribe();
     this.programExercise = this.dialogData?.item || this.programExercise;
+    this.initDays(this.programExercise?.daysOfWeek || []);
     if (!this.programExercise) {
       this.resetForm();
+      return;
     }
 
     this.form.patchValue({
@@ -122,7 +125,6 @@ export class ProgramExerciseEditComponent {
     if (this.programExercise?.sets && this.programExercise.sets.length > 0) {
       this.initSets(this.programExercise.sets);
     }
-    this.initDays(this.programExercise?.daysOfWeek || []);
   }
 
   get daysArray(): FormArray {
@@ -134,7 +136,7 @@ export class ProgramExerciseEditComponent {
       this.daysArray.push(this.formBuilder.control(days.includes(day)));
     });
   }
-  initSets(sets: ISetEditDTO[]) {
+  initSets(sets: ICoreSetEditDTO[]) {
     while (this.setsArray.length) {
       this.setsArray.removeAt(0);
     }
@@ -144,19 +146,15 @@ export class ProgramExerciseEditComponent {
     });
   }
 
-  createSetFormGroup(set?: ISetEditDTO): FormGroup {
+  createSetFormGroup(set?: ICoreSetEditDTO): FormGroup {
     return this.formBuilder.group({
-      id: [set?.id || ''],
+      id: [set?.id],
       programExerciseId: [set?.programExerciseId || ''],
-      actualReps: [set?.actualReps || 0],
       targetReps: [set?.targetReps || 0],
-      weight: [set?.weight || 0],
-      restTime: [set?.restTime || 30],
+      targetWeight: [set?.targetWeight || 0],
+      targetRestTime: [set?.targetRestTime || 30],
       order: [set?.order || this.setsArray.length],
-      isCompleted: [set?.isCompleted || false],
-      isMuscleFailure: [set?.isMuscleFailure || false],
       isWarmup: [set?.isWarmup || false],
-      jointPain: [set?.jointPain || false],
     });
   }
 
@@ -194,8 +192,9 @@ export class ProgramExerciseEditComponent {
   resetForm() {
     this.form.reset();
     this.form.patchValue({
-      order: 0,
+      order: 1,
       sets: [],
+      id: genTempId(),
     });
 
     while (this.setsArray.length) {
@@ -204,18 +203,17 @@ export class ProgramExerciseEditComponent {
   }
 
   save() {
-    if (this.form.invalid) return;
-
     const formValue = this.form.value as IProgramExerciseEditDTO;
-    if (this.dialogData?.onExerciseAdded) {
+    if (this.dialogData?.onSaveProgramExercise) {
       const days: TDayOfWeek[] = [];
       this.daysOfWeek.forEach((day, index) => {
         if (formValue?.daysOfWeek && formValue?.daysOfWeek[index]) {
+          if (this.form.invalid) return;
           days.push(this.daysOfWeek[index]);
         }
       });
       formValue.daysOfWeek = days;
-      this.dialogData.onExerciseAdded(formValue);
+      this.dialogData.onSaveProgramExercise(formValue);
     }
 
     this.dialogRef?.close(formValue);

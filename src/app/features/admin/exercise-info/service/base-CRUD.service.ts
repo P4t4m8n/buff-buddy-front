@@ -5,11 +5,13 @@ import { IPaginationDTO } from '../../../../core/components/pagination/paginatio
 import { buildQueryParams } from '../../../../core/functions/buildQueryParams';
 import { catchError, Observable, tap } from 'rxjs';
 import { ICRUDService } from '../../../../core/interfaces/icrudservice';
-import { IEntity, IEntityDTO } from '../../../../core/types/app.type';
+import { IEntityDTO, IEntityEditDTO } from '../../../../core/types/app.type';
 
 @Injectable()
-export abstract class BaseCRUDService<T extends IEntity, DTO extends IEntityDTO>
-  implements ICRUDService<T, DTO>
+export abstract class BaseCRUDService<
+  T extends IEntityDTO,
+  DTO extends IEntityEditDTO
+> implements ICRUDService<T, DTO>
 {
   protected httpClient = inject(HttpClient);
   protected abstract baseUrl: string;

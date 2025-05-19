@@ -1,7 +1,7 @@
-import { IEntity } from '../../../core/types/app.type';
+import { IEntityDTO } from '../../../core/types/app.type';
 import { IExerciseInfo } from '../../admin/exercise-info/models/exerciseInfo';
 
-interface IExerciseBase extends IEntity {
+interface IExerciseBase extends IEntityDTO {
   name?: string;
   youtubeUrl?: string;
 }

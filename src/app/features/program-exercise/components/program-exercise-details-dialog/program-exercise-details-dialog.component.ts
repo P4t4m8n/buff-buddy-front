@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { IProgram } from '../../../program/models/iProgram';
-import { IProgramExercise } from '../../models/iexercise-program';
+import { IProgramExerciseDto } from '../../models/iexercise-program';
 import { ProgramExerciseDetailsComponent } from '../program-exercise-details/program-exercise-details.component';
 import { DialogComponent } from '../../../../core/components/dialog/dialog.component';
 
@@ -10,11 +10,9 @@ import { DialogComponent } from '../../../../core/components/dialog/dialog.compo
   templateUrl: './program-exercise-details-dialog.component.html',
   styleUrl: './program-exercise-details-dialog.component.css',
 })
-export class ProgramExerciseDetailsDialogComponent implements OnInit {
-  ngOnInit(): void {
-    console.log(this.programExercise);
-  }
-  @Input({ required: true }) programExercise: IProgramExercise | undefined;
+export class ProgramExerciseDetailsDialogComponent  {
+
+  @Input({ required: true }) programExercise: IProgramExerciseDto | undefined;
 
   dialogContent = ProgramExerciseDetailsComponent;
 }

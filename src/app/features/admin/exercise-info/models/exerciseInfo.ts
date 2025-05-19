@@ -1,6 +1,6 @@
-import { IEntity } from "../../../../core/types/app.type";
+import { IEntityDTO } from '../../../../core/types/app.type';
 
-export interface IExerciseInfo extends IEntity {
+export interface IExerciseInfo extends IEntityDTO {
   name?: string;
   imgUrl?: string;
 }

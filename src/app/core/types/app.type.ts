@@ -1,9 +1,9 @@
 import { ValidationErrors } from '@angular/forms';
 
-export interface IEntity {
+export interface IEntityDTO {
   id: string;
 }
-export interface IEntityDTO {
+export interface IEntityEditDTO {
   id?: string;
 }
 

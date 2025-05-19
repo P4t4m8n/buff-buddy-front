@@ -1,0 +1,60 @@
+<h2>{{activeData()?.programName}}</h2>
+<ul>
+
+    @for(pe of activeData()?.exercises; track pe.id){
+    <li>
+        <header>
+            <h3>{{pe.exercise.name}}</h3>
+            <p>{{pe.exercise.muscle}}</p>
+            <p>{{pe.exercise.equipment}}</p>
+            <p>{{pe.exercise.type}}</p>
+            <app-youtube-player [youtubeUrl]="pe.exercise.youtubeUrl" />
+        </header>
+        <ul>
+            @for(set of pe?.sets; track set.id){
+            <li>
+                <div>
+                    <p>Reps: {{set.targetReps}}</p>
+                    <p>Weight: {{set.targetWeight}}</p>
+                    <p>Rest: {{set.targetRestTime}}</p>
+                    <p>WarmUp:{{set.isWarmup}}</p>
+                </div>
+                <form>
+                    <span>
+                        <label for={{`actualReps-${set.id}`}}>Reps</label>
+                        <input type="number" id="actualReps" name={{`actualReps-${set.id}`}}>
+                    </span>
+                    <span>
+                        <label for={{`actualWeight-${set.id}`}}>Weight</label>
+                        <input type="number" id={{`actualWeight-${set.id}`}} name={{`actualWeight-${set.id}`}}>
+                    </span>
+                    <span>
+                        <label for={{`actualRestTime-${set.id}`}}>Reps</label>
+                        <input type="number" id={{`actualRestTime-${set.id}`}} name={{`actualRestTime-${set.id}`}}>
+                    </span>
+                    <div>
+
+                        <span>
+
+                            <input type="checkbox" id={{`isCompleted-${set.id}`}} name={{`isCompleted-${set.id}`}}>
+                            <label for={{`isCompleted-${set.id}`}}>Completed?</label>
+                        </span>
+                        <span>
+
+                            <input type="checkbox" id={{`isJointPain-${set.id}`}} name={{`isJointPain-${set.id}`}}>
+                            <label for={{`isJointPain-${set.id}`}}>JoinPain?</label>
+                        </span>
+                        <span>
+
+                            <input type="checkbox" id={{`isMuscleFailure-${set.id}`}}
+                                name={{`isMuscleFailure-${set.id}`}}>
+                            <label for={{`isMuscleFailure-${set.id}`}}>MuscleFailure?</label>
+                        </span>
+                    </div>
+                </form>
+            </li>
+            }
+        </ul>
+    </li>
+    }
+</ul>

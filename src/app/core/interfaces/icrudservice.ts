@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 import { IPaginationDTO } from '../components/pagination/pagination-dto';
 import { HttpResponse } from '@angular/common/http';
-import { IEntity } from '../types/app.type';
+import { IEntityDTO } from '../types/app.type';
 import { Signal, WritableSignal } from '@angular/core';
 
 export interface ICRUDService<T, TDTO> {
