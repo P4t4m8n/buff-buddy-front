@@ -50,7 +50,7 @@
                             <ul>
                                 @for(set of pe.sets; track set.id) {
                                 <li>
-                                    {{ set.targetReps }} reps ,{{ set.targetWeight }}kg, Rest: {{ set.targetRestTime }}s
+                                    {{ set.reps }} reps ,{{ set.weight }}kg, Rest: {{ set.restTime }}s
                                     @if (set.isWarmup) { <span>(warmup)</span> }
                                 </li>
                                 }

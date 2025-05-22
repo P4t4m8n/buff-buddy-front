@@ -29,6 +29,7 @@ export abstract class BaseCRUDService<
       })
       .pipe(
         tap((response) => {
+          console.log(" response:", response)
           this.itemSignal.set(response.body as T[]);
           const headers = response.headers.get('total-count');
           this.totalItemsSignal.set(+(headers || 0));

@@ -6,10 +6,9 @@ import { DAY_OF_WEEK, TDayOfWeek } from '../../../../core/types/app.type';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
-import { MatCardModule } from '@angular/material/card'; // Import MatCardModule
-import { MatListModule } from '@angular/material/list'; // Import MatListModule
-import { MatChipsModule } from '@angular/material/chips'; // Import MatChipsMod
-import { MatButton } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatListModule } from '@angular/material/list';
+import { MatChipsModule } from '@angular/material/chips';
 import { ActiveProgramDataService } from '../../../active-program/services/active-program-data.service';
 
 @Component({
@@ -41,6 +40,7 @@ export class ProgramDetailsComponent {
 
     this.programService.getById(id).subscribe((program) => {
       this.program = program;
+      console.log(" program:", program)
     });
   }
 
@@ -62,10 +62,16 @@ export class ProgramDetailsComponent {
     if (!this.program || !this.program.programExercises) {
       return;
     }
+    console.log(
+      ' this.program.programExercises:',
+      this.program.programExercises
+    );
 
+    console.log(' this.program:', this.program);
     const exercisesForDay = this.program.programExercises.filter((pe) =>
       pe.daysOfWeek?.includes(day)
     );
+    console.log(' exercisesForDay:', exercisesForDay);
 
     if (exercisesForDay.length > 0) {
       this.activeProgramDataService.setActiveData({

@@ -19,6 +19,7 @@ export class ActiveProgramIndexComponent implements OnInit {
 
   ngOnInit(): void {
     const currentData = this.activeData();
+    console.log(" currentData:", currentData)
     if (!currentData) {
       console.warn('No active program data found (Signals).');
     }

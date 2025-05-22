@@ -150,9 +150,9 @@ export class ProgramExerciseEditComponent {
     return this.formBuilder.group({
       id: [set?.id],
       programExerciseId: [set?.programExerciseId || ''],
-      targetReps: [set?.targetReps || 0],
-      targetWeight: [set?.targetWeight || 0],
-      targetRestTime: [set?.targetRestTime || 30],
+      reps: [set?.reps || 0],
+      weight: [set?.weight || 0],
+      restTime: [set?.restTime || 30],
       order: [set?.order || this.setsArray.length],
       isWarmup: [set?.isWarmup || false],
     });

@@ -49,9 +49,9 @@
                     <div matListItemTitle class="set-title">Set {{ i + 1 }} <span class="set-order">(Order:
                             {{set.order}})</span></div>
                     <div matListItemLine class="set-properties">
-                        <span>Target Reps: <strong>{{ set.targetReps }}</strong></span>
-                        <span>Weight: <strong>{{ set.targetWeight }} kg</strong></span>
-                        <span>Rest: <strong>{{ set.targetRestTime }}s</strong></span>
+                        <span>Target Reps: <strong>{{ set.reps }}</strong></span>
+                        <span>Weight: <strong>{{ set.weight }} kg</strong></span>
+                        <span>Rest: <strong>{{ set.restTime }}s</strong></span>
                     </div>
                     <div matListItemLine class="set-flags">
                         @if (set.isWarmup) { <mat-chip disabled="true" selected="true" size="small"

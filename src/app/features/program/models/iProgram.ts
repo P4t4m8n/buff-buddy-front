@@ -5,12 +5,12 @@ import {
 } from '../../program-exercise/models/iexercise-program';
 
 export interface IProgram extends IEntityDTO {
-  name: string | null | undefined; // Name of the program
-  note?: string; // Note for the program
-  startDate: Date; // Start date of the program
-  endDate: Date; // End date of the program
-  isActive: boolean; // Indicates if the program is active
-  programExercises?: IProgramExerciseDto[]; // List of exercises in the program
+  name: string | null | undefined;
+  note?: string;
+  startDate: Date;
+  endDate: Date;
+  isActive: boolean;
+  programExercises?: IProgramExerciseDto[];
 }
 
 export interface IProgramEditDTO
@@ -18,7 +18,7 @@ export interface IProgramEditDTO
     IEntityEditDTO {
   programExercises?: IProgramExerciseEditDTO[];
   //Only for Client to Server
-  newProgramExercises?: IProgramExerciseEditDTO[]; // New exercises to be added
-  updateProgramExercises?: IProgramExerciseEditDTO[]; // Updated exercises
-  deleteProgramExercises?: Partial<IProgramExerciseEditDTO>[]; // Deleted exercises
+  newProgramExercises?: IProgramExerciseEditDTO[];
+  updateProgramExercises?: IProgramExerciseEditDTO[];
+  deleteProgramExercises?: Partial<IProgramExerciseEditDTO>[];
 }

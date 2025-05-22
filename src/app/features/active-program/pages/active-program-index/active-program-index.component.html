@@ -5,18 +5,18 @@
     <li>
         <header>
             <h3>{{pe.exercise.name}}</h3>
-            <p>{{pe.exercise.muscle}}</p>
-            <p>{{pe.exercise.equipment}}</p>
-            <p>{{pe.exercise.type}}</p>
+            <p>{{pe.exercise.muscle?.name}}</p>
+            <p>{{pe.exercise.equipment?.name}}</p>
+            <p>{{pe.exercise.type?.name}}</p>
             <app-youtube-player [youtubeUrl]="pe.exercise.youtubeUrl" />
         </header>
         <ul>
             @for(set of pe?.sets; track set.id){
             <li>
                 <div>
-                    <p>Reps: {{set.targetReps}}</p>
-                    <p>Weight: {{set.targetWeight}}</p>
-                    <p>Rest: {{set.targetRestTime}}</p>
+                    <p>Reps: {{set.reps}}</p>
+                    <p>Weight: {{set.weight}}</p>
+                    <p>Rest: {{set.restTime}}</p>
                     <p>WarmUp:{{set.isWarmup}}</p>
                 </div>
                 <form>
