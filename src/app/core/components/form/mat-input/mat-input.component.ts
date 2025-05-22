@@ -32,7 +32,7 @@ export class MatInputComponent {
   @Input({ required: true })
   label: string = 'Label';
   @Input()
-  type: 'text' | 'number' = 'text';
+  type: 'text' | 'number'|"checkbox" = 'text';
 
   
 }

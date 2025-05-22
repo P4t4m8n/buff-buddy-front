@@ -1,0 +1,4 @@
+.active-program{
+    height: calc(100% - 8rem);
+    overflow: auto;
+}

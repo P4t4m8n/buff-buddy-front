@@ -40,7 +40,7 @@ export class ProgramDetailsComponent {
 
     this.programService.getById(id).subscribe((program) => {
       this.program = program;
-      console.log(" program:", program)
+      console.log(' program:', program);
     });
   }
 
@@ -68,10 +68,25 @@ export class ProgramDetailsComponent {
     );
 
     console.log(' this.program:', this.program);
-    const exercisesForDay = this.program.programExercises.filter((pe) =>
-      pe.daysOfWeek?.includes(day)
-    );
-    console.log(' exercisesForDay:', exercisesForDay);
+    const exercisesForDay = this.program.programExercises
+      .filter((pe) => pe.daysOfWeek?.includes(day))
+      .map((pe) => ({
+        ...pe,
+        sets: pe.sets.map((s) => {
+          return {
+            coreSet: { ...s },
+            userSet: {
+              reps: 0,
+              weight: 0,
+              restTime: 0,
+              isCompleted: false,
+              isMuscleFailure: false,
+              isJointPain: false,
+              coreSetId: s.id,
+            },
+          };
+        }),
+      }));
 
     if (exercisesForDay.length > 0) {
       this.activeProgramDataService.setActiveData({

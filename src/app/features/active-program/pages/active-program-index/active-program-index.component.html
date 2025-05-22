@@ -1,5 +1,5 @@
 <h2>{{activeData()?.programName}}</h2>
-<ul>
+<ul class="active-program">
 
     @for(pe of activeData()?.exercises; track pe.id){
     <li>
@@ -11,48 +11,8 @@
             <app-youtube-player [youtubeUrl]="pe.exercise.youtubeUrl" />
         </header>
         <ul>
-            @for(set of pe?.sets; track set.id){
-            <li>
-                <div>
-                    <p>Reps: {{set.reps}}</p>
-                    <p>Weight: {{set.weight}}</p>
-                    <p>Rest: {{set.restTime}}</p>
-                    <p>WarmUp:{{set.isWarmup}}</p>
-                </div>
-                <form>
-                    <span>
-                        <label for={{`actualReps-${set.id}`}}>Reps</label>
-                        <input type="number" id="actualReps" name={{`actualReps-${set.id}`}}>
-                    </span>
-                    <span>
-                        <label for={{`actualWeight-${set.id}`}}>Weight</label>
-                        <input type="number" id={{`actualWeight-${set.id}`}} name={{`actualWeight-${set.id}`}}>
-                    </span>
-                    <span>
-                        <label for={{`actualRestTime-${set.id}`}}>Reps</label>
-                        <input type="number" id={{`actualRestTime-${set.id}`}} name={{`actualRestTime-${set.id}`}}>
-                    </span>
-                    <div>
-
-                        <span>
-
-                            <input type="checkbox" id={{`isCompleted-${set.id}`}} name={{`isCompleted-${set.id}`}}>
-                            <label for={{`isCompleted-${set.id}`}}>Completed?</label>
-                        </span>
-                        <span>
-
-                            <input type="checkbox" id={{`isJointPain-${set.id}`}} name={{`isJointPain-${set.id}`}}>
-                            <label for={{`isJointPain-${set.id}`}}>JoinPain?</label>
-                        </span>
-                        <span>
-
-                            <input type="checkbox" id={{`isMuscleFailure-${set.id}`}}
-                                name={{`isMuscleFailure-${set.id}`}}>
-                            <label for={{`isMuscleFailure-${set.id}`}}>MuscleFailure?</label>
-                        </span>
-                    </div>
-                </form>
-            </li>
+            @for(set of pe?.sets; track set.coreSet.id){
+            <app-active-sets [set]="set" (setFinished)="saveSet($event)" />
             }
         </ul>
     </li>

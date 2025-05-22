@@ -1,8 +1,8 @@
 import { TDayOfWeek } from '../../../core/types/app.type';
-import { IProgramExerciseDto } from '../../program-exercise/models/iexercise-program';
+import { IActiveProgramExerciseDto, IProgramExerciseDto } from '../../program-exercise/models/iexercise-program';
 
 export interface IActiveProgramData {
-  exercises: IProgramExerciseDto[];
+  exercises: IActiveProgramExerciseDto[];
   programName: string;
   day: TDayOfWeek;
 }

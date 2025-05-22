@@ -4,7 +4,12 @@ import {
   TDayOfWeek,
 } from '../../../core/types/app.type';
 import { IExercise } from '../../exercise/types/exercise.type';
-import { ICoreSetDTO, ICoreSetEditDTO } from '../../set/models/iSet';
+import {
+  ICoreSetDTO,
+  ICoreSetEditDTO,
+  IUserSetDTO,
+  IUserSetEditDTO,
+} from '../../set/models/iSet';
 
 interface IBaseProgramExercise {
   order: number; // Order of the exercise in the program
@@ -15,6 +20,15 @@ interface IBaseProgramExercise {
 export interface IProgramExerciseDto extends IBaseProgramExercise, IEntityDTO {
   exercise: IExercise;
   sets: ICoreSetDTO[]; // List of sets for the exercise
+}
+
+export interface IActiveProgramExerciseDto extends IBaseProgramExercise, IEntityDTO {
+  exercise: IExercise;
+
+  sets: {
+    coreSet: ICoreSetDTO;
+    userSet: IUserSetEditDTO;
+  }[];
 }
 
 export interface IProgramExerciseEditDTO
