@@ -7,7 +7,7 @@ import {
   Optional,
 } from '@angular/core';
 import { IExerciseInfo, IExerciseInfoDTO } from '../models/exerciseInfo';
-import { BaseCRUDService } from '../service/base-CRUD.service';
+import { BaseCRUDService } from '../../../../core/services/base-CRUD.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { IErrorMessage, IErrorResponse } from '../../../../core/types/app.type';

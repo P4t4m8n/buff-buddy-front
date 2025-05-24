@@ -9,7 +9,9 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { MatChipsModule } from '@angular/material/chips';
-import { ActiveProgramDataService } from '../../../active-program/services/active-program-data.service';
+import { WorkoutDataService } from '../../../workout/services/workout-data.service';
+import { IWorkout } from '../../../workout/models/workout.interface';
+import { IWorkoutExercise } from '../../../program-exercise/models/iexercise-program';
 
 @Component({
   selector: 'app-program-details',
@@ -27,7 +29,7 @@ import { ActiveProgramDataService } from '../../../active-program/services/activ
 })
 export class ProgramDetailsComponent {
   programService = inject(ProgramService);
-  activeProgramDataService = inject(ActiveProgramDataService);
+  workoutDataService = inject(WorkoutDataService);
   program: IProgram | null = null;
   daysOfWeek = DAY_OF_WEEK;
   router = inject(Router);
@@ -40,7 +42,6 @@ export class ProgramDetailsComponent {
 
     this.programService.getById(id).subscribe((program) => {
       this.program = program;
-      console.log(' program:', program);
     });
   }
 
@@ -62,13 +63,8 @@ export class ProgramDetailsComponent {
     if (!this.program || !this.program.programExercises) {
       return;
     }
-    console.log(
-      ' this.program.programExercises:',
-      this.program.programExercises
-    );
 
-    console.log(' this.program:', this.program);
-    const exercisesForDay = this.program.programExercises
+    const exercisesForDay: IWorkoutExercise[] = this.program.programExercises
       .filter((pe) => pe.daysOfWeek?.includes(day))
       .map((pe) => ({
         ...pe,
@@ -83,13 +79,14 @@ export class ProgramDetailsComponent {
               isMuscleFailure: false,
               isJointPain: false,
               coreSetId: s.id,
+              programExerciseId: pe.id,
             },
           };
         }),
       }));
 
     if (exercisesForDay.length > 0) {
-      this.activeProgramDataService.setActiveData({
+      this.workoutDataService.setActiveData({
         exercises: exercisesForDay,
         programName: this.program.name || 'exercise',
         day: day,

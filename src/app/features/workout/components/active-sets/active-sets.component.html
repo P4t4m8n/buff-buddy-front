@@ -1,10 +1,13 @@
 <li>
     <div>
+        <h2>Core Sets</h2>
         <p>Reps: {{set.coreSet.reps}}</p>
         <p>Weight: {{set.coreSet.weight}}</p>
         <p>Rest: {{set.coreSet.restTime}}</p>
         <p>WarmUp:{{set.coreSet.isWarmup}}</p>
     </div>
+    @if(!isFinished){
+
     <form (submit)="onSubmit($event)">
         <app-mat-input type="number" [formControlInput]="form.controls.reps" label="Reps"></app-mat-input>
         <app-mat-input type="number" [formControlInput]="form.controls.weight" label="weight"></app-mat-input>
@@ -14,7 +17,16 @@
         <mat-checkbox [formControl]="form.controls.isMuscleFailure">MuscleFailure</mat-checkbox>
         <button mat-raised-button color="primary" type="submit">Save</button>
 
-
-
     </form>
+    } @else {
+    <div>
+        <h2>User Sets</h2>
+        <p>Reps: {{set.userSet.reps}}</p>
+        <p>Weight: {{set.userSet.weight}}</p>
+        <p>Rest: {{set.userSet.restTime}}</p>
+        <p>Completed: {{set.userSet.isCompleted}}</p>
+        <p>Joint Pain: {{set.userSet.isJointPain}}</p>
+        <p>Muscle Failure: {{set.userSet.isMuscleFailure}}</p>
+    </div>
+    }
 </li>

@@ -6,7 +6,7 @@ import { environment } from '../../../../environments/environment';
 import { IPaginationDTO } from '../../../core/components/pagination/pagination-dto';
 import { buildQueryParams } from '../../../core/functions/buildQueryParams';
 import { ICRUDService } from '../../../core/interfaces/icrudservice';
-import { BaseCRUDService } from '../../admin/exercise-info/service/base-CRUD.service';
+import { BaseCRUDService } from '../../../core/services/base-CRUD.service';
 
 @Injectable({
   providedIn: 'root',

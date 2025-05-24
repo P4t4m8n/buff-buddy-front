@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { inject, signal, WritableSignal } from '@angular/core';
-import { IPaginationDTO } from '../../../../core/components/pagination/pagination-dto';
-import { buildQueryParams } from '../../../../core/functions/buildQueryParams';
+import { IPaginationDTO } from '../components/pagination/pagination-dto';
+import { buildQueryParams } from '../functions/buildQueryParams';
 import { catchError, Observable, tap } from 'rxjs';
-import { ICRUDService } from '../../../../core/interfaces/icrudservice';
-import { IEntityDTO, IEntityEditDTO } from '../../../../core/types/app.type';
+import { ICRUDService } from '../interfaces/icrudservice';
+import { IEntityDTO, IEntityEditDTO } from '../types/app.type';
 
 @Injectable()
 export abstract class BaseCRUDService<
@@ -29,7 +29,6 @@ export abstract class BaseCRUDService<
       })
       .pipe(
         tap((response) => {
-          console.log(" response:", response)
           this.itemSignal.set(response.body as T[]);
           const headers = response.headers.get('total-count');
           this.totalItemsSignal.set(+(headers || 0));
@@ -40,11 +39,9 @@ export abstract class BaseCRUDService<
         })
       );
   }
-
   public getById(id: string): Observable<T> {
     return this.httpClient.get<T>(`${this.baseUrl}/${id}`);
   }
-
   public saveForm(dto: DTO) {
     if (dto.id) {
       return this.updateForm(dto);
@@ -59,7 +56,6 @@ export abstract class BaseCRUDService<
       return this.createJson(dto);
     }
   }
-
   public delete(id: string) {
     if (this.verifySignal()) {
       throw new Error('itemSignal is not initialized');
@@ -77,7 +73,6 @@ export abstract class BaseCRUDService<
       })
     );
   }
-
   protected dtoToFormData(dto: DTO): FormData | null {
     return null; // Default implementation returns null
   }
@@ -172,7 +167,6 @@ export abstract class BaseCRUDService<
       })
     );
   }
-
   /*
    * Check if itemSignal is initialized and not null throw early error before making the request
    * If Signal is not initialized in this stage then we have a problem in the app

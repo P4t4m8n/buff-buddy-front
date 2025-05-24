@@ -22,7 +22,7 @@ export interface IProgramExerciseDto extends IBaseProgramExercise, IEntityDTO {
   sets: ICoreSetDTO[]; // List of sets for the exercise
 }
 
-export interface IActiveProgramExerciseDto extends IBaseProgramExercise, IEntityDTO {
+export interface IWorkoutExercise extends IBaseProgramExercise, IEntityDTO {
   exercise: IExercise;
 
   sets: {

@@ -32,11 +32,15 @@ export class ActiveSetsComponent implements OnInit {
   setFinished = new EventEmitter<IUserSetEditDTO>();
   isFinished = false;
 
-  constructor() {}
   ngOnInit(): void {
-    console.log(' this.set):', this.set);
     if (!this.set) {
       console.error('coreSet is null');
+      return;
+    }
+
+    if (this.set?.userSet?.isFinished) {
+      this.isFinished = true;
+      console.warn('Set is already finished:', this.set.userSet);
       return;
     }
 
@@ -61,15 +65,19 @@ export class ActiveSetsComponent implements OnInit {
     coreSetId: new FormControl<string>(this.set?.coreSet?.id),
   });
 
-  onSubmit(e:SubmitEvent) {
+  onSubmit(e: SubmitEvent) {
     e.preventDefault();
     if (this.form.valid) {
       const formValue = this.form.value;
       const userSet: IUserSetEditDTO = {
         ...formValue,
-        coreSetId: formValue.coreSetId!,
+        coreSetId: this.set.coreSet?.id!,
+        programExerciseId: this.set.userSet.programExerciseId,
+        isFinished: true, // Mark the set as finished
       };
+      this.set.userSet = userSet;
       this.setFinished.emit(userSet);
+      this.isFinished = true;
     } else {
       console.error('Form is invalid');
     }

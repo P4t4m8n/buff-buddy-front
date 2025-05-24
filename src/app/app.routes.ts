@@ -16,12 +16,12 @@ import { ProgramIndexComponent } from './features/program/pages/program-index/pr
 import { ProgramEditComponent } from './features/program/components/program-edit/program-edit.component';
 import { ProgramExerciseIndexComponent } from './features/program-exercise/pages/program-exercise-index/program-exercise-index.component';
 import { ProgramDetailsComponent } from './features/program/pages/program-details/program-details.component';
-import { ActiveProgramIndexComponent } from './features/active-program/pages/active-program-index/active-program-index.component';
+import { WorkoutIndexComponent } from './features/workout/pages/workout-index/workout-index.component';
 
 export const routes: Routes = [
   { path: ROOT_PATHS.home, component: HomeComponent },
   { path: ROOT_PATHS.programIndex, component: ProgramIndexComponent },
-  { path: ROOT_PATHS.activeProgram, component: ActiveProgramIndexComponent },
+  { path: ROOT_PATHS.activeProgram, component: WorkoutIndexComponent },
   {
     path: ROOT_PATHS.programIndex + ROOT_PATHS.programCreate,
     component: ProgramEditComponent,

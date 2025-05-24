@@ -1,4 +1,5 @@
 <h2>{{activeData()?.programName}}</h2>
+<button mat-raised-button (click)="completeWorkout()">Complete</button>
 <ul class="active-program">
 
     @for(pe of activeData()?.exercises; track pe.id){

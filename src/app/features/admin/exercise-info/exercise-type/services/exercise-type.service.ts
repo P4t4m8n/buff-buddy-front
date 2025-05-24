@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { IExerciseInfo, IExerciseInfoDTO } from '../../models/exerciseInfo';
-import { BaseCRUDService } from '../../service/base-CRUD.service';
+import { BaseCRUDService } from '../../../../../core/services/base-CRUD.service';
 import { environment } from '../../../../../../environments/environment';
 
 @Injectable({

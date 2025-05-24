@@ -5,32 +5,29 @@ import {
   Signal,
   WritableSignal,
 } from '@angular/core';
-import { IActiveProgramData } from '../models/active-program-data';
-
-const LOCAL_STORAGE_KEY = 'activeProgramData';
+import { IBaseLocalStorageService } from '../interfaces/base-local-storage-service.interface';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ActiveProgramDataService {
-  // Private writable signal to hold the state
-  private readonly activeDataSource: WritableSignal<IActiveProgramData | null>;
-  // Public readonly signal for components to consume
-  public readonly activeData: Signal<IActiveProgramData | null>;
+export abstract class BaseLocalStorageService<T>
+  implements IBaseLocalStorageService<T>
+{
+  private readonly activeDataSource: WritableSignal<T | null>;
+  public readonly activeData: Signal<T | null>;
+  protected readonly storageKey: string;
 
-  constructor() {
+  constructor(storageKey: string) {
+    this.storageKey = storageKey;
     this.activeDataSource = signal(this.loadFromLocalStorage());
     this.activeData = computed(() => this.activeDataSource());
-
-
   }
 
-  private loadFromLocalStorage(): IActiveProgramData | null {
+  private loadFromLocalStorage(): T | null {
     try {
-      const storedData = localStorage.getItem(LOCAL_STORAGE_KEY);
+      const storedData = localStorage.getItem(this.storageKey);
       if (storedData) {
-        const parsedData: IActiveProgramData = JSON.parse(storedData);
-        // Optional: Add timestamp validation here if needed
+        const parsedData: T = JSON.parse(storedData);
         return parsedData;
       }
     } catch (error) {
@@ -38,21 +35,20 @@ export class ActiveProgramDataService {
         'Error loading active program data from localStorage (Signals):',
         error
       );
-      localStorage.removeItem(LOCAL_STORAGE_KEY);
     }
     return null;
   }
 
-  private saveToLocalStorage(data: IActiveProgramData | null): void {
+  private saveToLocalStorage(data: T | null): void {
     try {
       if (data) {
         localStorage.setItem(
-          LOCAL_STORAGE_KEY,
+          this.storageKey,
           JSON.stringify({ ...data, timestamp: Date.now() })
         );
-      } else {
-        localStorage.removeItem(LOCAL_STORAGE_KEY);
+        return;
       }
+      localStorage.removeItem(this.storageKey);
     } catch (error) {
       console.error(
         'Error saving active program data to localStorage (Signals):',
@@ -61,7 +57,7 @@ export class ActiveProgramDataService {
     }
   }
 
-  setActiveData(data: IActiveProgramData): void {
+  setActiveData(data: T): void {
     this.activeDataSource.set(data);
     this.saveToLocalStorage(data);
   }
@@ -71,7 +67,7 @@ export class ActiveProgramDataService {
     this.saveToLocalStorage(null);
   }
 
-  getActiveDataSnapshot(): IActiveProgramData | null {
+  getActiveDataSnapshot(): T | null {
     return this.activeDataSource();
   }
 }

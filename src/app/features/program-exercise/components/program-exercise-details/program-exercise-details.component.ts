@@ -37,7 +37,6 @@ export class ProgramExerciseDetailsComponent  {
   ) {
     if (dataFromDialog) {
       this.programExercise = dataFromDialog;
-      console.log(" this.programExercise:", this.programExercise)
     }
   }
 }

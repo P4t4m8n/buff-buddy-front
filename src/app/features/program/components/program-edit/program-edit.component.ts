@@ -189,7 +189,6 @@ export class ProgramEditComponent {
   }
 
   removeProgramExercise(id?: any, exerciseId?: any) {
-    console.log(' id:', id);
     if (!id) {
       console.error('id is null');
       return;
@@ -247,7 +246,6 @@ export class ProgramEditComponent {
     programData.newProgramExercises = this.newProgramExercises;
     programData.updateProgramExercises = this.updateProgramExercises;
     programData.deleteProgramExercises = this.deleteProgramExercises;
-    console.log(' programData:', programData);
 
     this.programService.saveJson(programData).subscribe({
       next: (res) => {
@@ -256,7 +254,6 @@ export class ProgramEditComponent {
         this.router.navigate(['programs']);
       },
       error: (err) => {
-        console.log(' err:', err);
         this.serverErrorHandlingService.mapErrorsToForm<IProgramEditDTO>(
           this.form,
           err

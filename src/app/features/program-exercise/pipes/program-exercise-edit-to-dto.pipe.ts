@@ -15,7 +15,6 @@ export class ProgramExerciseEditToDtoPipe implements PipeTransform {
     value: IProgramExerciseEditDTO,
     exercise: IExerciseDto
   ): IProgramExerciseDto {
-    console.log(" value:", value)
     if (!value) {
       return {} as IProgramExerciseDto;
     }
