@@ -1,31 +1,29 @@
-:host {
-  height: 100%;
-  width: 100%;
-}
-
-
-
-.index-table {
-  table-layout: fixed;
-  & th:last-of-type {
-    padding-left: 2rem;
-  }
-}
-
-.table-con {
-  height: calc(100% - 2rem);
-  background-color: rgb(250, 249, 253);
+section {
   display: flex;
   flex-direction: column;
+  gap: 2rem;
 
-  & :last-child {
-    margin-top: auto;
+  header {
+    border-bottom: 1px solid var(--oxford-blue);
+    font-weight: 500;
   }
-}
-
-.mat-column-actions {
-  & div {
-    display: flex;
-    gap:1rem;
+  ul {
+    font-size: 1.25rem;
+    display: grid;
+    column-gap: 2rem;
+    row-gap: 1rem;
+    align-items: center;
+    .actions {
+      margin-left: calc(80% - 2rem);
+      display: flex;
+      gap: 1rem;
+    }
+    .items-list {
+      box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
+      padding: 0.5rem;
+      &:hover {
+        box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+      }
+    }
   }
 }

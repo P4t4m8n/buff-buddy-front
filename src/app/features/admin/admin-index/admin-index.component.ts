@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { ADMIN_PATHS } from '../../../core/constants/path.constants';
+import { ADMIN_VAV_PATHS } from '../../../core/constants/path.constants';
 import { AppNavComponent } from '../../../core/components/app-nav/app-nav.component';
 
 @Component({
@@ -10,5 +10,6 @@ import { AppNavComponent } from '../../../core/components/app-nav/app-nav.compon
   styleUrl: './admin-index.component.css',
 })
 export class AdminIndexComponent {
-  readonly paths = ADMIN_PATHS;
+  readonly paths = ADMIN_VAV_PATHS;
+  linkStyle = 'link-style';
 }

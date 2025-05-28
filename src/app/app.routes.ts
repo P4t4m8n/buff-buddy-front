@@ -17,14 +17,19 @@ import { ProgramEditComponent } from './features/program/components/program-edit
 import { ProgramExerciseIndexComponent } from './features/program-exercise/pages/program-exercise-index/program-exercise-index.component';
 import { ProgramDetailsComponent } from './features/program/pages/program-details/program-details.component';
 import { WorkoutIndexComponent } from './features/workout/pages/workout-index/workout-index.component';
+import { ProfileIndexComponent } from './features/profile/pages/profile-index/profile-index.component';
 
 export const routes: Routes = [
   { path: ROOT_PATHS.home, component: HomeComponent },
   { path: ROOT_PATHS.programIndex, component: ProgramIndexComponent },
-  { path: ROOT_PATHS.activeProgram, component: WorkoutIndexComponent },
+  { path: ROOT_PATHS.workout, component: WorkoutIndexComponent },
   {
     path: ROOT_PATHS.programIndex + ROOT_PATHS.programCreate,
     component: ProgramEditComponent,
+  },
+  {
+    path: ROOT_PATHS.profile,
+    component: ProfileIndexComponent,
   },
   {
     path: ROOT_PATHS.programDetails,

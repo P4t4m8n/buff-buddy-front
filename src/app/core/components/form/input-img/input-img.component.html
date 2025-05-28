@@ -1,17 +1,8 @@
-<!-- <input id="icon-upload" type="file" (change)="handleChange($event)" hidden />
-<label for="icon-upload" class="upload-label">
-    <img [src]="imgPreview" alt="Uploaded Image" width={{imgSize}} height={{imgSize}} />
-</label> -->
-<!-- Add [class.invalid]="isInvalid" to the label -->
 <input id="icon-upload" type="file" (change)="handleChange($event)" hidden />
 <label for="icon-upload" class="upload-label" [class.invalid]="isInvalid">
     @if(imgPreview) {
     <img [src]="imgPreview" alt="Uploaded Image" width={{imgSize}} height={{imgSize}} />
     } @else {
-    <app-upload-icon [styleClass]="formControlInput.invalid?'upload-icon upload-icon-error':'upload-icon'"></app-upload-icon>
+    <app-upload-icon
+        [styleClass]="formControlInput.invalid?'upload-icon upload-icon-error':'upload-icon'"></app-upload-icon>
     }</label>
-@if(formControlInput.invalid) {
-<mat-error>
-    Required
-</mat-error>
-}

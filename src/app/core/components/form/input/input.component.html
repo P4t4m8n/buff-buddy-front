@@ -1,12 +1,16 @@
 <div>
     <app-display-error [error]="error|validationToError" />
-    @if(formControlValue){
+    @if(formControlInput){
 
-    <input class="{{class}}" type="{{ type }}" [formControl]="formControlValue" placeholder="{{placeHolder}}"
+    <input type="{{ type }}" [formControl]="formControlInput" placeholder="{{placeHolder}}"
         (change)="handleChange($event)" />
     }
     @else {
-    <input class="{{class}}" type="{{ type }}" placeholder="{{placeHolder}}" (change)="handleChange($event)" />
+    <input type="{{ type }}" placeholder="{{placeHolder}}" (change)="handleChange($event)" />
     }
+    <label for="{{id}}">
+        <ng-content></ng-content>
+
+    </label>
 
 </div>

@@ -1,5 +1,12 @@
 :root {
-  --main-height: calc(100vh - 6rem);
+  --main-height: calc(100vh - 4rem); 
+  
   --border-radius: 0.5rem;
   --border-radius-sm: 0.25rem;
+
+  --black: #000000ff;
+  --oxford-blue: #14213dff;
+  --orange-web: #fca311ff;
+  --platinum: #e5e5e5ff;
+  --white: #ffffffff;
 }

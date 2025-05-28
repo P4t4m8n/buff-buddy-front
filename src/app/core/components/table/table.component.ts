@@ -3,43 +3,32 @@ import {
   Component,
   inject,
   Input,
-  Optional,
-  TemplateRef,
   Type,
 } from '@angular/core';
 import { ItemListComponent } from '../item-list/item-list.component';
-import { MatTableModule } from '@angular/material/table';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { CRUD_SERVICE_TOKEN } from '../../providers/providers';
 import { IPaginationDTO } from '../pagination/pagination-dto';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { IEntityDTO, IEntityEditDTO } from '../../types/app.type';
+import { IEntityDTO, IEntityEditDTO, IImgUrl } from '../../types/app.type';
 import { ICRUDService } from '../../interfaces/icrudservice';
-import { MatButton, MatButtonModule } from '@angular/material/button';
 import { NgComponentOutlet } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { MatIconModule } from '@angular/material/icon';
-import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-table',
   imports: [
     ItemListComponent,
-    MatTableModule,
     SweetAlert2Module,
-    MatPaginatorModule,
-    MatButton,
     NgComponentOutlet,
-    RouterLink,
-    MatButtonModule,
-    MatDividerModule,
-    MatIconModule,
   ],
   templateUrl: './table.component.html',
   styleUrl: './table.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TableComponent<T extends IEntityDTO, TDTO extends IEntityEditDTO> {
+export class TableComponent<
+  T extends IEntityDTO & IImgUrl,
+  TDTO extends IEntityEditDTO
+> {
   @Input({ required: true })
   columnsHeaders: string[] = [];
 
@@ -48,6 +37,8 @@ export class TableComponent<T extends IEntityDTO, TDTO extends IEntityEditDTO> {
 
   @Input()
   detailsLink?: boolean = false;
+
+  @Input() gridTemplateColumns: string | null = null;
 
   CRUDService = inject(CRUD_SERVICE_TOKEN) as ICRUDService<T, TDTO>;
   pagination: IPaginationDTO = { page: 1, recordsPerPage: 10 };
@@ -62,17 +53,26 @@ export class TableComponent<T extends IEntityDTO, TDTO extends IEntityEditDTO> {
     this.CRUDService.get(this.pagination).subscribe();
   }
 
-  updatePagination(data: PageEvent) {
-    this.pagination = {
-      page: data.pageIndex + 1,
-      recordsPerPage: data.pageSize,
-    };
-    this.loadRecords();
-  }
+  // updatePagination(data: any) {
+  //   this.pagination = {
+  //     page: data.pageIndex + 1,
+  //     recordsPerPage: data.pageSize,
+  //   };
+  //   this.loadRecords();
+  // }
 
   delete(id: string) {
     this.CRUDService.delete(id).subscribe(() => {
       this.loadRecords();
     });
+  }
+
+  getItemValue(key: string, item: T): string | number {
+    const fixKLey = key as keyof T;
+    const value = item[fixKLey];
+    if (typeof value === 'string' || typeof value === 'number') {
+      return value;
+    }
+    return '';
   }
 }

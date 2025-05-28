@@ -1,0 +1,29 @@
+.crud-button {
+  font-size: 1rem;
+  border: 1px solid var(--oxford-blue);
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  transition: background-color 0.3s ease, color 0.3s ease;
+
+  &:hover {
+    background-color: var(--oxford-blue);
+    color: var(--white);
+  }
+}
+
+.delete-button {
+  font-size: 1rem;
+
+  background-color: var(--oxford-blue);
+  color: var(--white);
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+
+  transition: background-color 0.3s ease, color 0.3s ease;
+  border: none;
+
+  &:hover {
+    background-color: red;
+    color: var(--platinum);
+  }
+}

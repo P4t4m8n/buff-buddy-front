@@ -7,6 +7,10 @@ export interface IEntityEditDTO {
   id?: string;
 }
 
+export interface IImgUrl{
+  imgUrl?: string;
+}
+
 export interface IErrorMessage<T> {
   key: keyof T;
   error: IErrorResponse;
@@ -41,3 +45,9 @@ export const DAY_OF_WEEK = [
   'sunday',
 ] as const;
 export type TDayOfWeek = (typeof DAY_OF_WEEK)[number];
+
+export interface IAppPath {
+  label?: string;
+  path?:string;
+  icon?: any;
+}

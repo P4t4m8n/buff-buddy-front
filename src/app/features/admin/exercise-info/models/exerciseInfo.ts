@@ -1,10 +1,10 @@
 import { IEntityDTO } from '../../../../core/types/app.type';
 
-export interface IExerciseInfo extends IEntityDTO {
+export interface IExerciseInfoDTO extends IEntityDTO {
   name?: string;
   imgUrl?: string;
 }
 
-export interface IExerciseInfoDTO extends IExerciseInfo {
+export interface IExerciseInfoEditDTO extends IExerciseInfoDTO {
   file?: File;
 }

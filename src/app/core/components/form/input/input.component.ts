@@ -16,16 +16,16 @@ import { JsonPipe } from '@angular/common';
 })
 export class InputComponent {
   @Input()
-  formControlValue?: FormControl<any>;
-
-  @Input()
-  placeHolder?: string;
+  formControlInput?: FormControl<any>;
   @Input({ required: true })
-  class: string = '';
+  placeHolder?: string;
+
   @Input()
   type: 'text' | 'file' = 'text';
   @Input()
   error: ValidationErrors | undefined | null = {};
+  @Input({ required: true })
+  id: string = '';
 
   @Output()
   valueChange = new EventEmitter<any>();

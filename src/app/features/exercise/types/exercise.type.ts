@@ -1,14 +1,14 @@
 import { IEntityDTO } from '../../../core/types/app.type';
-import { IExerciseInfo } from '../../admin/exercise-info/models/exerciseInfo';
+import { IExerciseInfoEditDTO } from '../../admin/exercise-info/models/exerciseInfo';
 
 interface IExerciseBase extends IEntityDTO {
   name?: string;
   youtubeUrl?: string;
 }
 export interface IExercise extends IExerciseBase {
-  type?: IExerciseInfo;
-  equipment?: IExerciseInfo;
-  muscle?: IExerciseInfo;
+  type?: IExerciseInfoEditDTO;
+  equipment?: IExerciseInfoEditDTO;
+  muscle?: IExerciseInfoEditDTO;
 }
 
 export interface IExerciseDto extends IExerciseBase {

@@ -1,7 +1,12 @@
 :host {
   display: block;
   height: 100%;
+  & div {
+    height: 2rem;
+    color: var(--orange-web);
+  }
   & section {
-    height: calc(100% - 3rem);
+    height: calc(100% - 2rem);
+    background-color: var(--orange-web);
   }
 }

@@ -1,0 +1,15 @@
+
+/* dialog{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+ 
+  background-color: var(--background-color);
+  border-radius: 8px;
+  box-shadow: var(--box-shadow);
+  z-index: 1000;
+  &::backdrop{
+    non
+  }
+} */

@@ -1,59 +1,62 @@
 <app-item-list [items]="itemsSignal()">
+
     <ng-container content>
-        <div class="table-con">
-            <table mat-table [dataSource]="itemsSignal()!" class="mat-elevation-z8 index-table">
-                @for (column of columnsHeaders; track column) {
-                @if (column === 'actions'){
-                <ng-container matColumnDef="actions" class="actions">
+        <section>
+            <header>
+                <ul [style.grid-template-columns]="gridTemplateColumns">
+                    @for(header of columnsHeaders; track header) {
+                    @if (header === 'actions'){
+                    <li class="actions">
+                        <p>{{header}}</p>
+                    </li>
+                    } @else {
 
-                    <th mat-header-cell *matHeaderCellDef>Actions</th>
-                    <td mat-cell *matCellDef="let item">
-                        <div>
-                            <ng-container *ngComponentOutlet="editDialogType; inputs: {item: item}"></ng-container>
-                            @if(detailsLink){
-                            <a mat-raised-button [routerLink]="[item.id]">Details</a>
-                            }
+                    <li>
+                        <p>{{header}}</p>
+                    </li>
+                    }
+                    }
+                </ul>
+            </header>
+            <ul>
+                @for(item of itemsSignal();track item.id){
 
-                            <button mat-raised-button color="" [swal]="{title: 'Confirmation', text: 'Are you sure you want to delete this record?',
+                <li>
+                    <ul [style.grid-template-columns]="gridTemplateColumns" class="items-list">
+                        @for(header of columnsHeaders; track header+$index){
+                        @if (header === 'actions'){
+                        <li class="actions">
+
+                            <ng-container
+                                *ngComponentOutlet="editDialogType; inputs: {exerciseItem: item}"></ng-container>
+
+                            <button [swal]="{title: 'Confirmation', text: 'Are you sure you want to delete this record?',
                                 showCancelButton: true
-                            }" (confirm)="delete(item.id)">Delete</button>
-                        </div>
-                    </td>
-                </ng-container>
-                }
-                @else if(column === 'imgUrl'){
-                <ng-container matColumnDef="imgUrl">
-                    <th mat-header-cell *matHeaderCellDef>Image</th>
-                    <td mat-cell *matCellDef="let element">
-                        <img [src]="element.imgUrl" alt="Icon" width="48" height="48" />
-                    </td>
-                </ng-container>
-                }
-                @else {
-                <ng-container matColumnDef="{{column}}">
-                    <th mat-header-cell *matHeaderCellDef>{{column}}</th>
+                            }" (confirm)="delete(item.id)" class="delete-button">Delete</button>
 
-                    <td mat-cell *matCellDef="let element">
-                        @if (typeof element[column] === 'object'){
-                        @if(element[column]?.imgUrl){
-                        <img [src]="element[column]?.imgUrl" alt="Icon" width="56" height="56" />
+                        </li>}
+
+                        @else if(header === 'imgUrl'){
+                        <li>
+
+                            <img [src]="item?.imgUrl" alt="Icon" width="48" height="48" />
+                        </li>
+
                         }
-                        <p>{{element[column]?.name}}</p>
+                        @else {
+                        <li>
+                            {{getItemValue(header ,item)}}
 
-                        } @else {
-                        {{element[column]}}
+                        </li>
+
                         }
-                    </td>
-                </ng-container>
-                }
-                }
+                        }
 
-                <tr mat-header-row *matHeaderRowDef="columnsHeaders"></tr>
-                <tr mat-row *matRowDef="let row; columns: columnsHeaders"></tr>
-            </table>
-            <mat-paginator showFirstLastButtons [length]="totalItemsSignal()" [pageSize]="pagination.recordsPerPage"
-                [pageIndex]="pagination.page-1" [pageSizeOptions]="[5, 10, 25]" class="mat-elevation-z8"
-                (page)="updatePagination($event)"></mat-paginator>
-        </div>
+                    </ul>
+                </li>
+                }
+            </ul>
+        </section>
     </ng-container>
+
 </app-item-list>

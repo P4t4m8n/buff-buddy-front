@@ -1,3 +1,10 @@
-<button type="button" mat-raised-button (click)="openDialog()">{{buttonText}}</button>
-<ng-template #dialogContent>
-</ng-template>
+<dialog (clickOutside)="close()" #dialogElement>
+    <div class="dialog-header">
+        <button type="button" class="close-button" (click)="close()">{{buttonText}}</button>
+    </div>
+    <div class="dialog-content">
+        <ng-content></ng-content>
+    </div>
+</dialog>
+<button [ngClass]="buttonStyle" (click)="open()">
+    {{buttonText}}</button>

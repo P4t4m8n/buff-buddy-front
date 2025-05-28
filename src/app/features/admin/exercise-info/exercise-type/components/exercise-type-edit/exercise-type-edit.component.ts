@@ -9,41 +9,34 @@ import {
   MatDialogRef,
 } from '@angular/material/dialog';
 
-import { IExerciseInfo, IExerciseInfoDTO } from '../../../models/exerciseInfo';
+import {
+  IExerciseInfoEditDTO,
+  IExerciseInfoDTO,
+} from '../../../models/exerciseInfo';
 import { ValidationToErrorPipe } from '../../../../../../core/pipes/validation-to-error.pipe';
 import { MatInputComponent } from '../../../../../../core/components/form/mat-input/mat-input.component';
 import { InputImgComponent } from '../../../../../../core/components/form/input-img/input-img.component';
 import { BaseExerciseInfoEditDirective } from '../../../directives/base-exercise-info-edit.directive';
 import { ExerciseTypeService } from '../../services/exercise-type.service';
+import { DialogComponent } from '../../../../../../core/components/dialog/dialog.component';
+import { InputComponent } from '../../../../../../core/components/form/input/input.component';
 
 @Component({
   selector: 'app-exercise-type-edit',
   standalone: true,
   imports: [
-    MatFormFieldModule,
-    MatInputModule,
     FormsModule,
-    MatButtonModule,
     ReactiveFormsModule,
-    MatDialogModule,
-    MatInputModule,
-    ValidationToErrorPipe,
-    MatInputComponent,
     InputImgComponent,
+    DialogComponent,
+    InputComponent,
   ],
-  templateUrl: './exercise-type-edit.component.html',
+  templateUrl: '../../../templates/exercise-info-edit.html',
   styleUrl: './exercise-type-edit.component.css',
 })
 export class ExerciseTypeEditComponent extends BaseExerciseInfoEditDirective<
-  IExerciseInfo,
-  IExerciseInfoDTO
+  IExerciseInfoDTO,
+  IExerciseInfoEditDTO
 > {
   protected exerciseService = inject(ExerciseTypeService);
-
-  constructor(
-    @Optional() dialogRef: MatDialogRef<ExerciseTypeEditComponent>,
-    @Optional() @Inject(MAT_DIALOG_DATA) data: IExerciseInfo | undefined
-  ) {
-    super(dialogRef, data);
-  }
 }

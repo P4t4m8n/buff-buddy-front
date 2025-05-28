@@ -1,9 +1,17 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { FormControl, FormsModule, ReactiveFormsModule, ValidationErrors } from '@angular/forms';
+import {
+  Component,
+  Input,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
+import {
+  FormControl,
+  FormsModule,
+  ReactiveFormsModule,
+  ValidationErrors,
+} from '@angular/forms';
 import {
   MatError,
-  MatFormField,
-  MatFormFieldAppearance,
   MatFormFieldModule,
 } from '@angular/material/form-field';
 import {
@@ -11,7 +19,7 @@ import {
   MatSelect,
   MatSelectTrigger,
 } from '@angular/material/select';
-import { IExerciseInfo } from '../../../../features/admin/exercise-info/models/exerciseInfo';
+import { IExerciseInfoEditDTO } from '../../../../features/admin/exercise-info/models/exerciseInfo';
 import { ErrorParsingPipe } from '../../../pipes/error-parsing.pipe';
 
 @Component({
@@ -27,29 +35,24 @@ import { ErrorParsingPipe } from '../../../pipes/error-parsing.pipe';
     MatOption,
     MatSelectTrigger,
     MatError,
-    ErrorParsingPipe
+    ErrorParsingPipe,
   ],
   templateUrl: './mat-select.component.html',
   styleUrl: './mat-select.component.css',
 })
 export class MatSelectComponent<T> implements OnChanges {
   @Input()
-  alt?: string; // Alt text for the image
+  alt?: string; 
   @Input({ required: true })
-  formControlInput!: FormControl<any>; // Alt text for the image
+  formControlInput!: FormControl<any>; 
   @Input()
-  getSelectItem?: () => IExerciseInfo | undefined;
+  getSelectItem?: () => IExerciseInfoEditDTO | undefined;
   @Input()
-  options?: IExerciseInfo[]|null;
+  options?: IExerciseInfoEditDTO[] | null;
   @Input()
   label: string = '';
   @Input()
   error: ValidationErrors | undefined | null = {};
-  constructor() {
-
-    
-  }
-  ngOnChanges(changes: SimpleChanges): void {
-  }
-
+  constructor() {}
+  ngOnChanges(changes: SimpleChanges): void {}
 }

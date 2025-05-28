@@ -5,31 +5,29 @@ import {
   Input,
   OnInit,
   Optional,
+  ViewChild,
 } from '@angular/core';
-import { IExerciseInfo, IExerciseInfoDTO } from '../models/exerciseInfo';
+import { IExerciseInfoDTO, IExerciseInfoEditDTO } from '../models/exerciseInfo';
 import { BaseCRUDService } from '../../../../core/services/base-CRUD.service';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { IErrorMessage, IErrorResponse } from '../../../../core/types/app.type';
 import { FirstCharToLowerCase } from '../../../../core/functions/FirstCharToLowerCase';
+import { DialogComponent } from '../../../../core/components/dialog/dialog.component';
 
 @Directive()
 export abstract class BaseExerciseInfoEditDirective<
-  T extends IExerciseInfo,
-  DTO extends IExerciseInfoDTO
+  T extends IExerciseInfoDTO,
+  DTO extends IExerciseInfoEditDTO
 > implements OnInit
 {
   protected abstract exerciseService: BaseCRUDService<T, DTO>;
   @Input() exerciseItem: T | undefined;
+  protected dialogRef: DialogComponent<any> | null = null;
 
-  constructor(
-    @Optional()
-    protected dialogRef: MatDialogRef<any>,
-    @Optional()
-    @Inject(MAT_DIALOG_DATA)
-    public data: T | undefined
-  ) {
-    this.exerciseItem = data;
+  @ViewChild(DialogComponent) dialog!: DialogComponent<any>;
+
+  ngAfterViewInit() {
+    this.dialogRef = this.dialog;
   }
 
   formBuilder = inject(FormBuilder);
@@ -37,7 +35,7 @@ export abstract class BaseExerciseInfoEditDirective<
   unexpectedError = { serverError: undefined };
   imgPreview?: string | ArrayBuffer | null = null;
 
-  buttonText = 'Save';
+  buttonText = 'Create';
 
   form = this.formBuilder.group({
     id: new FormControl<string>(''),
@@ -56,6 +54,7 @@ export abstract class BaseExerciseInfoEditDirective<
 
   ngOnInit() {
     const fileControl = this.form.controls.file;
+    this.buttonText = this.exerciseItem ? 'Update' : 'Create';
 
     if (!this.exerciseItem) {
       this.resetForm();
@@ -69,7 +68,7 @@ export abstract class BaseExerciseInfoEditDirective<
       name: this.exerciseItem.name,
     });
 
-    if (!this.exerciseItem.imgUrl) {
+    if (this.exerciseItem.imgUrl) {
       this.imgPreview = this.exerciseItem.imgUrl;
       fileControl.clearValidators();
       fileControl.updateValueAndValidity();
@@ -141,6 +140,12 @@ export abstract class BaseExerciseInfoEditDirective<
         });
       },
     });
+  }
+
+  cancel() {
+    if (this.dialogRef) {
+      this.dialogRef.close();
+    }
   }
 
   get name() {

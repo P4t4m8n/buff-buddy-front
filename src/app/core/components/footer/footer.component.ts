@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AppNavComponent } from '../app-nav/app-nav.component';
-import { NAV_PATHS } from '../../constants/path.constants';
+import { APP_NAV_PATHS, NAV_PATHS } from '../../constants/path.constants';
 
 @Component({
   selector: 'app-footer',
@@ -9,5 +9,5 @@ import { NAV_PATHS } from '../../constants/path.constants';
   styleUrl: './footer.component.css',
 })
 export class FooterComponent {
-  readonly appPaths = NAV_PATHS;
+  readonly appPaths = APP_NAV_PATHS;
 }

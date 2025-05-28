@@ -1,49 +1,56 @@
-import { ComponentType } from '@angular/cdk/portal';
 import {
   Component,
-  ComponentRef,
+  ElementRef,
   EventEmitter,
-  inject,
   Input,
-  OnDestroy,
-  OnInit,
   Output,
   ViewChild,
-  ViewContainerRef,
 } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import {
-  MatDialog,
-  MatDialogModule,
-  MatDialogRef,
-} from '@angular/material/dialog';
+import { ModelDirective } from '../../directives/model.directive';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-dialog',
-  imports: [MatButtonModule, MatDialogModule],
+  imports: [NgClass],
   templateUrl: './dialog.component.html',
   styleUrl: './dialog.component.css',
 })
 export class DialogComponent<T> {
-  @Input({ required: true })
-  dialogContent!: ComponentType<any>;
+  @Input() buttonText = '';
+  @Output() closed = new EventEmitter<void>();
 
-  @Input()
-  buttonText = 'New';
+  @ViewChild('dialogElement') dialogElementRef!: ElementRef<HTMLDialogElement>;
 
-  @Input()
-  data: T | null | undefined;
-  
+  constructor() {}
 
- 
+  private _isOpen = false;
+  buttonStyle = "crud-button"
 
-  // @ViewChild('content', { read: ViewContainerRef })
-  // content!: ViewContainerRef;
+  get isOpen(): boolean {
+    return this._isOpen;
+  }
 
-  readonly dialog = inject(MatDialog);
-  dialogRef: MatDialogRef<unknown> | null = null;
+  open(): void {
+    if (this.dialogElementRef && this.dialogElementRef.nativeElement) {
+      this.dialogElementRef.nativeElement.showModal(); 
+      this._isOpen = true;
+    } else {
+      console.error('Dialog element is not yet available.');
+    }
+  }
 
-  openDialog(): void {
-    this.dialogRef = this.dialog.open(this.dialogContent, { data: this.data });
+  close(): void {
+    if (
+      this._isOpen &&
+      this.dialogElementRef &&
+      this.dialogElementRef.nativeElement
+    ) {
+      this.dialogElementRef.nativeElement.close();
+    }
+  }
+
+  onDialogClosed(): void {
+    this._isOpen = false;
+    this.closed.emit();
   }
 }

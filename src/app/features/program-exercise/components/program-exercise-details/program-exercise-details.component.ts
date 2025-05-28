@@ -7,12 +7,12 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
-import { ExerciseDetailsContentComponent } from '../../../exercise/components/exercise-details-content/exercise-details-content.component'; // Import this if you use app-exercise-details-content
+import { ExerciseDetailsContentComponent } from '../../../exercise/components/exercise-details-content/exercise-details-content.component'; 
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-program-exercise-details',
-  standalone: true, // Make it standalone for easier module management
+
   imports: [
     CommonModule,
     MatCardModule,

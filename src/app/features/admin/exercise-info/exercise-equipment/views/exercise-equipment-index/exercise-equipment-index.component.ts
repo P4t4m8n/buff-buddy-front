@@ -1,17 +1,17 @@
 import { Component } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ExerciseEquipmentEditDialogComponent } from '../../components/exercise-equipment-edit-dialog/exercise-equipment-edit-dialog.component';
 import { TableComponent } from '../../../../../../core/components/table/table.component';
 import { CRUD_SERVICE_TOKEN } from '../../../../../../core/providers/providers';
 import { ExerciseEquipmentService } from '../../services/exercise-equipment.service';
+import {
+  EXERCISE_INFO_TABLE_GRID_COLS,
+  EXERCISE_INFO_TABLE_HEADERS,
+} from '../../../consts/consts';
+import { ExerciseEquipmentEditComponent } from '../../components/exercise-equipment-edit/exercise-equipment-edit.component';
 
 @Component({
   selector: 'app-exercise-equipment-index',
-  imports: [
-    ReactiveFormsModule,
-    TableComponent,
-    ExerciseEquipmentEditDialogComponent,
-  ],
+  imports: [ReactiveFormsModule, TableComponent, ExerciseEquipmentEditComponent],
   templateUrl: './exercise-equipment-index.component.html',
   styleUrl: './exercise-equipment-index.component.css',
   providers: [
@@ -22,6 +22,7 @@ import { ExerciseEquipmentService } from '../../services/exercise-equipment.serv
   ],
 })
 export class ExerciseEquipmentIndexComponent {
-  columnsHeader = ['imgUrl', 'name', 'actions'];
-  editDialogType = ExerciseEquipmentEditDialogComponent;
+  columnsHeader = EXERCISE_INFO_TABLE_HEADERS;
+  gridTemplateColumns = EXERCISE_INFO_TABLE_GRID_COLS;
+  editDialogType = ExerciseEquipmentEditComponent;
 }

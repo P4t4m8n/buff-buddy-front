@@ -1,0 +1,14 @@
+<app-dialog [buttonText]="buttonText" (closed)="save()">
+    <form [formGroup]="form">
+        <div>
+            <app-input [formControlInput]="form.controls.name" placeHolder="" id="">
+                <p>Name</p>
+            </app-input>
+            <app-input-img [formControlInput]="form.controls.file" [imgPreview]="imgPreview"></app-input-img>
+        </div>
+        <div>
+            <button (click)="cancel()">Cancel</button>
+            <button [disabled]="form.invalid" (click)="save()">Save</button>
+        </div>
+    </form>
+</app-dialog>

@@ -1,9 +1,17 @@
-<nav mat-tab-nav-bar [tabPanel]="tabPanel">
-    @for (path of navPaths; track path.key) {
-    <a mat-tab-link [routerLink]="path.value" routerLinkActive #rla="routerLinkActive" [active]="rla.isActive"
-        [routerLinkActiveOptions]="{exact: true}">
-        {{path.key}}
+<nav [class.grid-cols]="isGridCols" [class.grid-rows]="!isGridCols">
+
+    @for (path of paths; track path.path) {
+    <a [routerLink]="path.path" routerLinkActive="highlight" [routerLinkActiveOptions]="{exact: path.path === '/'}" [ngClass]="{'bgColors':isBGColor}" >
+
+        @if(path.label){
+        <p>
+            {{path.label}}
+        </p>
+        }
+
+        @if(path.icon){
+        <ng-container *ngComponentOutlet="getIconComponent(path)"></ng-container>
+        }
     </a>
     }
 </nav>
-<mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>

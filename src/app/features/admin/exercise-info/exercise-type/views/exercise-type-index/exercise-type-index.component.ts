@@ -3,15 +3,15 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { TableComponent } from '../../../../../../core/components/table/table.component';
 import { CRUD_SERVICE_TOKEN } from '../../../../../../core/providers/providers';
 import { ExerciseTypeService } from '../../services/exercise-type.service';
-import { ExerciseTypeEditDialogComponent } from '../../exercise-type-edit-dialog/exercise-type-edit-dialog.component';
+import { ExerciseTypeEditComponent } from '../../components/exercise-type-edit/exercise-type-edit.component';
+import {
+  EXERCISE_INFO_TABLE_GRID_COLS,
+  EXERCISE_INFO_TABLE_HEADERS,
+} from '../../../consts/consts';
 
 @Component({
   selector: 'app-exercise-type-index',
-  imports: [
-    ReactiveFormsModule,
-    TableComponent,
-    ExerciseTypeEditDialogComponent,
-  ],
+  imports: [ReactiveFormsModule, TableComponent, ExerciseTypeEditComponent],
   templateUrl: './exercise-type-index.component.html',
   styleUrl: './exercise-type-index.component.css',
   providers: [
@@ -22,6 +22,7 @@ import { ExerciseTypeEditDialogComponent } from '../../exercise-type-edit-dialog
   ],
 })
 export class ExerciseTypeIndexComponent {
-  columnsHeader = ['imgUrl', 'name', 'actions'];
-  editDialogType = ExerciseTypeEditDialogComponent;
+  columnsHeader = EXERCISE_INFO_TABLE_HEADERS;
+  gridTemplateColumns = EXERCISE_INFO_TABLE_GRID_COLS;
+  editDialogType = ExerciseTypeEditComponent;
 }
