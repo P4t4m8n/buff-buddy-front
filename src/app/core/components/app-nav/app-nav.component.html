@@ -1,7 +1,8 @@
-<nav [class.grid-cols]="isGridCols" [class.grid-rows]="!isGridCols">
+<nav  [ngClass]="styleClass">
 
     @for (path of paths; track path.path) {
-    <a [routerLink]="path.path" routerLinkActive="highlight" [routerLinkActiveOptions]="{exact: path.path === '/'}" [ngClass]="{'bgColors':isBGColor}" >
+    <a [routerLink]="path.path" routerLinkActive="highlight" [routerLinkActiveOptions]="{exact: path.path === '/'}"
+       >
 
         @if(path.label){
         <p>

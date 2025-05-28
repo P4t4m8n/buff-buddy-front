@@ -1,9 +1,4 @@
-import {
-  Component,
-  inject,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import {
   NavigationEnd,
   Router,
@@ -32,12 +27,8 @@ import { filter } from 'rxjs';
 export class AppNavComponent implements OnInit {
   @Input({ required: true })
   paths: IAppPath[] = [];
-  @Input()
-  isGridCols: boolean = true;
-  @Input()
-  isBGColor: boolean = false;
-  @Input()
-  style: string = 'highlight';
+  @Input({ required: true })
+  styleClass: string = '';
 
   router = inject(Router);
 
@@ -48,7 +39,6 @@ export class AppNavComponent implements OnInit {
   ngOnInit(): void {
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe(() => {
-      });
+      .subscribe(() => {});
   }
 }

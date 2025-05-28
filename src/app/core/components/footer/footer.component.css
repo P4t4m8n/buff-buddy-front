@@ -1,8 +1,12 @@
 footer {
-  height: 4rem;
-  box-shadow: 0 -1px 0px rgba(255, 255, 255, 0.3);
-  padding: 0.5rem 2rem;
   color: var(--orange-web);
-  stroke: var(--orange-web) !important;
-  fill: var(--orange-web) !important;
+  stroke: var(--orange-web);
+  fill: var(--orange-web);
+  box-shadow: 0 -1px 0px rgba(255, 255, 255, 0.3);
+      padding: 0.5rem .25rem;
+
+  @media (min-width:41rem) {
+    height: 4rem;
+    padding: 0.5rem 2rem;
+  }
 }
