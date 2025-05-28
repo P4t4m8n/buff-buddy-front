@@ -9,6 +9,6 @@
 @if(getFormError()) {
 
 <label class="error">
-    {{ formControlInput?.errors|validationToError|errorParsing }}
+    {{ formControlInput.errors|validationToError|errorParsing }}
 </label>
 }

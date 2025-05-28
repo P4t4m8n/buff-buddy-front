@@ -1,5 +1,4 @@
-import { Component, EventEmitter, input, Input, Output } from '@angular/core';
-import { DisplayErrorComponent } from '../../displayError/display-error.component';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ValidationToErrorPipe } from '../../../pipes/validation-to-error.pipe';
 import {
   FormControl,
@@ -11,7 +10,7 @@ import { ErrorParsingPipe } from '../../../pipes/error-parsing.pipe';
 
 @Component({
   selector: 'app-input',
-  imports: [DisplayErrorComponent, ValidationToErrorPipe, ReactiveFormsModule,ErrorParsingPipe],
+  imports: [ValidationToErrorPipe, ReactiveFormsModule, ErrorParsingPipe],
   templateUrl: './input.component.html',
   styleUrl: './input.component.css',
 })
@@ -34,6 +33,4 @@ export class InputComponent {
   handleChange(event: any) {
     this.valueChange.emit(event);
   }
-
-
 }
