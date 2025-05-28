@@ -1,13 +1,29 @@
-:host {
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  & div {
+
+ div {
     width: 100%;
     height: 100%;
 
     & input {
       width: 100%;
+          height: 100%;
+
+      border: 2px dotted var(--black);
+      padding: 0.25rem;
+      border-radius: var(--border-radius);
+
+      &:focus {
+        animation: border 5.5s forwards;
+      }
     }
+  }
+
+
+@keyframes border {
+  0% {
+    border-style: dotted;
+  }
+
+  100% {
+    border-style: solid;
   }
 }

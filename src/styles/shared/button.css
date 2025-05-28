@@ -13,8 +13,7 @@
 
 .delete-button {
   font-size: 1rem;
-
-  background-color: var(--oxford-blue);
+  background-color: var(--black);
   color: var(--white);
   border-radius: 8px;
   padding: 0.5rem 0.75rem;

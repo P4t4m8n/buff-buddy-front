@@ -10,6 +10,9 @@ form {
     display: flex;
     justify-content: space-between;
     width: 100%;
+    gap: 1rem;
+    height: 100%;
+    font-size: 1.25rem;
   }
 }
 
@@ -17,6 +20,6 @@ form {
   --mdc-filled-text-field-container-height: 1rem;
 }
 
-.mat-mdc-dialog-actions{
+.mat-mdc-dialog-actions {
   padding: 0;
 }

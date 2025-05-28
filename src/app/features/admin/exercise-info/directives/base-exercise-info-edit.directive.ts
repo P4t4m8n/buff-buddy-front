@@ -50,6 +50,9 @@ export abstract class BaseExerciseInfoEditDirective<
     file: new FormControl<File | null | string>(null, {
       // validators: [Validators.required],
     }),
+    imgUrl: new FormControl<string | null>(null, {
+      validators: [],
+    }),
   });
 
   ngOnInit() {
@@ -66,6 +69,7 @@ export abstract class BaseExerciseInfoEditDirective<
     this.form.patchValue({
       id: this.exerciseItem.id,
       name: this.exerciseItem.name,
+      imgUrl: this.exerciseItem.imgUrl,
     });
 
     if (this.exerciseItem.imgUrl) {
@@ -115,11 +119,10 @@ export abstract class BaseExerciseInfoEditDirective<
 
   save() {
     const formData = this.form.value as DTO;
+    console.log(' formData:', formData);
     this.exerciseService.saveForm(formData).subscribe({
       next: () => {
-        if (this.dialogRef) {
-          this.dialogRef.close();
-        }
+        this.cancel();
       },
       error: (err) => {
         console.error('Error:', err.error.errors);
