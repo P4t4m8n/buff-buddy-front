@@ -7,10 +7,11 @@ import {
   ValidationErrors,
 } from '@angular/forms';
 import { JsonPipe } from '@angular/common';
+import { ErrorParsingPipe } from '../../../pipes/error-parsing.pipe';
 
 @Component({
   selector: 'app-input',
-  imports: [DisplayErrorComponent, ValidationToErrorPipe, ReactiveFormsModule],
+  imports: [DisplayErrorComponent, ValidationToErrorPipe, ReactiveFormsModule,ErrorParsingPipe],
   templateUrl: './input.component.html',
   styleUrl: './input.component.css',
 })
@@ -33,4 +34,6 @@ export class InputComponent {
   handleChange(event: any) {
     this.valueChange.emit(event);
   }
+
+
 }

@@ -1,5 +1,4 @@
 <div>
-    <app-display-error [error]="error|validationToError" />
     @if(formControlInput){
 
     <input type="{{ type }}" [formControl]="formControlInput" placeholder="{{placeHolder}}"
@@ -12,5 +11,11 @@
         <ng-content></ng-content>
 
     </label>
+    @if(formControlInput?.errors&&formControlInput?.touched) {
+
+    <label class="error">
+        {{ formControlInput?.errors|validationToError|errorParsing }}
+    </label>
+    }
 
 </div>

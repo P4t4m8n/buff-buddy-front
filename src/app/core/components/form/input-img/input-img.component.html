@@ -6,3 +6,9 @@
     <app-upload-icon
         [styleClass]="formControlInput.invalid?'upload-icon upload-icon-error':'upload-icon'"></app-upload-icon>
     }</label>
+@if(getFormError()) {
+
+<label class="error">
+    {{ formControlInput?.errors|validationToError|errorParsing }}
+</label>
+}

@@ -2,10 +2,12 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, ValidationErrors } from '@angular/forms';
 import { MatError } from '@angular/material/input';
 import { UploadIconComponent } from "../../icons/upload-icon/upload-icon.component";
+import { ValidationToErrorPipe } from '../../../pipes/validation-to-error.pipe';
+import { ErrorParsingPipe } from '../../../pipes/error-parsing.pipe';
 
 @Component({
   selector: 'app-input-img',
-  imports: [ UploadIconComponent],
+  imports: [ UploadIconComponent,ValidationToErrorPipe,ErrorParsingPipe],
   templateUrl: './input-img.component.html',
   styleUrl: './input-img.component.css',
 })
@@ -46,5 +48,18 @@ export class InputImgComponent
 
   get isInvalid(): boolean {
     return !!(this.formControlInput?.invalid && this.formControlInput?.touched);
+  }
+
+   getFormError(): string {
+    if (!this.formControlInput) {
+      return '';
+    }
+    if (this.formControlInput.errors) {
+      const errorKeys = Object.keys(this.formControlInput.errors);
+      if (errorKeys.length > 0) {
+        return this.formControlInput.errors[errorKeys[0]];
+      }
+    }
+    return '';
   }
 }

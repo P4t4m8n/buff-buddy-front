@@ -40,16 +40,14 @@ export abstract class BaseExerciseInfoEditDirective<
   form = this.formBuilder.group({
     id: new FormControl<string>(''),
     name: new FormControl<string>('', {
-      // validators: [
-      //   Validators.required,
-      //   Validators.minLength(3),
-      //   Validators.maxLength(50),
-      //   Validators.pattern(/^[a-zA-Z0-9 ]+$/),
-      // ],
+      validators: [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(50),
+        Validators.pattern(/^[a-zA-Z0-9 ]+$/),
+      ],
     }),
-    file: new FormControl<File | null | string>(null, {
-      // validators: [Validators.required],
-    }),
+    file: new FormControl<File | null | string>(null, {}),
     imgUrl: new FormControl<string | null>(null, {
       validators: [],
     }),
@@ -119,7 +117,6 @@ export abstract class BaseExerciseInfoEditDirective<
 
   save() {
     const formData = this.form.value as DTO;
-    console.log(' formData:', formData);
     this.exerciseService.saveForm(formData).subscribe({
       next: () => {
         this.cancel();
