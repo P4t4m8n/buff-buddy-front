@@ -13,7 +13,7 @@ import {
   selector: 'app-exercise-muscle-index',
   imports: [ReactiveFormsModule, TableComponent, ExerciseMuscleEditComponent],
   templateUrl: './exercise-muscle-index.component.html',
-  styleUrl: './exercise-muscle-index.component.css',
+  styleUrl: '../../../styles/exercise-info-index.css',
   providers: [
     { provide: CRUD_SERVICE_TOKEN, useExisting: ExerciseMuscleService },
   ],

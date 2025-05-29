@@ -5,6 +5,7 @@
 @import url("./shared/nav.css");
 @import url("./icons/upload-icon.css");
 @import url("./base/core.css");
+@import url("./components/exercise-info.css");
 
 html,
 body {

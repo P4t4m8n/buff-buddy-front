@@ -11,9 +11,13 @@ import { ExerciseEquipmentEditComponent } from '../../components/exercise-equipm
 
 @Component({
   selector: 'app-exercise-equipment-index',
-  imports: [ReactiveFormsModule, TableComponent, ExerciseEquipmentEditComponent],
+  imports: [
+    ReactiveFormsModule,
+    TableComponent,
+    ExerciseEquipmentEditComponent,
+  ],
   templateUrl: './exercise-equipment-index.component.html',
-  styleUrl: './exercise-equipment-index.component.css',
+  styleUrl: '../../../styles/exercise-info-index.css',
   providers: [
     {
       provide: CRUD_SERVICE_TOKEN,

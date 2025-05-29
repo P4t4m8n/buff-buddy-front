@@ -21,7 +21,7 @@ import { InputComponent } from '../../../../../../core/components/form/input/inp
     InputComponent,
   ],
   templateUrl: '../../../templates/exercise-info-edit.html',
-  styleUrl: './exercise-equipment-edit.component.css',
+  styleUrl: '../../../styles/exercise-info-edit.css',
 })
 export class ExerciseEquipmentEditComponent extends BaseExerciseInfoEditDirective<
   IExerciseInfoDTO,

@@ -11,7 +11,7 @@ import { CRUD_SERVICE_TOKEN } from '../../providers/providers';
 import { IPaginationDTO } from '../pagination/pagination-dto';
 import { IEntityDTO, IEntityEditDTO, IImgUrl } from '../../types/app.type';
 import { ICRUDService } from '../../interfaces/icrudservice';
-import { NgComponentOutlet } from '@angular/common';
+import { NgClass, NgComponentOutlet } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -20,6 +20,7 @@ import { RouterLink } from '@angular/router';
     ItemListComponent,
     SweetAlert2Module,
     NgComponentOutlet,
+    NgClass
   ],
   templateUrl: './table.component.html',
   styleUrl: './table.component.css',
@@ -38,7 +39,7 @@ export class TableComponent<
   @Input()
   detailsLink?: boolean = false;
 
-  @Input() gridTemplateColumns: string | null = null;
+  @Input() styleClass: string | null = null;
 
   CRUDService = inject(CRUD_SERVICE_TOKEN) as ICRUDService<T, TDTO>;
   pagination: IPaginationDTO = { page: 1, recordsPerPage: 10 };

@@ -1,9 +1,9 @@
 <app-item-list [items]="itemsSignal()">
 
     <ng-container content>
-        <section>
+        <section [ngClass]="styleClass">
             <header>
-                <ul [style.grid-template-columns]="gridTemplateColumns">
+                <ul class="grid-cols">
                     @for(header of columnsHeaders; track header) {
                     @if (header === 'actions'){
                     <li class="actions">
@@ -22,7 +22,7 @@
                 @for(item of itemsSignal();track item.id){
 
                 <li>
-                    <ul [style.grid-template-columns]="gridTemplateColumns" class="items-list">
+                    <ul class="items-list grid-cols">
                         @for(header of columnsHeaders; track header+$index){
                         @if (header === 'actions'){
                         <li class="actions">
@@ -45,7 +45,10 @@
                         }
                         @else {
                         <li>
-                            {{getItemValue(header ,item)}}
+                            <p>
+
+                                {{getItemValue(header ,item)}}
+                            </p>
 
                         </li>
 

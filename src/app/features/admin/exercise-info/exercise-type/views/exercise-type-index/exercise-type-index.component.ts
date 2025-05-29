@@ -13,7 +13,7 @@ import {
   selector: 'app-exercise-type-index',
   imports: [ReactiveFormsModule, TableComponent, ExerciseTypeEditComponent],
   templateUrl: './exercise-type-index.component.html',
-  styleUrl: './exercise-type-index.component.css',
+  styleUrl: '../../../styles/exercise-info-index.css',
   providers: [
     {
       provide: CRUD_SERVICE_TOKEN,

@@ -3,6 +3,7 @@
   height: 100%;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
+  align-items: center;
 
   & a {
     display: flex;
@@ -50,4 +51,3 @@
     background-color: var(--orange-web);
   }
 }
-
